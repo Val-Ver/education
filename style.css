@@ -1,0 +1,361 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-container {
+    width: 100%;
+    max-width: 900px;
+    height: 100%;
+    padding: 0 20px 20px 20px;
+
+    display: grid;
+    grid-template-rows: 25px auto 150px;
+    grid-template-columns: 100%;
+
+    grid-row-gap: 15px;
+    border: 1px solid black;
+}
+
+.header, .nav, .nav-list {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.nav-list {
+    width: 20vw;
+    min-width: 200px;
+    justify-content: space-around;
+}
+
+.nav-list ::marker {
+    content: "";
+}
+
+.nav-list li :hover {
+    font-weight: bold;
+}
+
+/***************************************************/
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 15px;
+}
+
+.about-author {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 75% 25%;
+    align-items: center;
+    justify-items: start;
+}
+
+.about-author section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+}
+.about-author .img {
+    grid-column: 2;
+    grid-row: 1/4;
+}
+
+.img.avatar,
+.img.stamp {
+    height: auto;
+    aspect-ratio: 1;
+}
+.img.avatar {
+    border-radius: 0 0 50% 50%;
+}
+
+/***************************************************/
+
+.article-preview {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.article-preview :nth-last-child(1) {
+    align-items: end;
+}
+
+.article-preview article {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+
+    justify-items: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.article-preview article >:nth-child(1) {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.article-preview article >:nth-child(1) ::after {
+    width: 100%;
+    height: 100%;
+
+    content: "";
+    position: absolute;
+    left: 0
+    top: 0;
+
+    background-color: #efeee1;
+    z-index: -1;
+}
+
+.article-preview .img {
+    height: auto;
+    aspect-ratio: 3/1;
+}
+
+/**************************************************/
+
+.experience {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    justify-items: start;
+    align-items: center;
+}
+
+.experience div {
+    width: 100%;
+    height: 100%;
+}
+
+.experience h2 {
+    grid-row: span 3;
+    justify-self: self-start;
+    align-self: self-start;
+}
+
+/***************************************************/
+
+.achievements, .achievements h2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.achievements ul {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /*grid-template-rows: repeat(3, 30%);*/
+    justify-items: center;
+    align-items: center;
+    column-gap: 5%;
+}
+
+.achievements li {
+    width: 100%;
+    height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.achievements li::marker {
+    content: "* ";
+}
+
+.achievements li::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: black;
+}
+
+/***********************************************/
+
+.hobby {
+    width: 100%;
+    display: grid;
+
+    grid-template-columns: 1fr 1fr 2fr;
+    grid-template-rows: 30px repeat(2, 1fr);
+
+    justify-items: center;
+    align-items: center;
+
+    grid-column-gap: 2%;
+    grid-row-gap: 2%;
+}
+
+.header-hobby {
+    grid-column: 1/4;
+}
+
+.hobby article {
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    position: relative;
+}
+
+.hobby-img, .hobby-text {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.hobby article:nth-child(2),
+.hobby article:nth-child(3) {
+    grid-row: 2/4;
+    aspect-ratio: 1/2;
+}
+
+.hobby-img {
+    opacity: 1;
+
+}
+.hobby-text {
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+.hobby article:hover .hobby-img {
+    opacity: 0;
+}
+
+.hobby article:hover .hobby-text {
+    opacity: 1;
+}
+
+/****************************************/
+
+.articles,
+.articles article.present {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(3, 32%);
+    justify-items: center;
+    align-items: center;
+
+    grid-column-gap: 2%;
+    grid-row-gap: 15px;
+}
+
+@media (max-width: 800px) {
+    .articles {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+    }
+}
+
+.articles article {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+@media (max-width: 800px) {
+    .articles article,
+    .articles article.present {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: start;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+.articles article.present {
+    grid-column: 1/4;
+    justify-items: start;
+}
+
+.present img {
+    grid-column: 1/3;
+}
+@media (max-width: 800px) {
+    .present div.img-for-article {
+        grid-column: 1;
+    }
+}
+
+.present >:nth-child(1n+1) {
+    width: 100%;
+    height: 100%;
+}
+
+.img-for-article {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+}
+
+/**************************************************/
+
+footer {
+    width: 100%;
+    height: 100%
+
+    display: flex;
+    align-items: center;
+    color: white;
+    background-color: black;
+}
+
