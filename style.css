@@ -16,12 +16,6 @@ body {
     font-style: normal;
 }
 
-/*.pacifico-regular {*/
-/*    font-family: "Pacifico", cursive;*/
-/*    font-weight: 400;*/
-/*    font-style: normal;*/
-/*}*/
-
 .page-container {
     width: 100%;
     max-width: 900px;
@@ -29,7 +23,7 @@ body {
     padding: 0 20px 20px 20px;
 
     display: grid;
-    grid-template-rows: 25px auto 150px;
+    grid-template-rows: 25px auto 200px;
     grid-template-columns: 100%;
 
     grid-row-gap: 15px;
@@ -73,7 +67,7 @@ main {
     width: 100%;
 
     display: grid;
-    grid-template-columns: 75% 25%;
+    grid-template-columns: 65% 35%;
     align-items: center;
     justify-items: start;
 }
@@ -85,6 +79,10 @@ main {
     align-items: flex-start;
 }
 
+.about-author >:nth-last-child(1) {
+    grid-column: span 2;
+}
+
 .img {
     width: 100%;
     height: 100%;
@@ -92,11 +90,16 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
+
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
+
 .about-author .img {
     grid-column: 2;
-    grid-row: 1/4;
+    grid-row: 1/ span 3;
 }
 
 .img.avatar,
@@ -104,8 +107,10 @@ main {
     height: auto;
     aspect-ratio: 1;
 }
+
 .img.avatar {
     border-radius: 0 0 50% 50%;
+    background-image: url(img/profile.png);
 }
 
 /***************************************************/
@@ -137,22 +142,25 @@ main {
     height: 100%;
     position: relative;
 }
-.article-preview article >:nth-child(1) ::after {
+
+.article-preview article >:nth-child(1)::after {
     width: 100%;
     height: 100%;
 
     content: "";
     position: absolute;
-    left: 0
+    left: 0;
     top: 0;
 
-    background-color: #efeee1;
+    background-color: rgba(118, 148, 163, 0.51);
     z-index: -1;
 }
 
 .article-preview .img {
-    height: auto;
-    aspect-ratio: 3/1;
+    background-image: url(img/goblin.png);
+    /*background-size: cover;*/
+    /*background-position: center center;*/
+    /*background-repeat: no-repeat;*/
 }
 
 /**************************************************/
@@ -333,19 +341,16 @@ main {
     justify-items: start;
 }
 
-.present img {
+.present .img {
     grid-column: 1/3;
+    background-image: url(img/goblin.png);
 }
 @media (max-width: 800px) {
-    .present img {
+    .present .img {
         grid-column: 1;
+        aspect-ratio: auto;
     }
 }
-
-/*.present >:nth-child(1n+1) {*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*}*/
 
 .img-for-article {
     width: 100%;
@@ -361,7 +366,7 @@ main {
 
 footer {
     width: 100%;
-    height: 100%
+    height: 100%;
 
     display: flex;
     align-items: center;
