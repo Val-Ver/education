@@ -1,9 +1,17 @@
-
+:root {
+    --block-color: rgba(118, 148, 163, 0.51);
+    --border-color-1: #e1a925;
+    --border-color-2: rgba(128, 128, 128, 1);
+}
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     user-select: none;
+}
+
+HTML {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -20,19 +28,19 @@ body {
     width: 100%;
     max-width: 900px;
     height: 100%;
-    padding: 0 20px 20px 20px;
+    /*padding: 0 20px 20px 20px;*/
 
-    display: grid;
-    grid-template-rows: 25px auto 200px;
-    grid-template-columns: 100%;
+    /*display: grid;*/
+    /*grid-template-rows: 25px auto 200px;*/
+    /*grid-template-columns: 100%;*/
 
-    grid-row-gap: 15px;
+    /*grid-row-gap: 15px;*/
     border: 1px solid black;
 }
 
 .header, .nav, .nav-list {
     width: 100%;
-    height: 100%;
+    height: 40px;
 
     display: flex;
     justify-content: flex-end;
@@ -60,7 +68,8 @@ main {
     flex-direction: column;
     justify-content: center;
 
-    gap: 15px;
+    padding: 20px;
+    gap: 25px;
 }
 
 .about-author {
@@ -68,8 +77,9 @@ main {
 
     display: grid;
     grid-template-columns: 65% 35%;
-    align-items: center;
+    /*align-items: center;*/
     justify-items: start;
+    grid-row-gap: 15px;
 }
 
 .about-author section {
@@ -95,6 +105,10 @@ main {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+
+    box-shadow: 0 0 0 3px var(--border-color-1),
+                inset 0 0 0 2px var(--border-color-2),
+                inset 0 0 0 3px var(--border-color-1);
 }
 
 .about-author .img {
@@ -137,13 +151,13 @@ main {
     gap: 10px;
 }
 
-.article-preview article >:nth-child(1) {
+.text-for-article-preview {
     width: 100%;
     height: 100%;
     position: relative;
 }
 
-.article-preview article >:nth-child(1)::after {
+.text-for-article-preview::after {
     width: 100%;
     height: 100%;
 
@@ -151,16 +165,21 @@ main {
     position: absolute;
     left: 0;
     top: 0;
-
-    background-color: rgba(118, 148, 163, 0.51);
+    background-color: var(--block-color);
+    /*background-color: rgba(118, 148, 163, 0.51);*/
     z-index: -1;
 }
 
-.article-preview .img {
+#img-for-article-preview-1 {
     background-image: url(img/goblin.png);
-    /*background-size: cover;*/
-    /*background-position: center center;*/
-    /*background-repeat: no-repeat;*/
+}
+
+#img-for-article-preview-2 {
+    background-image: url(img/profile.png);
+}
+
+#img-for-article-preview-3 {
+    background-image: url(img/profile.png);
 }
 
 /**************************************************/
@@ -197,7 +216,7 @@ main {
 .achievements ul {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     /*grid-template-rows: repeat(3, 30%);*/
     justify-items: center;
     align-items: center;
@@ -254,32 +273,46 @@ main {
     position: relative;
 }
 
-.hobby-img, .hobby-text {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.3s ease-in-out;
-}
-
 .hobby article:nth-child(2),
 .hobby article:nth-child(3) {
     grid-row: 2/4;
     aspect-ratio: 1/2;
 }
 
-.hobby-img {
-    opacity: 1;
-
+#img-for-hobby-1 {
+    background-image: url(img/magig.png);
 }
+#img-for-hobby-2 {
+    background-image: url(img/awords.png);
+}
+#img-for-hobby-3 {
+    background-image: url(img/fish.png);
+}
+#img-for-hobby-4 {
+    background-image: url(img/horse.png);
+}
+
 .hobby-text {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    display: flex;
+    align-items: flex-start;
+
+    transition: opacity 0.3s ease-in-out;
+
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
+    overflow: hidden;
+}
+
+.hobby-img {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .hobby article:hover .hobby-img {
@@ -297,7 +330,7 @@ main {
     width: 100%;
 
     display: grid;
-    grid-template-columns: repeat(3, 32%);
+    grid-template-columns: repeat(3, 1fr);
     justify-items: center;
     align-items: center;
 
@@ -331,35 +364,56 @@ main {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         justify-items: start;
-        align-items: center;
+        align-items: start;
         gap: 10px;
     }
 }
 
 .articles article.present {
     grid-column: 1/4;
-    justify-items: start;
+    align-items: start;
 }
 
 .present .img {
     grid-column: 1/3;
-    background-image: url(img/goblin.png);
+    /*height: 100%;*/
+    /*aspect-ratio: auto;*/
 }
 @media (max-width: 800px) {
     .present .img {
         grid-column: 1;
-        aspect-ratio: auto;
+        /*aspect-ratio: auto;*/
     }
 }
 
+#img-for-article-1 {
+    background-image: url(img/goblin.png);
+}
+#img-for-article-2 {
+    background-image: url(img/goblin.png);
+}
+#img-for-article-3 {
+    background-image: url(img/goblin.png);
+}
+#img-for-article-4 {
+    background-image: url(img/goblin.png);
+}
+#img-for-article-5 {
+    background-image: url(img/goblin.png);
+}
+#img-for-article-6 {
+    background-image: url(img/goblin.png);
+}
+
 .img-for-article {
-    width: 100%;
+    /*width: 100%;*/
+    height: auto;
     aspect-ratio: 3 / 2;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid black;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    /*border: 1px solid black;*/
 }
 
 /**************************************************/
