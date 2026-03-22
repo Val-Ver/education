@@ -3,75 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+    <link rel='stylesheet' href="style.css">
     <title>Блог</title>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Главная</a></li>
-                <li><a href="blog.html">Блог</a></li>
-                <li><a href="#contact">Контакты</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="page-container">
+        <header class="header">
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="blog.html">Блог</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                </ul>
+            </nav>
+        </header>
 
-    <main>
-        <section>
-            <h1>Статьи</h1>
-            <article>
-                <h2>Так ли страшен упырь, как его малюют, или Почему стоит мыться раз в месяц</h2>
-                <p>опубликовано: на днях</p>
-                <p>Привет, путник. Сегодня поговорим об упырях. Многие думают, что это страшные твари, которые только и ждут, чтобы сожрать твою печень.</p>
-            </article>
-            <article>
-                <h2>Топ-5 признаков того, что ваш колодец проклят</h2>
-                <p>опубликовано: на днях</p>
-                <p>Колодцы — это вообще больная тема. Редкий контракт обходится без того, чтобы какая-нибудь крестьянка не утопила там нежеланного ребенка, а теперь оттуда лезут зеленые руки.</p>
-            </article>
-            <article>
-                <h2>Почему я не беру заказы на крыс?</h2>
-                <p>опубликовано: на днях</p>
-                <p>Да, я знаю, что в подвале у вас завелись крысы размером с собаку. Да, они кусаются. Но я — ведьмак, а не дератизатор. Есть разница.</p>
-            </article>
-            <article>
-                <h2>Проклятие любви: как не стать жабой в брачную ночь</h2>
-                <p>опубликовано: на днях</p>
-                <p>Очень распространенная история. Идет парень под венец, все чинно-благородно, а как поцелует невесту — раз! И уже квакает. Или в лучшем случае превращается в какое-нибудь чудище.</p>
-            </article>
-            <article>
-                <h2>Экономика Тракта: сколько стоит голова вурдалака?</h2>
-                <p>опубликовано: на днях</p>
-                <p>Часто спрашивают: а сколько ты получаешь за свою работу? Отвечаю: по-разному. Но есть и негласные расценки.</p>
-            </article>
-            <article>
-                <h2>Вредные советы для начинающих ведьмаков</h2>
-                <p>опубликовано: на днях</p>
-                <p>Если ты, юный ученик, читаешь это и думаешь пойти по стопам Школы Волка — вот тебе три совета, которые сделают твою жизнь короче и веселее.</p>
-            </article>
-        </section>
-        <section>
-            <h1>Создать статью</h1>
-            <form>
-                <input id="create-heading" name="heading" type="text" placeholder="Заголовок">
-                <br>
-                <textarea id="create-content" name="content" placeholder="Текст статьи" rows="10" ></textarea>
-                <br>
-                <button id="add-article">Добавить</button>
-            </form>
-        </section>
-    </main>
+        <main>
+            <section class="about-author">
+                <h1>Мой блог</h1>
+                <p>Актуальные статьи</p>
+<!--                <div class="img stamp"></div>-->
+            </section>
+            <section class="articles">
+                <article class="present">
+                    <div id="img-for-article-1" class="img img-for-article"></div>
+<!--                    <img class="img-for-article" src="img/profile.png" alt="img">-->
+                    <div id="text-for-article-1" class="text-for-article">
+                        <h2>Так ли страшен упырь, как его малюют, или Почему стоит мыться раз в месяц</h2>
+                        <p>опубликовано: на днях</p>
+                        <p>Привет, путник. Сегодня поговорим об упырях. Многие думают, что это страшные твари, которые только и ждут, чтобы сожрать твою печень.</p>
+                    </div>
+                </article>
+                <article>
+                   <div id="img-for-article-2" class="img img-for-article"></div>
+<!--                    <img class="img-for-article" src="img/profile.png" alt="img">-->
+                    <div id="text-for-article-2" class="text-for-article">
+                        <h2>Топ-5 признаков того, что ваш колодец проклят</h2>
+                        <p>опубликовано: на днях</p>
+                        <p>Колодцы — это вообще больная тема. Редкий контракт обходится без того, чтобы какая-нибудь крестьянка не утопила там нежеланного ребенка, а теперь оттуда лезут зеленые руки.</p>
+                    </div>
+                </article>
+                <article>
+                    <div id="img-for-article-3" class="img img-for-article"></div>
+<!--                    <img class="img-for-article" src="img/profile.png" alt="img">-->
+                    <div id="text-for-article-3" class="text-for-article">
+                        <h2>Почему я не беру заказы на крыс?</h2>
+                        <p>опубликовано: на днях</p>
+                        <p>Да, я знаю, что в подвале у вас завелись крысы размером с собаку. Да, они кусаются. Но я — ведьмак, а не дератизатор. Есть разница.</p>
+                    </div>
+                </article>
+                <article>
+                    <div id="img-for-article-4" class="img img-for-article"></div>
+<!--                    <img class="img-for-article" src="img/profile.png" alt="img">-->
+                    <div id="text-for-article-4" class="text-for-article">
+                        <h2>Проклятие любви: как не стать жабой в брачную ночь</h2>
+                        <p>опубликовано: на днях</p>
+                        <p>Очень распространенная история. Идет парень под венец, все чинно-благородно, а как поцелует невесту — раз! И уже квакает. Или в лучшем случае превращается в какое-нибудь чудище.</p>
+                    </div>
+                </article>
+                <article>
+                    <div id="img-for-article-5" class="img img-for-article"></div>
+<!--                    <img class="img-for-article" src="img/profile.png" alt="img">-->
+                    <div id="text-for-article-5" class="text-for-article">
+                        <h2>Экономика Тракта: сколько стоит голова вурдалака?</h2>
+                        <p>опубликовано: на днях</p>
+                        <p>Часто спрашивают: а сколько ты получаешь за свою работу? Отвечаю: по-разному. Но есть и негласные расценки.</p>
+                    </div>
+                </article>
+                <article>
+                    <div id="img-for-article-6" class="img img-for-article"></div>
+<!--                    <img class="img-for-article" src="img/profile.png" alt="img">-->
+                    <div id="text-for-article-6" class="text-for-article">
+                        <h2>Вредные советы для начинающих ведьмаков</h2>
+                        <p>опубликовано: на днях</p>
+                        <p>Если ты, юный ученик, читаешь это и думаешь пойти по стопам Школы Волка — вот тебе три совета, которые сделают твою жизнь короче и веселее.</p>
+                    </div>
+                </article>
+            </section>
+            <section>
+                <h1>Создать статью</h1>
+                <form>
+                    <input id="create-heading" name="heading" type="text" placeholder="Заголовок">
+                    <br>
+                    <textarea id="create-content" name="content" placeholder="Текст статьи" rows="10" ></textarea>
+                    <br>
+                    <button id="add-article">Добавить</button>
+                </form>
+            </section>
+        </main>
 
-    <footer id="contact">
-        <h1>Контакты</h1>
-        <address>
-            <div><strong>Email:</strong><a href="javascript:void(0)"> Lambert@witcher.ru</a></div>
-            <div><strong>Телефон:</strong><a href="javascript:void(0)"> +7 (999) 123-45-67</a></div>
-        </address>
-        <h1>Социальные сети:</h1>
-        <address>
-            <p>Instagram | Twitter | Linkedln | GitHab</p>
-        </address>
-    </footer>
+        <footer id="contact">
+            <section class="footer-contact">
+                <h1>Контакты</h1>
+                <address>
+                    <div><strong>Email:</strong><a href="javascript:void(0)"> Lambert@witcher.ru</a></div>
+                    <div><strong>Телефон:</strong><a href="javascript:void(0)"> +7 (999) 123-45-67</a></div>
+                </address>
+                <h1>Социальные сети:</h1>
+                <address>
+                    <p>Instagram | Twitter | Linkedln | GitHab</p>
+                </address>
+            </section>
+        </footer>
+    </div>
 </body>
 </html>
