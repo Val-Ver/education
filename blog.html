@@ -88,13 +88,35 @@
             <section>
                 <h1>Создать статью</h1>
                 <form>
-                    <input id="create-heading" name="heading" type="text" placeholder="Заголовок">
+                    <input id="create-heading" name="heading" type="text" placeholder="Заголовок" required>
                     <br>
-                    <textarea id="create-content" name="content" placeholder="Текст статьи" rows="10" ></textarea>
+                    <textarea id="create-content" name="content" placeholder="Текст статьи" rows="10" required></textarea>
                     <br>
-                    <button id="add-article">Добавить</button>
+                    <button id="submit">Сохранить</button>
+                    <button id="cancel">Отмена</button>
                 </form>
             </section>
+
+            <aside class="admin-panel">
+                <button class="admin-btn" id="create-post-btn" title="Создать новую статью"></button>
+                <button class="admin-btn" id="show-stats-btn" title="Посмотреть статистику блога"></button>
+            </aside>
+
+            <dialog id="statistics" class="modal-dialog">
+                <div>
+                    <h3>Статистика страницы</h3>
+                    <div>
+                        <div>
+                            Всего статей: <span id="articles-counter">0</span>
+                        </div>
+                        <div>
+                            Комментарии: <span>0</span>
+                        </div>
+                    </div>
+                    <button id="close-dialog">Закрыть</button>
+                </div>
+            </dialog>
+
         </main>
 
         <footer id="contact">
@@ -111,5 +133,7 @@
             </section>
         </footer>
     </div>
+    <script src="script.js"></script>
+
 </body>
 </html>

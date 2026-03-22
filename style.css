@@ -446,3 +446,86 @@ footer {
     background-color: black;
 }
 
+/**************************************************/
+
+input,
+textarea {
+    width: 100%;
+}
+
+input:required,
+textarea:required {
+    border-color: #4caf50;
+}
+
+input:invalid,
+textarea:invalid {
+    border-color: #f44336;
+}
+
+/**************************************************/
+
+.admin-panel {
+     position: fixed;
+     right: 0;
+     top: 65%;
+
+     border-radius: 0 8px 8px 0;
+     padding: 10px;
+
+     display: flex;
+     flex-direction: column;
+
+     gap: 10px;
+     z-index: 100;
+ }
+
+.admin-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+
+.admin-btn:hover {
+    box-shadow: 2px 2px 4px rgba(0,0,0,1);
+}
+
+.admin-btn:active {
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,1);
+}
+
+#create-post-btn {
+    background: #007bff url(icon/save.png) center no-repeat;
+}
+#show-stats-btn {
+    background: #007bff url(icon/statistics.png) center no-repeat;
+}
+
+/**************************************************/
+
+.modal-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+}
+
+.modal-dialog div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.modal-dialog >div >:nth-child(1n+2) {
+    flex-direction: row;
+}
+
+.modal-dialog span {
+    width: 80%;
+
+    display: flex;
+    justify-content: center;
+
+    border: 1px solid black;
+}
