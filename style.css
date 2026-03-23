@@ -1,5 +1,6 @@
 :root {
     --block-color: rgba(118, 148, 163, 0.51);
+    --text-color: #dfca9a;
     --border-color-1: #e1a925;
     --border-color-2: rgba(128, 128, 128, 1);
 }
@@ -19,14 +20,26 @@ body {
     align-items: center;
     justify-content: center;
 
-    font-family: "Pacifico", cursive;
+    font-family: "Chronicles";
+    color: var(--text-color);
+
+    background-image: url(img/background.png);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+@font-face {
+    font-family: "Chronicles";
+    src: url('fonts/Chronicles_font.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
 
 .page-container {
     width: 100%;
-    max-width: 900px;
+    /*max-width: 900px;*/
     height: 100%;
     /*padding: 0 20px 20px 20px;*/
 
@@ -90,7 +103,7 @@ main {
 }
 
 .about-author >:nth-last-child(1) {
-    grid-column: span 2;
+    /*grid-column: span 2;*/
 }
 
 .img {
@@ -113,7 +126,9 @@ main {
 
 .about-author .img {
     grid-column: 2;
-    grid-row: 1/ span 3;
+    /*grid-row: 1/ span 3;*/
+    grid-row: 1/ span 4;
+
 }
 
 .img.avatar,
@@ -134,7 +149,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
+    gap: 30px;
 }
 
 .article-preview :nth-last-child(1) {
@@ -148,7 +163,7 @@ main {
 
     justify-items: start;
     align-items: center;
-    gap: 10px;
+    grid-column-gap: 30px;
 }
 
 .text-for-article-preview {
@@ -169,7 +184,11 @@ main {
     /*background-color: rgba(118, 148, 163, 0.51);*/
     z-index: -1;
 }
+.article-preview .img {
+    height: 100%;
+    aspect-ratio: 3/2;
 
+}
 #img-for-article-preview-1 {
     background-image: url(img/goblin.png);
 }
@@ -242,8 +261,8 @@ main {
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 1px;
-    background-color: black;
+    height: 2px;
+    background-color: var(--border-color-1);
 }
 
 /***********************************************/
@@ -306,7 +325,7 @@ main {
 
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.8);
-    color: white;
+    /*color: white;*/
     overflow: hidden;
 }
 
@@ -334,8 +353,7 @@ main {
     justify-items: center;
     align-items: center;
 
-    grid-column-gap: 2%;
-    grid-row-gap: 15px;
+    grid-gap: 30px;
 }
 
 @media (max-width: 800px) {
