@@ -446,22 +446,6 @@ footer {
     background-color: black;
 }
 
-/**************************************************/
-
-input,
-textarea {
-    width: 100%;
-}
-
-input:required,
-textarea:required {
-    border-color: #4caf50;
-}
-
-input:invalid,
-textarea:invalid {
-    border-color: #f44336;
-}
 
 /**************************************************/
 
@@ -528,4 +512,53 @@ textarea:invalid {
     justify-content: center;
 
     border: 1px solid black;
+}
+
+/**************************************************/
+
+
+
+@keyframes showForm {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: 350px;
+    }
+}
+
+@keyframes hideForm {
+    from {
+        height: 350px;
+    }
+
+    to {
+        height: 0;
+    }
+}
+
+.form:not([hidden]) {
+    animation: showForm 250ms ease both;
+    height: 40px;
+}
+
+.form[hidden] {
+    animation: hideForm 250ms ease;
+    height: 0;
+}
+
+input,
+textarea {
+    width: 100%;
+}
+
+input:required,
+textarea:required {
+    border-color: var(--border-color-1);
+}
+
+input:invalid,
+textarea:invalid {
+    border-color: #fb0000;
 }
