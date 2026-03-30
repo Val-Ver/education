@@ -370,6 +370,8 @@ main {
     width: 100%;
     height: 100%;
 
+    position: relative;
+
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -434,6 +436,26 @@ main {
     /*border: 1px solid black;*/
 }
 
+.delete-article {
+    width: 20px;
+    height: 20px;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: 1px solid var(--border-color-1);
+    color: var(--border-color-1);
+}
+
+.articles article:hover .delete-article {
+    display: flex;
+}
 /**************************************************/
 
 footer {
