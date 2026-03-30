@@ -20,7 +20,7 @@ body {
     align-items: center;
     justify-content: center;
 
-    font-family: "Chronicles";
+    font-family: "Chronicles", serif;
     color: var(--text-color);
 
     background-image: url(img/background.png);
@@ -39,16 +39,10 @@ body {
 
 .page-container {
     width: 100%;
-    /*max-width: 900px;*/
+    max-width: 1350px;
     height: 100%;
-    /*padding: 0 20px 20px 20px;*/
 
-    /*display: grid;*/
-    /*grid-template-rows: 25px auto 200px;*/
-    /*grid-template-columns: 100%;*/
-
-    /*grid-row-gap: 15px;*/
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 
 .header, .nav, .nav-list {
@@ -61,7 +55,7 @@ body {
 }
 
 .nav-list {
-    width: 20vw;
+    width: 40vw;
     min-width: 200px;
     justify-content: space-around;
 }
@@ -74,12 +68,24 @@ body {
     font-weight: bold;
 }
 
+.header a {
+    font-size: 20px;
+}
+
+a:link {
+    color: var(--border-color-1);
+}
+
+a:visited {
+    color: var(--text-color);
+}
 /***************************************************/
 
 main {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 
     padding: 20px;
     gap: 25px;
@@ -90,7 +96,6 @@ main {
 
     display: grid;
     grid-template-columns: 65% 35%;
-    /*align-items: center;*/
     justify-items: start;
     grid-row-gap: 15px;
 }
@@ -102,10 +107,6 @@ main {
     align-items: flex-start;
 }
 
-.about-author >:nth-last-child(1) {
-    /*grid-column: span 2;*/
-}
-
 .img {
     width: 100%;
     height: 100%;
@@ -113,7 +114,6 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    /*border: 1px solid black;*/
 
     background-size: cover;
     background-position: center center;
@@ -126,9 +126,7 @@ main {
 
 .about-author .img {
     grid-column: 2;
-    /*grid-row: 1/ span 3;*/
     grid-row: 1/ span 4;
-
 }
 
 .img.avatar,
@@ -145,7 +143,8 @@ main {
 /***************************************************/
 
 .article-preview {
-    width: 100%;
+    /*width: 100%;*/
+    width: 85%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -170,6 +169,7 @@ main {
     width: 100%;
     height: 100%;
     position: relative;
+    padding: 10px;
 }
 
 .text-for-article-preview::after {
@@ -181,24 +181,24 @@ main {
     left: 0;
     top: 0;
     background-color: var(--block-color);
-    /*background-color: rgba(118, 148, 163, 0.51);*/
     z-index: -1;
 }
+
 .article-preview .img {
     height: 100%;
     aspect-ratio: 3/2;
-
 }
+
 #img-for-article-preview-1 {
     background-image: url(img/goblin.png);
 }
 
 #img-for-article-preview-2 {
-    background-image: url(img/profile.png);
+    background-image: url(img/well.png);
 }
 
 #img-for-article-preview-3 {
-    background-image: url(img/profile.png);
+    background-image: url(img/rats.png);
 }
 
 /**************************************************/
@@ -320,12 +320,12 @@ main {
 
     display: flex;
     align-items: flex-start;
+    padding: 10px;
 
     transition: opacity 0.3s ease-in-out;
 
     opacity: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    /*color: white;*/
+    background-color: rgba(0, 0, 0, 0.7);
     overflow: hidden;
 }
 
@@ -345,8 +345,10 @@ main {
 /****************************************/
 
 .articles,
-.articles article.present {
+.articles article:first-child {
     width: 100%;
+
+    position: relative;
 
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -366,7 +368,7 @@ main {
     }
 }
 
-.articles article {
+.articles article:not(:first-child) {
     width: 100%;
     height: 100%;
 
@@ -379,8 +381,8 @@ main {
 }
 
 @media (max-width: 800px) {
-    .articles article,
-    .articles article.present {
+    .articles article:not(:first-child),
+    .articles article:first-child {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         justify-items: start;
@@ -389,34 +391,34 @@ main {
     }
 }
 
-.articles article.present {
+.articles article:first-child {
     grid-column: 1/4;
     align-items: start;
 }
 
-.present .img {
+.articles article:first-child .img {
     grid-column: 1/3;
-    /*height: 100%;*/
-    /*aspect-ratio: auto;*/
-}
-@media (max-width: 800px) {
-    .present .img {
-        grid-column: 1;
-        /*aspect-ratio: auto;*/
-    }
 }
 
+@media (max-width: 800px) {
+    .articles article:first-child .img {
+        grid-column: 1;
+    }
+}
+.text-for-article {
+    padding-top: 10px;
+}
 #img-for-article-1 {
     background-image: url(img/goblin.png);
 }
 #img-for-article-2 {
-    background-image: url(img/goblin.png);
+    background-image: url(img/well.png);
 }
 #img-for-article-3 {
-    background-image: url(img/goblin.png);
+    background-image: url(img/rats.png);
 }
 #img-for-article-4 {
-    background-image: url(img/goblin.png);
+    background-image: url(img/wedding.jpeg);
 }
 #img-for-article-5 {
     background-image: url(img/goblin.png);
@@ -426,14 +428,8 @@ main {
 }
 
 .img-for-article {
-    /*width: 100%;*/
     height: auto;
     aspect-ratio: 3 / 2;
-
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*justify-content: center;*/
-    /*border: 1px solid black;*/
 }
 
 .delete-article {
@@ -462,9 +458,11 @@ footer {
     width: 100%;
     height: 100%;
 
+    padding: 10px;
+
     display: flex;
     align-items: center;
-    color: white;
+    color: var(--text-color);
     background-color: black;
 }
 
@@ -476,7 +474,7 @@ footer {
      right: 0;
      top: 65%;
 
-     border-radius: 0 8px 8px 0;
+     border-radius:  8px 0 0 8px ;
      padding: 10px;
 
      display: flex;
@@ -490,21 +488,24 @@ footer {
     width: 40px;
     height: 40px;
     border: none;
+    background: none;
 }
 
 .admin-btn:hover {
-    box-shadow: 2px 2px 4px rgba(0,0,0,1);
+    box-shadow: 2px 2px 4px var(--border-color-1);
+    border: 1px solid var(--border-color-1);
 }
 
 .admin-btn:active {
-    box-shadow: inset 2px 2px 5px rgba(0,0,0,1);
+    box-shadow: inset 0 0 3px var(--border-color-1);
+    border: 1px solid var(--border-color-1);
 }
 
 #create-post-btn {
-    background: #007bff url(icon/save.png) center no-repeat;
+    background: url(icon/save.png) center no-repeat;
 }
 #show-stats-btn {
-    background: #007bff url(icon/statistics.png) center no-repeat;
+    background: url(icon/statistics.png) center no-repeat;
 }
 
 /**************************************************/
@@ -537,8 +538,6 @@ footer {
 }
 
 /**************************************************/
-
-
 
 @keyframes showForm {
     from {
