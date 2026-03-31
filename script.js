@@ -49,8 +49,11 @@ function addListenerBtnShowCreateArticle() {
     const createPostBtn = document.getElementById("create-post-btn");
     const createArticle = () => {
         form.removeAttribute('hidden');
+        form.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
         addListenerBtnCloseForm();
-        //addListenerBtnAddArticle();
         addListenerFormAddArticle();
     }
     createPostBtn.addEventListener("click", createArticle);
@@ -67,10 +70,7 @@ function addListenerBtnCloseForm() {
     btnCancel.addEventListener("click", closeForm);
 }
 
-//function addListenerBtnAddArticle() {
-//    const btnAddArticle = document.getElementById('submit');
 function addListenerFormAddArticle() {
-
     const addArticle = (e) => {
         e.preventDefault();
 
@@ -80,24 +80,12 @@ function addListenerFormAddArticle() {
 
         addArticleFromForm(heading, content, publishTime);
         articleForm.reset();
-
         form.setAttribute('hidden', '');
 
-       // btnAddArticle.removeEventListener("click", addArticle);
-        articleForm.removeEventListener("submit", addArticle)
+        articleForm.removeEventListener("submit", addArticle);
     }
-
-    articleForm.addEventListener("submit", addArticle)
-    //btnAddArticle.addEventListener("click", addArticle);
+    articleForm.addEventListener("submit", addArticle);
 }
-
-// function addArticleFromTemplate() {
-//     const template = document.getElementById('article-template');
-//     const clone = template.content.cloneNode(true);
-//
-//     const container = document.getElementById('articles-container');
-//     container.appendChild(clone);
-// }
 
 function addArticleFromForm(heading, content, dateTime) {
     const template = document.getElementById('article-template');
@@ -107,12 +95,13 @@ function addArticleFromForm(heading, content, dateTime) {
     imgForArticle.id = `img-for-article-${counter + 1}`;
     imgForArticle.style.backgroundImage ='url(img/goblin.png)';
 
-    clone.querySelector('h2').textContent = heading;
+    clone.querySelector('h3').textContent = heading;
+
+    const date = clone.querySelectorAll('.text-for-article i');
+    date[0].textContent = `опубликовано: ${dateTime}`;
 
     const paragraphs = clone.querySelectorAll('.text-for-article p');
-    paragraphs[0].textContent = dateTime;
     paragraphs[1].textContent = content;
-
 
     container.appendChild(clone);
 }
