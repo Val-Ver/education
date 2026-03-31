@@ -1,4 +1,7 @@
-window.addEventListener("load", main);
+import { ARTICLES } from './articles.js';
+import { ArticlesSection } from "./articlesSection_class.js";
+
+//window.addEventListener("load", main);
 
 const headingInput = document.getElementById('create-heading');
 const contentTextarea = document.getElementById('create-content');
@@ -13,11 +16,21 @@ let counter = 0
 let closeModal = null;
 
 
-function main() {
+
+//function main() {
+
+    let articles = JSON.parse(localStorage.getItem('articles'));
+    if(!articles) {
+        localStorage.setItem('articles', JSON.stringify(ARTICLES));
+        articles = JSON.parse(localStorage.getItem('articles'));
+    }
+    checkArticles();
+
     addListenerDeleteArticle();
     addListenerBtnShowStatistics();
     addListenerBtnShowCreateArticle();
-}
+    const sectionArticles = new ArticlesSection('articles-container')
+//}
 
 function addListenerBtnShowStatistics() {
     const showStatsBtn = document.getElementById("show-stats-btn");
@@ -88,22 +101,26 @@ function addListenerFormAddArticle() {
 }
 
 function addArticleFromForm(heading, content, dateTime) {
-    const template = document.getElementById('article-template');
-    const clone = template.content.cloneNode(true);
+    const id = generateId();
+    articles[id] = {
+            img: 'img/goblin.png',
+            heading: heading,
+            dateTime: dateTime,
+            content: content
+    }
+    localStorage.setItem('articles', JSON.stringify(articles));
+    checkArticles();
+    sectionArticles.addArticle(heading, content, dateTime, 'img/goblin.png', id);
+}
 
-    const imgForArticle = clone.querySelector('.img-for-article')
-    imgForArticle.id = `img-for-article-${counter + 1}`;
-    imgForArticle.style.backgroundImage ='url(img/goblin.png)';
-
-    clone.querySelector('h3').textContent = heading;
-
-    const date = clone.querySelectorAll('.text-for-article i');
-    date[0].textContent = `опубликовано: ${dateTime}`;
-
-    const paragraphs = clone.querySelectorAll('.text-for-article p');
-    paragraphs[1].textContent = content;
-
-    container.appendChild(clone);
+function generateId() {
+    const lengthId = 5;
+    let p = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIKLMNOPQRSTUVWXYZ!@#$%^&*()';
+    let id = '';
+    for (let i = 0; i < lengthId; i++) {
+        id += p[Math.floor(Math.random()*p.length)];
+    }
+    return id;
 }
 
 function getCurrentDateTime() {
@@ -119,11 +136,36 @@ function getCurrentDateTime() {
 function addListenerDeleteArticle() {
     container.addEventListener('click', (event) => {
         const deleteButton = event.target.closest('.delete-article');
+
         if (deleteButton) {
             const article = deleteButton.closest('article');
+            const id = article.dataset.id;
             if (article) {
                 article.remove();
+                delete articles[id];
+                localStorage.setItem('articles', JSON.stringify(articles));
+                checkArticles();
             }
         }
     });
+}
+
+function checkArticles() {
+    const isEmpty = Object.keys(articles).length === 0;
+    if (isEmpty) {
+        const emptyPage = document.createElement('div');
+        emptyPage.id = 'empty-page';
+        emptyPage.className = 'empty-page';
+
+        const text = document.createElement('h2');
+        text.textContent = 'Пока нет ни одной статьи';
+
+        emptyPage.appendChild(text);
+        container.appendChild(emptyPage);
+    } else {
+        const emptyPage = document.getElementById('empty-page');
+        if (emptyPage) {
+            emptyPage.remove();
+        }
+    }
 }
