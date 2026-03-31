@@ -1,5 +1,5 @@
 :root {
-    --block-color: rgba(118, 148, 163, 0.51);
+    --block-color: rgba(118, 148, 163, 0.2);
     --text-color: #dfca9a;
     --border-color-1: #e1a925;
     --border-color-2: rgba(128, 128, 128, 1);
@@ -37,14 +37,28 @@ body {
     font-style: normal;
 }
 
+h2 {
+    font-size: clamp(14px, 3cqw, 26px);
+}
+
+h3 {
+    font-size: clamp(10px, 3cqw, 20px);
+}
+p {
+    font-size: clamp(8px, 3cqw, 16px);
+}
 .page-container {
     width: 100%;
     max-width: 1350px;
     height: 100%;
-
-    /*border: 1px solid black;*/
 }
 
+.header {
+    position: sticky;
+    top: 0;
+    background-color: black;
+    z-index: 100;
+}
 .header, .nav, .nav-list {
     width: 100%;
     height: 40px;
@@ -98,6 +112,8 @@ main {
     grid-template-columns: 65% 35%;
     justify-items: start;
     grid-row-gap: 15px;
+
+    container-type: inline-size;
 }
 
 .about-author section {
@@ -143,12 +159,12 @@ main {
 /***************************************************/
 
 .article-preview {
-    /*width: 100%;*/
     width: 85%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 30px;
+    container-type: inline-size;
 }
 
 .article-preview :nth-last-child(1) {
@@ -168,8 +184,16 @@ main {
 .text-for-article-preview {
     width: 100%;
     height: 100%;
+
     position: relative;
     padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    overflow: hidden;
+    aspect-ratio: 1;
 }
 
 .text-for-article-preview::after {
@@ -185,7 +209,7 @@ main {
 }
 
 .article-preview .img {
-    height: 100%;
+    height: auto; /*100%*/
     aspect-ratio: 3/2;
 }
 
@@ -204,24 +228,52 @@ main {
 /**************************************************/
 
 .experience {
+    width: 100%;
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 1fr 3fr;
     justify-items: start;
     align-items: center;
+    grid-gap: 15px;
+
+    container-type: inline-size;
 }
 
 .experience div {
     width: 100%;
     height: 100%;
+    position: relative;
+    padding: 10px;
 }
 
 .experience h2 {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
     grid-row: span 3;
     justify-self: self-start;
     align-self: self-start;
+    padding: 10px;
+}
+
+.experience h2::after,
+.experience div::after {
+    width: 100%;
+    height: 100%;
+
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: var(--block-color);
+    z-index: -1;
 }
 
 /***************************************************/
+
+.achievements {
+    container-type: inline-size;
+}
 
 .achievements, .achievements h2 {
     display: flex;
@@ -236,7 +288,7 @@ main {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /*grid-template-rows: repeat(3, 30%);*/
+
     justify-items: center;
     align-items: center;
     column-gap: 5%;
@@ -249,6 +301,9 @@ main {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+
+    font-size: clamp(8px, 3cqw, 16px);
+
 }
 
 .achievements li::marker {
@@ -279,8 +334,13 @@ main {
 
     grid-column-gap: 2%;
     grid-row-gap: 2%;
+
+    container-type: inline-size;
 }
 
+.hobby p {
+    font-size: clamp(6px, 2cqw, 16px);
+}
 .header-hobby {
     grid-column: 1/4;
 }
@@ -320,6 +380,8 @@ main {
 
     display: flex;
     align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
     padding: 10px;
 
     transition: opacity 0.3s ease-in-out;
@@ -405,9 +467,32 @@ main {
         grid-column: 1;
     }
 }
-.text-for-article {
+.articles article:not(:first-child) .text-for-article {
     padding-top: 10px;
 }
+
+@media (max-width: 800px) {
+    .articles article:not(:first-child) .text-for-article {
+        padding-top: 0;
+    }
+}
+
+.text-for-article {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+    /*aspect-ratio: 3/2;*/
+    /*overflow: hidden;*/
+}
+
+@media (max-width: 800px) {
+    .text-for-article {
+        aspect-ratio: 3/2;
+        overflow: hidden;
+    }
+}
+
 #img-for-article-1 {
     background-image: url(img/goblin.png);
 }
@@ -433,8 +518,8 @@ main {
 }
 
 .delete-article {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    aspect-ratio: 1;
 
     position: absolute;
     right: 0;
@@ -444,9 +529,13 @@ main {
     align-items: center;
     justify-content: center;
 
-    background: transparent;
+    /*background: transparent;*/
+    background-color: black;
     border: 1px solid var(--border-color-1);
     color: var(--border-color-1);
+
+    box-shadow: inset 0 0 0 1px var(--border-color-2),
+                inset 0 0 0 2px var(--border-color-1);
 }
 
 .articles article:hover .delete-article {
