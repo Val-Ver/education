@@ -1,3 +1,5 @@
+@import './loader.css';
+
 :root {
     --block-color: rgba(118, 148, 163, 0.2);
     --block-color-dark: rgba(0, 0, 0, 0.7);
