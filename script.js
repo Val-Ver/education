@@ -33,10 +33,16 @@ let sectionArticles = null;
     addListenerBtnShowCreateArticle();
 
     showLoader();
-    setTimeout(()=>{
-        hideLoader();
-        sectionArticles = new ArticlesSection('articles-container');
-    }, 1000)
+    const promise = new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        },1000)
+    })
+    promise
+        .then(() => {
+            hideLoader();
+            sectionArticles = new ArticlesSection('articles-container');
+        })
 })()
 
 
@@ -107,6 +113,7 @@ function addListenerFormAddArticle() {
         const publishTime = getCurrentDateTime();
 
         showLoader();
+        formDisable(true);
 
         const promise = new Promise((resolve) => {
             setTimeout(() => {
@@ -119,14 +126,22 @@ function addListenerFormAddArticle() {
                 addArticleFromForm(heading, content, publishTime);
             })
             .finally(() => {
+                formDisable(false);
                 articleForm.reset();
                 form.setAttribute('hidden', '');
-                hideLoader()
+                hideLoader();
             })
 
         articleForm.removeEventListener("submit", addArticle);
     }
     articleForm.addEventListener("submit", addArticle);
+}
+
+function formDisable(disabled) {
+    const elements = articleForm.elements
+    for(let element of elements) {
+        element.disabled = disabled;
+    }
 }
 
 function addArticleFromForm(heading, content, dateTime) {
