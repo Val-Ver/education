@@ -103,14 +103,14 @@ function addListenerFormAddArticle() {
 function addArticleFromForm(heading, content, dateTime) {
     const id = generateId();
     articles[id] = {
-            img: 'img/goblin.png',
+            img: 'img/goblin.jpeg',
             heading: heading,
             dateTime: dateTime,
             content: content
     }
     localStorage.setItem('articles', JSON.stringify(articles));
     checkArticles();
-    sectionArticles.addArticle(heading, content, dateTime, 'img/goblin.png', id);
+    sectionArticles.addArticle(heading, content, dateTime, 'img/goblin.jpeg', id);
 }
 
 function generateId() {

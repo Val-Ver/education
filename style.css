@@ -3,7 +3,7 @@
     --block-color-dark: rgba(0, 0, 0, 0.7);
     --text-color: #dfca9a;
     --border-color-1: #e1a925;
-    --border-color-2: rgba(128, 128, 128, 1);
+    --border-color-2: rgba(38, 36, 36, 1);
 }
 * {
     margin: 0;
@@ -154,7 +154,7 @@ main {
 
 .img.avatar {
     border-radius: 0 0 50% 50%;
-    background-image: url(img/profile.png);
+    background-image: url(img/profile.jpeg);
 }
 
 /***************************************************/
@@ -215,15 +215,15 @@ main {
 }
 
 #img-for-article-preview-1 {
-    background-image: url(img/goblin.png);
+    background-image: url(img/goblin.jpeg);
 }
 
 #img-for-article-preview-2 {
-    background-image: url(img/well.png);
+    background-image: url(img/well.jpeg);
 }
 
 #img-for-article-preview-3 {
-    background-image: url(img/rats.png);
+    background-image: url(img/rats.jpeg);
 }
 
 /**************************************************/
@@ -359,16 +359,16 @@ main {
 }
 
 #img-for-hobby-1 {
-    background-image: url(img/magig.png);
+    background-image: url(img/magic.jpeg);
 }
 #img-for-hobby-2 {
-    background-image: url(img/awords.png);
+    background-image: url(img/awords.jpeg);
 }
 #img-for-hobby-3 {
-    background-image: url(img/fish.png);
+    background-image: url(img/fish.jpeg);
 }
 #img-for-hobby-4 {
-    background-image: url(img/horse.png);
+    background-image: url(img/horse.jpeg);
 }
 
 .hobby-text {
@@ -511,22 +511,22 @@ main {
 }
 
 #img-for-article-1 {
-    background-image: url(img/goblin.png);
+    background-image: url(img/goblin.jpeg);
 }
 #img-for-article-2 {
-    background-image: url(img/well.png);
+    background-image: url(img/well.jpeg);
 }
 #img-for-article-3 {
-    background-image: url(img/rats.png);
+    background-image: url(img/rats.jpeg);
 }
 #img-for-article-4 {
     background-image: url(img/wedding.jpeg);
 }
 #img-for-article-5 {
-    background-image: url(img/goblin.png);
+    background-image: url(img/goblin.jpeg);
 }
 #img-for-article-6 {
-    background-image: url(img/goblin.png);
+    background-image: url(img/goblin.jpeg);
 }
 
 /*.img-for-article { */
