@@ -15,22 +15,43 @@ const form = document.getElementById("form");
 let counter = 0
 let closeModal = null;
 
+const loader = document.getElementsByClassName('loader')[0];
 
+let articles = JSON.parse(localStorage.getItem('articles'));
+if(!articles) {
+    localStorage.setItem('articles', JSON.stringify(ARTICLES));
+    articles = JSON.parse(localStorage.getItem('articles'));
+}
 
-//function main() {
+let sectionArticles = null;
 
-    let articles = JSON.parse(localStorage.getItem('articles'));
-    if(!articles) {
-        localStorage.setItem('articles', JSON.stringify(ARTICLES));
-        articles = JSON.parse(localStorage.getItem('articles'));
-    }
+(function main() {
     checkArticles();
 
     addListenerDeleteArticle();
     addListenerBtnShowStatistics();
     addListenerBtnShowCreateArticle();
-    const sectionArticles = new ArticlesSection('articles-container')
-//}
+
+    showLoader();
+    const promise = new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        },1000)
+    })
+    promise
+        .then(() => {
+            hideLoader();
+            sectionArticles = new ArticlesSection('articles-container');
+        })
+})()
+
+
+function showLoader() {
+    loader.classList.add('show');
+}
+function hideLoader() {
+    loader.classList.remove('show');
+}
 
 function addListenerBtnShowStatistics() {
     const showStatsBtn = document.getElementById("show-stats-btn");
@@ -91,13 +112,36 @@ function addListenerFormAddArticle() {
         const content = contentTextarea.value.trim();
         const publishTime = getCurrentDateTime();
 
-        addArticleFromForm(heading, content, publishTime);
-        articleForm.reset();
-        form.setAttribute('hidden', '');
+        showLoader();
+        formDisable(true);
+
+        const promise = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            },1000)
+        })
+
+        promise
+            .then(() => {
+                addArticleFromForm(heading, content, publishTime);
+            })
+            .finally(() => {
+                formDisable(false);
+                articleForm.reset();
+                form.setAttribute('hidden', '');
+                hideLoader();
+            })
 
         articleForm.removeEventListener("submit", addArticle);
     }
     articleForm.addEventListener("submit", addArticle);
+}
+
+function formDisable(disabled) {
+    const elements = articleForm.elements
+    for(let element of elements) {
+        element.disabled = disabled;
+    }
 }
 
 function addArticleFromForm(heading, content, dateTime) {
