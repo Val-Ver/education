@@ -17,10 +17,11 @@ let closeModal = null;
 
 const loader = document.getElementsByClassName('loader')[0];
 
-let articles = JSON.parse(localStorage.getItem('articles'));
+const ARTICLES_KEY = 'articles';
+let articles = JSON.parse(localStorage.getItem(ARTICLES_KEY));
 if(!articles) {
-    localStorage.setItem('articles', JSON.stringify(ARTICLES));
-    articles = JSON.parse(localStorage.getItem('articles'));
+    localStorage.setItem(ARTICLES_KEY, JSON.stringify(ARTICLES));
+    articles = JSON.parse(localStorage.getItem(ARTICLES_KEY));
 }
 
 let sectionArticles = null;
@@ -49,6 +50,7 @@ let sectionArticles = null;
 function showLoader() {
     loader.classList.add('show');
 }
+
 function hideLoader() {
     loader.classList.remove('show');
 }
@@ -113,7 +115,7 @@ function addListenerFormAddArticle() {
         const publishTime = getCurrentDateTime();
 
         showLoader();
-        formDisable(true);
+        toggleFormDisableState(true);
 
         const promise = new Promise((resolve) => {
             setTimeout(() => {
@@ -126,7 +128,7 @@ function addListenerFormAddArticle() {
                 addArticleFromForm(heading, content, publishTime);
             })
             .finally(() => {
-                formDisable(false);
+                toggleFormDisableState(false);
                 articleForm.reset();
                 form.setAttribute('hidden', '');
                 hideLoader();
@@ -137,7 +139,7 @@ function addListenerFormAddArticle() {
     articleForm.addEventListener("submit", addArticle);
 }
 
-function formDisable(disabled) {
+function toggleFormDisableState(disabled) {
     const elements = articleForm.elements
     for(let element of elements) {
         element.disabled = disabled;
@@ -196,20 +198,10 @@ function addListenerDeleteArticle() {
 
 function checkArticles() {
     const isEmpty = Object.keys(articles).length === 0;
+    const emptyPage = document.getElementById('empty-page');
     if (isEmpty) {
-        const emptyPage = document.createElement('div');
-        emptyPage.id = 'empty-page';
-        emptyPage.className = 'empty-page';
-
-        const text = document.createElement('h2');
-        text.textContent = 'Пока нет ни одной статьи';
-
-        emptyPage.appendChild(text);
-        container.appendChild(emptyPage);
+        emptyPage.classList.remove('hide');
     } else {
-        const emptyPage = document.getElementById('empty-page');
-        if (emptyPage) {
-            emptyPage.remove();
-        }
+        emptyPage.classList.add('hide');
     }
 }
