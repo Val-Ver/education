@@ -1,0 +1,63 @@
+<!--<p>main-blog-page works!</p>-->
+<main>
+  <section class="about-author">
+    <h1>Мой блог</h1>
+    <p>Актуальные статьи</p>
+    <!--                <div class="img stamp"></div>-->
+  </section>
+  <section id="articles-container" class="articles">
+    <div id="empty-page" class="empty-page">
+      <h2>Пока нет ни одной статьи</h2>
+    </div>
+  </section>
+  <section id="form" class="form form-hidden" hidden>
+    <h1>Создать статью</h1>
+    <form id="article-form">
+      <div class="form-group">
+        <label for="create-heading">Заголовок <span class="required-star">*</span></label>
+        <input id="create-heading" name="create-heading" type="text" placeholder="О чем ваша статья?" required>
+      </div>
+      <div class="form-group">
+        <label for="create-content">Текст статьи <span class="required-star">*</span></label>
+        <textarea id="create-content" name="create-content" placeholder="Содержание статьи" rows="10" required></textarea>
+      </div>
+      <div class="form-buttons">
+        <button type="submit" id="submit">Сохранить</button>
+        <button type="button" id="cancel">Отмена</button>
+      </div>
+    </form>
+  </section>
+
+  <template id="article-template">
+    <article>
+      <div class="img img-for-article"></div>
+      <div class="text text-for-article">
+        <h3>Название</h3>
+        <p><i>Время публикации</i></p>
+        <p>Содержание статьи</p>
+      </div>
+      <button type="button" class="delete-article">x</button>
+    </article>
+  </template>
+
+  <aside class="admin-panel">
+    <button class="admin-btn" id="create-post-btn" title="Создать новую статью"></button>
+    <button class="admin-btn" id="show-stats-btn" title="Посмотреть статистику блога"></button>
+  </aside>
+
+  <dialog id="modal-statistics" class="modal-dialog">
+    <div>
+      <h3>Статистика страницы</h3>
+      <div>
+        <div>
+          Всего статей: <span id="articles-counter">0</span>
+        </div>
+        <div>
+          Комментарии: <span>0</span>
+        </div>
+      </div>
+      <button id="close-dialog">Закрыть</button>
+    </div>
+  </dialog>
+
+</main>
