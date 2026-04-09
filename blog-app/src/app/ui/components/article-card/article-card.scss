@@ -1,7 +1,54 @@
+:host(.layout-preview) article {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+
+  justify-items: start;
+  align-items: center;
+  grid-column-gap: 30px;
+}
+
+:host(.layout-preview) article .text {
+  //grid-column: 1;
+  //grid-row: 1;
+  order: 1;
+  width: 100%;
+  height: 100%;
+
+  position: relative;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+:host(.layout-preview) article .text::after {
+  width: 100%;
+  height: 100%;
+
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: var(--block-color);
+  z-index: -1;
+}
+
+:host(.layout-preview) article .img {
+  //grid-column: 2;
+  //grid-row: 1;
+  order: 2;
+  height: auto; /*100%*/
+  aspect-ratio: 3/2;
+}
 
 
 
-article {
+:host(.layout-blog) article {
   width: 100%;
   height: 100%;
 
@@ -13,12 +60,12 @@ article {
   flex-direction: column;
 }
 
-article.featured {
+:host(.layout-blog) article.featured {
   grid-column: 1/4;
   align-items: start;
 }
 
-article.featured {
+:host(.layout-blog) article.featured {
   width: 100%;
   position: relative;
 
@@ -30,11 +77,9 @@ article.featured {
   grid-gap: 30px;
 }
 
-
-
 @media (max-width: 800px) {
-  article,
-  article.featured {
+  :host(.layout-blog) article,
+  :host(.layout-blog) article.featured {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-items: start;
@@ -43,36 +88,34 @@ article.featured {
   }
 }
 
-
-
-article.featured .img {
+:host(.layout-blog) article.featured .img {
   grid-column: 1/3;
 }
 
 @media (max-width: 800px) {
-  article.featured .img {
+  :host(.layout-blog) article.featured .img {
     grid-column: 1;
   }
 }
 
-article.featured .text-for-article {
+:host(.layout-blog) article.featured .text {
   aspect-ratio: 3/4;
   overflow: hidden;
 }
 
-article .text-for-article {
+:host(.layout-blog) article .text {
   padding-top: 10px;
   aspect-ratio: 3/2;
   overflow: hidden;
 }
 
 @media (max-width: 800px) {
-  article .text-for-article {
+  :host(.layout-blog) article .text {
     padding-top: 0;
   }
 }
 
-.text-for-article {
+:host(.layout-blog) article .text {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -80,14 +123,13 @@ article .text-for-article {
 }
 
 @media (max-width: 800px) {
-  article.featured .text-for-article,
-  .text-for-article {
+  :host(.layout-blog) article.featured .text,
+  :host(.layout-blog) article .text {
     aspect-ratio: 3/2;
     overflow: hidden;
   }
 }
-
-article .img {
+:host(.layout-blog) article .img {
   height: auto;
   aspect-ratio: 3 / 2;
 }
@@ -112,6 +154,7 @@ article .img {
   inset 0 0 0 2px var(--border-color-1);
 }
 
-article:hover .delete-article {
+:host(.layout-blog) article:hover .delete-article {
+//article:hover .delete-article {
   display: flex;
 }

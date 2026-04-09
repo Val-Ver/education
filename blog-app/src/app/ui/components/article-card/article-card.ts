@@ -1,14 +1,18 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
 import {ArticleModel} from '../../../models/article.model'
-// import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-article-card',
-  // imports: [CommonModule],
+  // imports: [],
   templateUrl: './article-card.html',
   styleUrl: './article-card.scss',
 })
 export class ArticleCard {
+  @Input() layout: 'blog' | 'preview' = 'blog';
+  @HostBinding('class') get hostClass() {
+    return `layout-${this.layout}`;
+  }
   @Input({ required: true }) article!: ArticleModel;
   @Input() showDelete = false;
   @Input() isFeatured = false;

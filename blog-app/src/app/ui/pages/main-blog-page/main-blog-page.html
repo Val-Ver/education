@@ -5,7 +5,7 @@
     <p>Актуальные статьи</p>
     <!--                <div class="img stamp"></div>-->
   </section>
-  <section id="articles-container" class="articles">
+  <section id="articles-container" class="articles" >
     @if(articles.length === 0) {
       <div id="empty-page" class="empty-page">
         <h2>Пока нет ни одной статьи</h2>
@@ -13,7 +13,7 @@
     }
 
     @for(article of articles; track article.id; let first = $first) {
-      <app-article-card
+      <app-article-card layout="blog"
         [article]="article"
         [isFeatured]="first"
         [showDelete]="true"

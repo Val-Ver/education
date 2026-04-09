@@ -1,9 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ArticleModel } from '../../../models/article.model'
+import { ArticlesService } from '../../../services/articles.service'
+import { ArticleCard } from '../../components/article-card/article-card'
 
 @Component({
   selector: 'app-main-first-page',
-  // imports: [],
+  imports: [ArticleCard],
   templateUrl: './main-first-page.html',
   styleUrl: './main-first-page.scss',
 })
-export class MainFirstPage {}
+export class MainFirstPage {
+  private articlesService = inject(ArticlesService);
+  previewArticles: ArticleModel[] = [];
+
+  ngOnInit(): void {
+    const articlesAll = this.articlesService.getArticles();
+    this.previewArticles = articlesAll.slice( -3).reverse();
+  }
+}
