@@ -6,9 +6,21 @@
     <!--                <div class="img stamp"></div>-->
   </section>
   <section id="articles-container" class="articles">
-    <div id="empty-page" class="empty-page">
-      <h2>Пока нет ни одной статьи</h2>
-    </div>
+    @if(articles.length === 0) {
+      <div id="empty-page" class="empty-page">
+        <h2>Пока нет ни одной статьи</h2>
+      </div>
+    }
+
+    @for(article of articles; track article.id; let first = $first) {
+      <app-article-card
+        [article]="article"
+        [isFeatured]="first"
+        [showDelete]="true"
+        (delete)="deleteArticle($event)"
+      ></app-article-card>
+    }
+
   </section>
   <section id="form" class="form form-hidden" hidden>
     <h1>Создать статью</h1>
@@ -28,17 +40,17 @@
     </form>
   </section>
 
-  <template id="article-template">
-    <article>
-      <div class="img img-for-article"></div>
-      <div class="text text-for-article">
-        <h3>Название</h3>
-        <p><i>Время публикации</i></p>
-        <p>Содержание статьи</p>
-      </div>
-      <button type="button" class="delete-article">x</button>
-    </article>
-  </template>
+<!--  <template id="article-template">-->
+<!--    <article>-->
+<!--      <div class="img img-for-article"></div>-->
+<!--      <div class="text text-for-article">-->
+<!--        <h3>Название</h3>-->
+<!--        <p><i>Время публикации</i></p>-->
+<!--        <p>Содержание статьи</p>-->
+<!--      </div>-->
+<!--      <button type="button" class="delete-article">x</button>-->
+<!--    </article>-->
+<!--  </template>-->
 
   <aside class="admin-panel">
     <button class="admin-btn" id="create-post-btn" title="Создать новую статью"></button>

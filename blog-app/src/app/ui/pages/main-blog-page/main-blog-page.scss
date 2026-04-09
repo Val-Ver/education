@@ -1,75 +1,76 @@
-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+//main {
+//  display: flex;
+//  flex-direction: column;
+//  justify-content: center;
+//  align-items: center;
+//
+//  padding: 20px;
+//  gap: 25px;
+//}
 
-  padding: 20px;
-  gap: 25px;
-}
+/**************************************************/
+
+//.about-author {
+//  width: 100%;
+//
+//  display: grid;
+//  grid-template-columns: 65% 35%;
+//  justify-items: start;
+//  grid-row-gap: 15px;
+//
+//  container-type: inline-size;
+//}
+//
+//.about-author section {
+//  display: flex;
+//  flex-direction: column;
+//  justify-content: center;
+//  align-items: flex-start;
+//}
+//
+//.img {
+//  width: 100%;
+//  height: 100%;
+//
+//  display: flex;
+//  align-items: center;
+//  justify-content: center;
+//
+//  background-size: cover;
+//  background-position: center center;
+//  background-repeat: no-repeat;
+//
+//  box-shadow: 0 0 0 3px var(--border-color-1),
+//  inset 0 0 0 2px var(--border-color-2),
+//  inset 0 0 0 3px var(--border-color-1);
+//}
+//
+//.about-author .img {
+//  grid-column: 2;
+//  grid-row: 1/ span 4;
+//}
+//
+//.img.avatar,
+//.img.stamp {
+//  height: auto;
+//  aspect-ratio: 1;
+//}
+//
+//.img.avatar {
+//  border-radius: 0 0 50% 50%;
+//  background-image: url(../../../../assets/img/profile.jpeg);
+//}
 
 /**************************************************/
 
-.about-author {
-  width: 100%;
-
-  display: grid;
-  grid-template-columns: 65% 35%;
-  justify-items: start;
-  grid-row-gap: 15px;
-
-  container-type: inline-size;
-}
-
-.about-author section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.img {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-
-  box-shadow: 0 0 0 3px var(--border-color-1),
-  inset 0 0 0 2px var(--border-color-2),
-  inset 0 0 0 3px var(--border-color-1);
-}
-
-.about-author .img {
-  grid-column: 2;
-  grid-row: 1/ span 4;
-}
-
-.img.avatar,
-.img.stamp {
-  height: auto;
-  aspect-ratio: 1;
-}
-
-.img.avatar {
-  border-radius: 0 0 50% 50%;
-  background-image: url(../../../../assets/img/profile.jpeg);
-}
-
-/**************************************************/
+//.articles {
+//  min-height: 500px;
+//}
 
 .articles {
-  min-height: 500px;
-}
-
-.articles,
-.articles article:first-of-type {
+//.articles article:first-of-type {
   width: 100%;
+  min-height: 500px;
   position: relative;
 
   display: grid;
@@ -78,6 +79,11 @@ main {
   align-items: center;
 
   grid-gap: 30px;
+}
+
+.articles app-article-card:first-of-type {
+  grid-column: 1/4;
+  align-items: start;
 }
 
 @media (max-width: 800px) {
@@ -89,6 +95,7 @@ main {
     flex-direction: column;
   }
 }
+
 .empty-page {
   grid-column: span 3;
   width: 100%;
@@ -103,123 +110,123 @@ main {
   display: none;
 }
 
-.articles article:not(:first-of-type) {
-  width: 100%;
-  height: 100%;
+//.articles article:not(:first-of-type) {
+//  width: 100%;
+//  height: 100%;
+//
+//  position: relative;
+//
+//  display: flex;
+//  align-items: flex-start;
+//  justify-content: flex-start;
+//  flex-direction: column;
+//}
+//
+//@media (max-width: 800px) {
+//  .articles article:not(:first-of-type),
+//  .articles article:first-of-type {
+//    display: grid;
+//    grid-template-columns: repeat(2, 1fr);
+//    justify-items: start;
+//    align-items: start;
+//    gap: 10px;
+//  }
+//}
+//
+//.articles article:first-of-type {
+//  grid-column: 1/4;
+//  align-items: start;
+//}
+//
+//.articles article:first-of-type .img {
+//  grid-column: 1/3;
+//}
+//
+//@media (max-width: 800px) {
+//  .articles article:first-of-type .img {
+//    grid-column: 1;
+//  }
+//}
+//
+//.articles article:first-of-type .text-for-article {
+//  aspect-ratio: 3/4;
+//  overflow: hidden;
+//}
+//
+//.articles article:not(:first-of-type) .text-for-article {
+//  padding-top: 10px;
+//  aspect-ratio: 3/2;
+//  overflow: hidden;
+//}
+//
+//@media (max-width: 800px) {
+//  .articles article:not(:first-of-type) .text-for-article {
+//    padding-top: 0;
+//  }
+//}
+//
+//.text-for-article {
+//  display: flex;
+//  align-items: flex-start;
+//  flex-direction: column;
+//  gap: 5px;
+//}
+//
+//@media (max-width: 800px) {
+//  .articles article:first-of-type .text-for-article,
+//  .text-for-article {
+//    aspect-ratio: 3/2;
+//    overflow: hidden;
+//  }
+//}
+//
+//#img-for-article-1 {
+//  background-image: url(../../../../assets/img/goblin.jpeg);
+//}
+//#img-for-article-2 {
+//  background-image: url(../../../../assets/img/well.jpeg);
+//}
+//#img-for-article-3 {
+//  background-image: url(../../../../assets/img/rats.jpeg);
+//}
+//#img-for-article-4 {
+//  background-image: url(../../../../assets/img/wedding.jpeg);
+//}
+//#img-for-article-5 {
+//  background-image: url(../../../../assets/img/goblin.jpeg);
+//}
+//#img-for-article-6 {
+//  background-image: url(../../../../assets/img/goblin.jpeg);
+//}
 
-  position: relative;
-
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-direction: column;
-}
-
-@media (max-width: 800px) {
-  .articles article:not(:first-of-type),
-  .articles article:first-of-type {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: start;
-    align-items: start;
-    gap: 10px;
-  }
-}
-
-.articles article:first-of-type {
-  grid-column: 1/4;
-  align-items: start;
-}
-
-.articles article:first-of-type .img {
-  grid-column: 1/3;
-}
-
-@media (max-width: 800px) {
-  .articles article:first-of-type .img {
-    grid-column: 1;
-  }
-}
-
-.articles article:first-of-type .text-for-article {
-  aspect-ratio: 3/4;
-  overflow: hidden;
-}
-
-.articles article:not(:first-of-type) .text-for-article {
-  padding-top: 10px;
-  aspect-ratio: 3/2;
-  overflow: hidden;
-}
-
-@media (max-width: 800px) {
-  .articles article:not(:first-of-type) .text-for-article {
-    padding-top: 0;
-  }
-}
-
-.text-for-article {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 5px;
-}
-
-@media (max-width: 800px) {
-  .articles article:first-of-type .text-for-article,
-  .text-for-article {
-    aspect-ratio: 3/2;
-    overflow: hidden;
-  }
-}
-
-#img-for-article-1 {
-  background-image: url(../../../../assets/img/goblin.jpeg);
-}
-#img-for-article-2 {
-  background-image: url(../../../../assets/img/well.jpeg);
-}
-#img-for-article-3 {
-  background-image: url(../../../../assets/img/rats.jpeg);
-}
-#img-for-article-4 {
-  background-image: url(../../../../assets/img/wedding.jpeg);
-}
-#img-for-article-5 {
-  background-image: url(../../../../assets/img/goblin.jpeg);
-}
-#img-for-article-6 {
-  background-image: url(../../../../assets/img/goblin.jpeg);
-}
-
-.articles article .img {
-  height: auto;
-  aspect-ratio: 3 / 2;
-}
-
-.delete-article {
-  width: 30px;
-  aspect-ratio: 1;
-
-  position: absolute;
-  right: 0;
-  bottom: 0;
-
-  display: none;
-  align-items: center;
-  justify-content: center;
-
-  background-color: black;
-  border: 1px solid var(--border-color-1);
-  color: var(--border-color-1);
-
-  box-shadow: inset 0 0 0 1px var(--border-color-2),
-  inset 0 0 0 2px var(--border-color-1);
-}
-
-.articles article:hover .delete-article {
-  display: flex;
-}
+//.articles article .img {
+//  height: auto;
+//  aspect-ratio: 3 / 2;
+//}
+//
+//.delete-article {
+//  width: 30px;
+//  aspect-ratio: 1;
+//
+//  position: absolute;
+//  right: 0;
+//  bottom: 0;
+//
+//  display: none;
+//  align-items: center;
+//  justify-content: center;
+//
+//  background-color: black;
+//  border: 1px solid var(--border-color-1);
+//  color: var(--border-color-1);
+//
+//  box-shadow: inset 0 0 0 1px var(--border-color-2),
+//  inset 0 0 0 2px var(--border-color-1);
+//}
+//
+//.articles article:hover .delete-article {
+//  display: flex;
+//}
 
 /**************************************************/
 
@@ -259,10 +266,10 @@ main {
 }
 
 #create-post-btn {
-  background: url(../../../../assets/icon/save.png) center no-repeat;
+  background: url(/assets/icon/save.png) center no-repeat;
 }
 #show-stats-btn {
-  background: url(../../../../assets/icon/statistics.png) center no-repeat;
+  background: url(/assets/icon/statistics.png) center no-repeat;
 }
 
 /**************************************************/
