@@ -55,6 +55,14 @@ p {
   font-size: clamp(8px, 3cqw, 16px);
 }
 
+a:link {
+  color: var(--border-color-1);
+}
+
+a:visited {
+  color: var(--text-color);
+}
+
 main {
   display: flex;
   flex-direction: column;
