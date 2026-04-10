@@ -30,7 +30,7 @@ body {
   font-family: "Chronicles", serif;
   color: var(--text-color);
 
-  background-image: url(/assets/img/background.png);
+  background-image: url('../assets/img/background.png');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -38,8 +38,8 @@ body {
 }
 
 @font-face {
+  src: url('../assets/fonts/Chronicles_font.ttf') format('truetype');
   font-family: "Chronicles";
-  src: url('/assets/fonts/Chronicles_font.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
@@ -120,5 +120,5 @@ main {
 
 .img.avatar {
   border-radius: 0 0 50% 50%;
-  background-image: url(/assets/img/profile.jpeg);
+  //background-image: url(assets/img/profile.jpeg);
 }

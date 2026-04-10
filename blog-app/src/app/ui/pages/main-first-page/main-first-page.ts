@@ -11,11 +11,19 @@ import { ArticleCard } from '../../components/article-card/article-card'
   styleUrl: './main-first-page.scss',
 })
 export class MainFirstPage {
+  profileUrl = 'assets/img/profile.jpeg';
+  magicUrl = 'assets/img/magic.jpeg';
+  awordsUrl = 'assets/img/awords.jpeg';
+  fishUrl = 'assets/img/fish.jpeg';
+  horseUrl = 'assets/img/horse.jpeg';
+
   private articlesService = inject(ArticlesService);
   previewArticles: ArticleModel[] = [];
 
   ngOnInit(): void {
     const articlesAll = this.articlesService.getArticles();
-    this.previewArticles = articlesAll.slice(-3).reverse();
+    if (articlesAll.length !== 0) {
+      this.previewArticles = articlesAll.slice(-3).reverse();
+    }
   }
 }

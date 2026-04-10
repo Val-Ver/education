@@ -12,5 +12,6 @@ import { PageContainer } from './ui/components/page-container/page-container';
   styleUrl: './app-global.scss'
 })
 export class App {
+  backgroundUrl = 'assets/img/background.png'
   protected readonly title = signal('blog-app');
 }

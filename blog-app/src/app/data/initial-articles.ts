@@ -3,7 +3,7 @@ import{ ArticleModel } from '../models/article.model';
 export const INITIAL_ARTICLES: ArticleModel[] = [
   {
     id: 'id0',
-    img: '/assets/img/goblin.jpeg',
+    img: 'assets/img/goblin.jpeg',
     heading: 'Так ли страшен упырь, как его малюют, или Почему стоит мыться раз в месяц',
     dateTime: '03.03.2026 17:00',
     content:
@@ -13,7 +13,7 @@ export const INITIAL_ARTICLES: ArticleModel[] = [
   },
   {
     id: 'id1',
-    img: '/assets/img/well.jpeg',
+    img: 'assets/img/well.jpeg',
     heading: 'Топ-5 признаков того, что ваш колодец проклят.',
     dateTime: '05.03.2026 18:30',
     content:
@@ -33,7 +33,7 @@ export const INITIAL_ARTICLES: ArticleModel[] = [
   },
   {
     id: 'id2',
-    img: '/assets/img/rats.jpeg',
+    img: 'assets/img/rats.jpeg',
     heading: 'Почему я не беру заказы на крыс?',
     dateTime: '10.03.2026 19:00',
     content:
@@ -43,7 +43,7 @@ export const INITIAL_ARTICLES: ArticleModel[] = [
   },
   {
     id: 'id3',
-    img: '/assets/img/wedding.jpeg',
+    img: 'assets/img/wedding.jpeg',
     heading: 'Проклятие любви: как не стать жабой в брачную ночь.',
     dateTime: '12.03.2026 18:45',
     content:
@@ -55,7 +55,7 @@ export const INITIAL_ARTICLES: ArticleModel[] = [
   },
   {
     id: 'id4',
-    img: '/assets/img/price.jpeg',
+    img: 'assets/img/price.jpeg',
     heading: 'Экономика Тракта: сколько стоит голова вурдалака?',
     dateTime: '17.03.2026 19:30',
     content:
@@ -75,7 +75,7 @@ export const INITIAL_ARTICLES: ArticleModel[] = [
   },
   {
     id: 'id5',
-    img: '/assets/img/begin.jpeg',
+    img: 'assets/img/begin.jpeg',
     heading: 'Вредные советы для начинающих ведьмаков.',
     dateTime: '19.03.2026 20:00',
     content:
