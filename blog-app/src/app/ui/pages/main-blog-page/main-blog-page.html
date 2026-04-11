@@ -13,7 +13,7 @@
     }
 
     @for(article of articles; track article.id; let first = $first) {
-      <app-article-card layout="blog"
+      <app-article-card class="article-card" layout="blog"
         [article]="article"
         [isFeatured]="first"
         [showDelete]="true"

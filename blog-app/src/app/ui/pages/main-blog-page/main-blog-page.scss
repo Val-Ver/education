@@ -81,7 +81,7 @@
   grid-gap: 30px;
 }
 
-.articles app-article-card:first-of-type {
+.articles .article-card:first-of-type {
   grid-column: 1/4;
   align-items: start;
 }
