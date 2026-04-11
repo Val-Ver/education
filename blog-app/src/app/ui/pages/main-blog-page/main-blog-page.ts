@@ -7,7 +7,7 @@ import { ArticleCard } from '../../components/article-card/article-card'
   selector: 'app-main-blog-page',
   imports: [ArticleCard],
   templateUrl: './main-blog-page.html',
-  styleUrl: './main-blog-page.scss',
+  styleUrls: ['../page-common.scss','./main-blog-page.scss'],
 })
 export class MainBlogPage {
   private articlesService = inject(ArticlesService);

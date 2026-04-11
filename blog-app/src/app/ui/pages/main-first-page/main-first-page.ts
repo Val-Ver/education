@@ -8,7 +8,7 @@ import { ArticleCard } from '../../components/article-card/article-card'
   selector: 'app-main-first-page',
   imports: [RouterLink, ArticleCard],
   templateUrl: './main-first-page.html',
-  styleUrl: './main-first-page.scss',
+  styleUrls: ['../page-common.scss', './main-first-page.scss'],
 })
 export class MainFirstPage {
   profileUrl = 'assets/img/profile.jpeg';

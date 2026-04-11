@@ -7,6 +7,7 @@ import { ViewportScroller } from '@angular/common';
   imports: [RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.scss',
+  standalone: true,
 })
 export class Header {
   private viewportScroller = inject(ViewportScroller);
