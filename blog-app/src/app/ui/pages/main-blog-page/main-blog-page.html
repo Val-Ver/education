@@ -20,25 +20,27 @@
         (delete)="deleteArticle($event)"
       ></app-article-card>
     }
+  </section>
 
-  </section>
-  <section id="form" class="form form-hidden" hidden>
-    <h1>Создать статью</h1>
-    <form id="article-form">
-      <div class="form-group">
-        <label for="create-heading">Заголовок <span class="required-star">*</span></label>
-        <input id="create-heading" name="create-heading" type="text" placeholder="О чем ваша статья?" required>
-      </div>
-      <div class="form-group">
-        <label for="create-content">Текст статьи <span class="required-star">*</span></label>
-        <textarea id="create-content" name="create-content" placeholder="Содержание статьи" rows="10" required></textarea>
-      </div>
-      <div class="form-buttons">
-        <button type="submit" id="submit">Сохранить</button>
-        <button type="button" id="cancel">Отмена</button>
-      </div>
-    </form>
-  </section>
+  <app-form [visible]="isFormVisible" (close)="hideForm()"></app-form>
+
+<!--  <section id="form" class="form form-hidden" hidden>-->
+<!--    <h1>Создать статью</h1>-->
+<!--    <form id="article-form">-->
+<!--      <div class="form-group">-->
+<!--        <label for="create-heading">Заголовок <span class="required-star">*</span></label>-->
+<!--        <input id="create-heading" name="create-heading" type="text" placeholder="О чем ваша статья?" required>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="create-content">Текст статьи <span class="required-star">*</span></label>-->
+<!--        <textarea id="create-content" name="create-content" placeholder="Содержание статьи" rows="10" required></textarea>-->
+<!--      </div>-->
+<!--      <div class="form-buttons">-->
+<!--        <button type="submit" id="submit">Сохранить</button>-->
+<!--        <button type="button" id="cancel">Отмена</button>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--  </section>-->
 
 <!--  <template id="article-template">-->
 <!--    <article>-->
@@ -53,8 +55,10 @@
 <!--  </template>-->
 
   <aside class="admin-panel">
-    <button class="admin-btn" id="create-post-btn" title="Создать новую статью"></button>
-    <button class="admin-btn" id="show-stats-btn" title="Посмотреть статистику блога"></button>
+    <button class="admin-btn" id="create-post-btn" title="Создать новую статью"
+    (click)="showForm()"></button>
+    <button class="admin-btn" id="show-stats-btn" title="Посмотреть статистику блога"
+    ></button>
   </aside>
 
   <dialog id="modal-statistics" class="modal-dialog">

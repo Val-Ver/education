@@ -7,6 +7,7 @@ import {ArticleModel} from '../../../models/article.model'
   // imports: [],
   templateUrl: './article-card.html',
   styleUrl: './article-card.scss',
+  standalone: true,
 })
 export class ArticleCard {
   @Input() layout: 'blog' | 'preview' = 'blog';
