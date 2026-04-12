@@ -1,0 +1,56 @@
+:root {
+  --block-color: rgba(118, 148, 163, 0.2);
+  --block-color-dark: rgba(0, 0, 0, 0.7);
+  --text-color: #dfca9a;
+  --border-color-1: #e1a925;
+  --border-color-2: rgba(38, 36, 36, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+HTML {
+  scroll-behavior: smooth;
+}
+
+app-root {
+  display: block;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: "Chronicles", serif;
+  color: var(--text-color);
+
+  background-image: url(../assets/img/background.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+@font-face {
+  font-family: "Chronicles";
+  src: url('../assets/fonts/Chronicles_font.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+h2 {
+  font-size: clamp(14px, 3cqw, 26px);
+}
+
+h3 {
+  font-size: clamp(10px, 3cqw, 20px);
+}
+p {
+  font-size: clamp(8px, 3cqw, 16px);
+}
