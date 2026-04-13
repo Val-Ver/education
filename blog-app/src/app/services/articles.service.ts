@@ -21,9 +21,16 @@ export class ArticlesService {
     localStorage.setItem(this.articlesKey, JSON.stringify(articles));
   }
 
+  addArticle(article: ArticleModel): void {
+    const articles = this.getArticles();
+    articles.push(article);
+    this.saveArticles(articles);
+  }
+
   deleteArticle(id: string): void {
     let articles = this.getArticles();
     articles = articles.filter((a) => a.id !== id);
     this.saveArticles(articles);
   }
+
 }

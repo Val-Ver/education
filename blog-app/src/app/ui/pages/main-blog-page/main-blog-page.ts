@@ -14,6 +14,7 @@ import { Form } from '../../components/form/form';
 export class MainBlogPage {
   private articlesService = inject(ArticlesService);
   articles: ArticleModel[] = [];
+  isFormVisible = false;
 
   ngOnInit(): void {
     this.loadArticles();
@@ -28,14 +29,12 @@ export class MainBlogPage {
     this.loadArticles();
   }
 
-  isFormVisible = false;
-
   showForm() {
     this.isFormVisible = true;
   }
 
   hideForm(): void {
     this.isFormVisible = false;
-    this.loadArticles(); // перезагружаем список, чтобы новая статья появилась
+    this.loadArticles();
   }
 }
