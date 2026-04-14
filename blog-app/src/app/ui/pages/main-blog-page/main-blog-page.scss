@@ -49,76 +49,77 @@
   display: none;
 }
 
-.admin-panel {
-  position: fixed;
-  right: 0;
-  top: 65%;
-
-  border-radius:  15px 0 0 15px;
-  padding: 10px 5px 10px 10px;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 10px;
-  z-index: 100;
-
-  background-color: black;
-  border: 1px solid var(--border-color-1);
-}
-
-.admin-btn {
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 5px;
-}
-
-.admin-btn:hover {
-  box-shadow: 2px 2px 4px var(--border-color-1);
-  border: 1px solid var(--border-color-1);
-}
-
-.admin-btn:active {
-  box-shadow: inset 0 0 3px var(--border-color-1);
-  border: 1px solid var(--border-color-1);
-}
-
-#create-post-btn {
-  background: url(../../../../assets/icon/save.png) center no-repeat;
-}
-#show-stats-btn {
-  background: url(../../../../assets/icon/statistics.png) center no-repeat;
-}
+//.admin-panel {
+//  position: fixed;
+//  right: 0;
+//  top: 65%;
+//
+//  border-radius:  15px 0 0 15px;
+//  padding: 10px 5px 10px 10px;
+//
+//  display: flex;
+//  flex-direction: column;
+//
+//  gap: 10px;
+//  z-index: 100;
+//
+//  background-color: black;
+//  border: 1px solid var(--border-color-1);
+//}
+//
+//.admin-btn {
+//  width: 40px;
+//  height: 40px;
+//  border: none;
+//  border-radius: 5px;
+//}
+//
+//.admin-btn:hover {
+//  box-shadow: 2px 2px 4px var(--border-color-1);
+//  border: 1px solid var(--border-color-1);
+//}
+//
+//.admin-btn:active {
+//  box-shadow: inset 0 0 3px var(--border-color-1);
+//  border: 1px solid var(--border-color-1);
+//}
+//
+//#create-post-btn {
+//  background: url(../../../../assets/icon/save.png) center no-repeat;
+//}
+//#show-stats-btn {
+//  background: url(../../../../assets/icon/statistics.png) center no-repeat;
+//}
 
 /**************************************************/
 
-.modal-dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
-}
-
-.modal-dialog div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.modal-dialog >div >:nth-child(1n+2) {
-  flex-direction: row;
-}
-
-.modal-dialog span {
-  width: 80%;
-
-  display: flex;
-  justify-content: center;
-
-  border: 1px solid black;
-}
+//.modal-dialog {
+//  position: fixed;
+//  top: 50%;
+//  left: 50%;
+//  transform: translate(-50%, -50%);
+//  margin: 0;
+//}
+//
+//.modal-dialog div {
+//  display: flex;
+//  flex-direction: column;
+//  align-items: center;
+//  justify-content: center;
+//}
+//
+//.modal-dialog >div >:nth-child(1n+2) {
+//  flex-direction: row;
+//}
+//
+//.modal-dialog span {
+//  width: 80%;
+//
+//  display: flex;
+//  justify-content: center;
+//
+//  border: 1px solid black;
+//}
 
 /**************************************************/
 //
