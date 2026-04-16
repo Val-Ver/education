@@ -33,4 +33,12 @@ export class ArticlesService {
     this.saveArticles(articles);
   }
 
+  updateArticle(updatedArticle: ArticleModel): void {
+    const articles = this.getArticles();
+    const index = articles.findIndex((a) => a.id === updatedArticle.id);
+    if (index !== -1) {
+      articles[index] = updatedArticle;
+      this.saveArticles(articles);
+    }
+  }
 }

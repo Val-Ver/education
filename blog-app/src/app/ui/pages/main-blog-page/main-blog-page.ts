@@ -28,8 +28,8 @@ export class MainBlogPage {
   isFormVisible = false;
   isStatsModalVisible = false;
   statsArticlesCount = 0;
-  // private modalDialog: any;
 
+  editingArticle: ArticleModel | null = null;
 
   ngOnInit(): void {
     this.loadArticles();
@@ -45,22 +45,30 @@ export class MainBlogPage {
   }
 
   showForm() {
+    this.editingArticle = null;
     this.isFormVisible = true;
   }
 
   hideForm(): void {
     this.isFormVisible = false;
     this.loadArticles();
+    this.loadArticles();
+  }
+
+  editArticle(id: string) {
+    const article = this.articles.find((a) => a.id === id);
+    if (article) {
+      this.editingArticle = { ...article };
+      this.isFormVisible = true;
+    }
   }
 
   showModal() {
     this.statsArticlesCount = this.articles.length;
     this.isStatsModalVisible = true;
-
   }
 
   closeStatsModal(): void {
     this.isStatsModalVisible = false;
-
   }
 }

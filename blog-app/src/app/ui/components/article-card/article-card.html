@@ -7,11 +7,18 @@
     <p>{{ article.content }}</p>
   </div>
 
-  @if(showDelete) {
-    <button
-      type="button"
-      class="delete-article"
-      (click)="onDelete()"
-    >x</button>
-  }
+  <div class="btn-article">
+    @if(showDelete) {
+      <button
+        type="button"
+        class="edit-article"
+        (click)="onEdit()"
+      ></button>
+      <button
+        type="button"
+        class="delete-article"
+        (click)="onDelete()"
+      >x</button>
+    }
+  </div>
 </article>

@@ -52,8 +52,6 @@
   aspect-ratio: 3/2;
 }
 
-
-
 :host(.layout-blog) article {
   width: 100%;
   height: 100%;
@@ -126,13 +124,6 @@
   }
 }
 
-//:host(.layout-blog) article .text {
-//  display: flex;
-//  align-items: flex-start;
-//  flex-direction: column;
-//  gap: 5px;
-//}
-
 @media (max-width: 800px) {
   :host(.layout-blog) article.featured .text,
   :host(.layout-blog) article .text {
@@ -140,18 +131,26 @@
     overflow: hidden;
   }
 }
+
 :host(.layout-blog) article .img {
   height: auto;
   aspect-ratio: 3 / 2;
 }
 
-.delete-article {
-  width: 30px;
-  aspect-ratio: 1;
-
+.btn-article{
   position: absolute;
   right: 0;
   bottom: 0;
+  background-color: black;
+
+  gap: 2px;
+  display: flex;
+}
+
+.delete-article,
+.edit-article {
+  width: 30px;
+  aspect-ratio: 1;
 
   display: none;
   align-items: center;
@@ -165,7 +164,12 @@
   inset 0 0 0 2px var(--border-color-1);
 }
 
-:host(.layout-blog) article:hover .delete-article {
-//article:hover .delete-article {
+.edit-article {
+  background: url(../../../../assets/icon/edit.png) center no-repeat;
+  cursor: pointer;
+}
+
+:host(.layout-blog) article:hover .delete-article,
+:host(.layout-blog) article:hover .edit-article {
   display: flex;
 }
