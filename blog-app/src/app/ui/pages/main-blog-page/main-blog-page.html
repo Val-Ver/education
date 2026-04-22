@@ -1,0 +1,29 @@
+  <section class="about-author">
+    <h1>Мой блог</h1>
+    <p>Актуальные статьи</p>
+    <!--                <div class="img stamp"></div>-->
+  </section>
+  
+  <section id="articles-container" class="articles" >
+    @for(article of articles; track article.id; let first = $first) {
+      <app-article-card class="article-card" layout="blog"
+        [article]="article"
+        [isFeatured]="first"
+        [showDelete]="true"
+        (delete)="deleteArticle($event)"
+      ></app-article-card>
+    } @empty {
+      <div id="empty-page" class="empty-page">
+        <h2>Пока нет ни одной статьи</h2>
+      </div>
+    }
+  </section>
+
+  <app-form [visible]="isFormVisible" (close)="hideForm()"></app-form>
+  <app-admin-panel (creatPost)="showForm()" (showStats)="showModal()"></app-admin-panel>
+
+  @if(isStatsModalVisible) {
+    <app-modal-dialog [articlesCount]="statsArticlesCount"
+                      (close)="closeStatsModal()">
+    </app-modal-dialog>
+  }

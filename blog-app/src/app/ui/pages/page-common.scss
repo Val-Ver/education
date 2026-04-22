@@ -1,0 +1,33 @@
+.about-author {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 65% 35%;
+  justify-items: start;
+  grid-row-gap: 15px;
+
+  container-type: inline-size;
+}
+
+.about-author section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.about-author .img {
+  grid-column: 2;
+  grid-row: 1/ span 4;
+}
+
+.img.avatar,
+.img.stamp {
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.img.avatar {
+  border-radius: 0 0 50% 50%;
+  //background-image: url(assets/img/profile.jpeg);
+}

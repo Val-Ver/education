@@ -1,0 +1,50 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 25px;
+}
+
+.articles {
+  width: 100%;
+  min-height: 500px;
+  position: relative;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+
+  grid-gap: 30px;
+}
+
+.articles .article-card:first-of-type {
+  grid-column: 1/4;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .articles {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+}
+
+.empty-page {
+  grid-column: span 3;
+  width: 100%;
+  height: 500px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-page.hide {
+  display: none;
+}

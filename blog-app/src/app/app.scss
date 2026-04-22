@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  background-image: url('../assets/img/background.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+}
+
+main {
+  padding: 20px;
+}

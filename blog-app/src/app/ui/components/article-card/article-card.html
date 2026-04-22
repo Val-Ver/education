@@ -1,0 +1,17 @@
+
+<article [attr.data-id]="article.id" [class.featured]="isFeatured">
+  <div class="img" [style.background-image]="`url(${ article.img })`"></div>
+  <div class="text text-for-article">
+    <h3>{{ article.heading }}</h3>
+    <p><i>опубликовано: {{ article.dateTime }}</i></p>
+    <p>{{ article.content }}</p>
+  </div>
+
+  @if(showDelete) {
+    <button
+      type="button"
+      class="delete-article"
+      (click)="onDelete()"
+    >x</button>
+  }
+</article>

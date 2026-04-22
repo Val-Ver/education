@@ -1,7 +1,5 @@
-<!--<p>main-first-page works!</p>-->
-<main>
   <div class="about-author">
-    <div class="img avatar"></div>
+    <div class="img avatar" [style.background-image]="'url(' + profileUrl + ')'"></div>
     <section>
       <h1>Обо мне</h1>
       <p>Добро пожаловать! Блог практикующего ведьмака: «Меч и монета»</p>
@@ -25,32 +23,21 @@
   </div>
   <section id="article-preview" class="article-preview">
     <h2>Последние статьи</h2>
-    <article>
-      <div id="text-for-article-preview-1" class="text text-for-article-preview">
-        <h3>Так ли страшен упырь, как его малюют, или Почему стоит мыться раз в месяц</h3>
-        <p><i>опубликовано: на днях</i></p>
-        <p>Привет, путник. Сегодня поговорим об упырях. Многие думают, что это страшные твари, которые только и ждут, чтобы сожрать твою печень.</p>
-      </div>
-      <div id="img-for-article-preview-1" class="img"></div>
-    </article>
 
-    <article>
-      <div id="text-for-article-preview-2" class="text text-for-article-preview">
-        <h3>Топ-5 признаков того, что ваш колодец проклят</h3>
-        <p><i>опубликовано: на днях</i></p>
-        <p>Колодцы — это вообще больная тема. Редкий контракт обходится без того, чтобы какая-нибудь крестьянка не утопила там нежеланного ребенка, а теперь оттуда лезут зеленые руки.</p>
+    @if(previewArticles.length === 0) {
+      <div id="empty-page" class="empty-page">
+        <h2>Пока нет ни одной статьи</h2>
       </div>
-      <div id="img-for-article-preview-2" class="img"></div>
-    </article>
-    <article>
-      <div id="text-for-article-preview-3" class="text text-for-article-preview">
-        <h3>Почему я не беру заказы на крыс?</h3>
-        <p><i>опубликовано: на днях</i></p>
-        <p>Да, я знаю, что в подвале у вас завелись крысы размером с собаку. Да, они кусаются. Но я — ведьмак, а не дератизатор. Есть разница. </p>
-      </div>
-      <div id="img-for-article-preview-3" class="img"></div>
-    </article>
-    <a href="blog.html">Посмотреть все статьи</a>
+    }
+
+    @for(article of previewArticles; track article.id; ) {
+      <app-article-card layout="preview"
+        [article]="article"
+        [isFeatured]="false"
+        [showDelete]="false"
+      ></app-article-card>
+    }
+    <a routerLink="/blog">Посмотреть все статьи</a>
   </section>
   <section class="experience" >
     <h2>Опыт работы:</h2>
@@ -85,7 +72,9 @@
   <section class="hobby">
     <h2 class="header-hobby">Увлечения:</h2>
     <article>
-      <div id="img-for-hobby-1" class="img hobby-img"></div>
+      <div id="img-for-hobby-1" class="img hobby-img"
+           [style.background-image]="'url(' +   magicUrl + ')'"
+      ></div>
       <div class="hobby-text">
         <p><strong>Алхимия как хобби (Варка зелий для души)</strong></p>
         <p><i>Когда надоело варить «Ласточку» и «Кошку», хочется чего-то более изысканного.</i></p>
@@ -94,7 +83,9 @@
     </article>
 
     <article>
-      <div id="img-for-hobby-2" class="img hobby-img"></div>
+      <div id="img-for-hobby-2" class="img hobby-img"
+           [style.background-image]="'url(' +   awordsUrl + ')'">
+      </div>
       <div class="hobby-text">
         <p><strong>Коллекционирование трофеев (Чучела и не только)</strong></p>
         <p><i>Каждый монстр оставляет после себя память. Буквально.</i></p>
@@ -103,7 +94,8 @@
     </article>
 
     <article>
-      <div id="img-for-hobby-3" class="img hobby-img"></div>
+      <div id="img-for-hobby-3" class="img hobby-img"
+           [style.background-image]="'url(' +   fishUrl + ')'"></div>
       <div class="hobby-text">
         <p><strong>Рыбалка на рассвете</strong></p>
         <p><i>Одиночество — это не всегда плохо.</i></p>
@@ -112,7 +104,8 @@
     </article>
 
     <article>
-      <div id="img-for-hobby-4" class="img hobby-img"></div>
+      <div id="img-for-hobby-4" class="img hobby-img"
+           [style.background-image]="'url(' +   horseUrl + ')'"></div>
       <div class="hobby-text">
         <p><strong>Дрессировка Бури</strong></p>
         <p><i>У каждого уважающего себя ведьмака есть лошадь. И она, как правило, умнее многих заказчиков.</i></p>
@@ -120,4 +113,3 @@
       </div>
     </article>
   </section>
-</main>
