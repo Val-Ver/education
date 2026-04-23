@@ -20,7 +20,7 @@
     }
   </section>
 
-  <app-form [visible]="isFormVisible" (close)="hideForm()"></app-form>
+  <app-form [visible]="isFormVisible" [articleToEdit]="editingArticle" (close)="hideForm()"></app-form>
   <app-admin-panel (creatPost)="showForm()" (showStats)="showModal()"></app-admin-panel>
 
 @if(isStatsModalVisible) {

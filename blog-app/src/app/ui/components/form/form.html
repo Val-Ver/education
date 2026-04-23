@@ -1,19 +1,45 @@
 @if (visible) {
   <section id="form" class="form">
-    <h1>Создать статью</h1>
-    <form id="article-form" (ngSubmit)="onSubmit()">
+    <h1>{{ articleToEdit ? 'Изменить статью' : 'Создать статью' }}</h1>
+    <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="create-heading">Заголовок <span class="required-star" >*</span></label>
-        <input id="create-heading" name="create-heading" type="text"
-               placeholder="О чем ваша статья?" [(ngModel)]="heading" required>
+        <input id="create-heading"
+               type="text"
+               placeholder="О чем ваша статья?"
+               formControlName="heading"
+               [class.invalid-field]="heading?.invalid && heading?.touched">
+
+        @if (heading?.invalid && heading?.touched) {
+          <div class="error-message">
+            @if (heading?.hasError('required')) {
+              <span>Заголовок обязателен</span>
+            }
+            @if (heading?.hasError('minlength')) {
+              <span>Минимум 25 символов (сейчас {{ heading?.value?.length || 0 }})</span>
+            }
+          </div>
+        }
       </div>
+
       <div class="form-group">
         <label for="create-content">Текст статьи <span class="required-star">*</span></label>
-        <textarea id="create-content" name="create-content"
-                  placeholder="Содержание статьи" rows="10" required [(ngModel)]="content"></textarea>
+        <textarea id="create-content"
+                  formControlName="content"
+                  placeholder="Содержание статьи"
+                  rows="10"
+                  [class.invalid-field]="content?.invalid && content?.touched">
+        </textarea>
+
+        @if (content?.invalid && content?.touched) {
+          <div class="error-message">
+            <span>Текст статьи обязателен</span>
+          </div>
+        }
       </div>
+
       <div class="form-buttons">
-        <button type="submit" id="submit">Сохранить</button>
+        <button type="submit" id="submit" [disabled]="articleForm.invalid">Сохранить</button>
         <button type="button" id="cancel" (click)="onCancel()">Отмена</button>
       </div>
     </form>

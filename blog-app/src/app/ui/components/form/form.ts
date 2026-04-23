@@ -1,42 +1,50 @@
 import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import {ArticlesService} from '../../../services/articles.service';
 import {ArticleModel} from '../../../models/article.model';
-import {FormsModule} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 
 @Component({
   selector: 'app-form',
-  // imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './form.html',
   styleUrl: './form.scss',
   standalone: true,
-  imports: [FormsModule],
 })
 export class Form {
   @Input() visible = false;
   @Output() close = new EventEmitter();
   @Input() articleToEdit?: ArticleModel | null = null;
 
-  heading = '';
-  content = '';
-
+  articleForm: FormGroup;
   private articlesService = inject(ArticlesService);
+  private fb = inject(FormBuilder);
 
+   //heading = '';
+   //content = '';
+
+  constructor() {
+    this.articleForm = this.fb.group({
+      heading: ['', [Validators.required, Validators.minLength(25)]],
+      content: ['', Validators.required],
+    });
+  }
   onSubmit(): void {
-    if (!this.heading.trim() || !this.content.trim()) return;
+    if (this.articleForm.invalid) return;
+    const { heading, content } = this.articleForm.value;
 
     if (this.articleToEdit) {
       const updatedArticle: ArticleModel = {
         ...this.articleToEdit,
-        heading: this.heading,
-        content: this.content,
+        heading: heading,
+        content: content,
       };
       this.articlesService.updateArticle(updatedArticle);
     } else {
       const newArticle: ArticleModel = {
         id: Date.now().toString(),
-        heading: this.heading,
-        content: this.content,
+        heading: heading,
+        content: content,
         dateTime: this.formatDateTime(new Date()),
         img: 'assets/img/begin.jpeg',
       };
@@ -46,14 +54,20 @@ export class Form {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['articleToEdit'] && this.articleToEdit) {
-      this.heading = this.articleToEdit.heading;
-      this.content = this.articleToEdit.content;
-    } else if (changes['visible'] && this.visible && !this.articleToEdit) {
-      this.heading = '';
-      this.content = '';
+   if (changes['articleToEdit'] || changes['visible']) {
+      if (this.visible && this.articleToEdit) {
+  //  if (changes['articleToEdit'] && this.articleToEdit && this.visible) {
+        this.articleForm.patchValue({
+          heading: this.articleToEdit.heading,
+          content: this.articleToEdit.content,
+        });
+      } else if (this.visible && !this.articleToEdit) {
+   // } else if (changes['visible'] && this.visible && !this.articleToEdit) {
+        this.articleForm.reset();
+      }
     }
   }
+
   private formatDateTime(date: Date): string {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -64,8 +78,13 @@ export class Form {
   }
 
   onCancel() {
-    this.heading = '';
-    this.content = '';
+    this.articleForm.reset();
     this.close.emit();
+  }
+  get heading() {
+    return this.articleForm.get('heading');
+  }
+  get content() {
+    return this.articleForm.get('content');
   }
 }
