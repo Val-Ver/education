@@ -39,7 +39,9 @@
       </div>
 
       <div class="form-buttons">
-        <button type="submit" id="submit" [disabled]="articleForm.invalid">Сохранить</button>
+        <button type="submit" id="submit" [disabled]="articleForm.invalid">
+          {{ articleToEdit ? 'Сохранить' : 'Добавить' }}
+        </button>
         <button type="button" id="cancel" (click)="onCancel()">Отмена</button>
       </div>
     </form>
