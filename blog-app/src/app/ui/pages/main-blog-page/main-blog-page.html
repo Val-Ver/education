@@ -4,7 +4,7 @@
   </section>
 
   <section id="articles-container" class="articles" >
-    @for(article of articles; track article.id; let first = $first) {
+    @for(article of displayedArticles; track article.id; let first = $first) {
       <app-article-card class="article-card" layout="blog"
         [article]="article"
         [isFeatured]="first"
@@ -22,8 +22,16 @@
   <app-form [visible]="isFormVisible" [articleToEdit]="editingArticle" (close)="hideForm()"></app-form>
   <app-admin-panel (creatPost)="showForm()" (showStats)="showModal()"></app-admin-panel>
 
-@if(isStatsModalVisible) {
-  <app-modal-dialog [articlesCount]="statsArticlesCount"
-                    (close)="closeStatsModal()">
-  </app-modal-dialog>
-}
+  @if(isStatsModalVisible) {
+    <app-modal-dialog [articlesCount]="statsArticlesCount"
+                      (close)="closeStatsModal()">
+    </app-modal-dialog>
+  }
+
+  @if(totalPages > 1) {
+    <div class="pagination">
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Назад</button>
+      <span>Страница {{ currentPage }} из {{ totalPages }}</span>
+      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Вперёд</button>
+    </div>
+  }

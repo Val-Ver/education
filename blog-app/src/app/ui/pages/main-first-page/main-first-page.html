@@ -20,24 +20,27 @@
     </section>
     <p>Для тех, кто думает, что мы — это просто хмурые парни с двумя мечами за спиной и скверным характером. Ведьмак — это ликвидатор последствий ваших же ошибок. Кто-то полез в старые катакомбы за дешевым хламом и разбудил полуденницу? Мы придем. Кто-то приносил кровавые жертвы "древним богам", а теперь эта тварь жрет скот? Мы придем (и, скорее всего, выпишем счет в двойном размере за идиотизм).</p>
   </div>
-  <section id="article-preview" class="article-preview">
-    <h2>Последние статьи</h2>
 
-    @if(previewArticles.length === 0) {
-      <div id="empty-page" class="empty-page">
-        <h2>Пока нет ни одной статьи</h2>
-      </div>
-    }
+  @if(previewArticles.length > 0) {
+    <section id="article-preview" class="article-preview">
+      <h2>Последние статьи</h2>
 
-    @for(article of previewArticles; track article.id; ) {
-      <app-article-card layout="preview"
-        [article]="article"
-        [isFeatured]="false"
-        [showDelete]="false"
-      ></app-article-card>
-    }
-    <a routerLink="/blog">Посмотреть все статьи</a>
-  </section>
+<!--      @if(previewArticles.length === 0) {-->
+<!--        <div id="empty-page" class="empty-page">-->
+<!--          <h2>Пока нет ни одной статьи</h2>-->
+<!--        </div>-->
+<!--      }-->
+
+      @for(article of previewArticles; track article.id; ) {
+        <app-article-card layout="preview"
+          [article]="article"
+          [isFeatured]="false"
+          [showDelete]="false"
+        ></app-article-card>
+      }
+      <a routerLink="/blog">Посмотреть все статьи</a>
+    </section>
+  }
   <section class="experience" >
     <h2>Опыт работы:</h2>
     <div>
