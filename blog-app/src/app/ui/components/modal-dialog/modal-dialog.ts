@@ -21,7 +21,6 @@ export class ModalDialog {
   @ViewChild('dialog') dialogRef!: ElementRef<HTMLDialogElement>;
 
   ngAfterViewInit(): void {
-    // Как только компонент отрендерился — показываем модальное окно
     this.dialogRef.nativeElement.showModal();
   }
 

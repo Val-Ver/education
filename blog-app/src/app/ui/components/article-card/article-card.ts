@@ -4,7 +4,6 @@ import {ArticleModel} from '../../../models/article.model'
 
 @Component({
   selector: 'app-article-card',
-  // imports: [],
   templateUrl: './article-card.html',
   styleUrl: './article-card.scss',
   standalone: true,

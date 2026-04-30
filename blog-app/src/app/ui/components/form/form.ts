@@ -20,9 +20,6 @@ export class Form {
   private articlesService = inject(ArticlesService);
   private fb = inject(FormBuilder);
 
-   //heading = '';
-   //content = '';
-
   constructor() {
     this.articleForm = this.fb.group({
       heading: ['', [Validators.required, Validators.minLength(25)]],
@@ -56,13 +53,11 @@ export class Form {
   ngOnChanges(changes: SimpleChanges): void {
    if (changes['articleToEdit'] || changes['visible']) {
       if (this.visible && this.articleToEdit) {
-  //  if (changes['articleToEdit'] && this.articleToEdit && this.visible) {
         this.articleForm.patchValue({
           heading: this.articleToEdit.heading,
           content: this.articleToEdit.content,
         });
       } else if (this.visible && !this.articleToEdit) {
-   // } else if (changes['visible'] && this.visible && !this.articleToEdit) {
         this.articleForm.reset();
       }
     }
