@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges, input, computed, effect, Signal } from '@angular/core';
 import {ArticlesService} from '../../../services/articles.service';
 import {ArticleModel} from '../../../models/article.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -16,30 +16,62 @@ interface MinLengthValidationInfo {
   standalone: true,
 })
 export class Form {
-  @Input() visible = false;
+  public visible = input<boolean>(false);
+  public articleToEdit = input<ArticleModel | null>(null);
   @Output() close = new EventEmitter();
-  @Input() articleToEdit?: ArticleModel | null = null;
 
   articleForm: FormGroup;
   private articlesService = inject(ArticlesService);
   private fb = inject(FormBuilder);
+
+  protected formTitle = computed(() => {
+    return this.articleToEdit() ? 'Изменить статью' : 'Создать статью';
+  });
+
+  protected saveButtonTitle = computed(() => {
+    return this.articleToEdit() ? 'Сохранить' : 'Добавить';
+  });
 
   constructor() {
     this.articleForm = this.fb.group({
       heading: ['', [Validators.required, Validators.minLength(25)]],
       content: ['', Validators.required],
     });
+
+    this.editDataEffect();
+  }
+
+  private editDataEffect(): void {
+    effect(() => {
+      const isVisible = this.visible();
+      const editArticle = this.articleToEdit();
+
+      if (!isVisible) {
+        return;
+      }
+
+      if (editArticle) {
+        this.articleForm.patchValue({
+          heading: editArticle.heading,
+          content: editArticle.content,
+        });
+      } else {
+        this.articleForm.reset();
+      }
+    });
   }
 
   onSubmit(): void {
     if (this.articleForm.invalid) return;
     const { heading, content } = this.articleForm.value;
-
-    if (this.articleToEdit) {
+    const currentEdit = this.articleToEdit();
+    if (currentEdit) {
       const updatedArticle: ArticleModel = {
-        ...this.articleToEdit,
+        id: currentEdit.id,
         heading: heading,
         content: content,
+        dateTime: currentEdit.dateTime,
+        img: currentEdit.img,
       };
       this.articlesService.updateArticle(updatedArticle);
     } else {
@@ -53,19 +85,6 @@ export class Form {
       this.articlesService.addArticle(newArticle);
     }
     this.onCancel();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-   if (changes['articleToEdit'] || changes['visible']) {
-      if (this.visible && this.articleToEdit) {
-        this.articleForm.patchValue({
-          heading: this.articleToEdit.heading,
-          content: this.articleToEdit.content,
-        });
-      } else if (this.visible && !this.articleToEdit) {
-        this.articleForm.reset();
-      }
-    }
   }
 
   private formatDateTime(date: Date): string {

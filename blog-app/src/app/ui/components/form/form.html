@@ -1,6 +1,6 @@
-@if (visible) {
+@if (visible()) {
   <section id="form" class="form">
-    <h1>{{ articleToEdit ? 'Изменить статью' : 'Создать статью' }}</h1>
+    <h1>{{ formTitle() }}</h1>
     <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="create-heading">Заголовок <span class="required-star" >*</span></label>
@@ -9,7 +9,7 @@
                type="text"
                placeholder="О чем ваша статья?"
                formControlName="heading"
-               [class.invalid-field]="heading?.invalid && heading?.touched">
+               [class.invalid-field]="isHeadingInvalid">
 
         @if (isHeadingInvalid) {
           <div class="error-message">
@@ -18,24 +18,6 @@
             }
           </div>
         }
-<!--        @if (hasError('heading')) {-->
-<!--          <div class="error-message">-->
-<!--            @for (errMsg of getControlErrors('heading'); track $index) {-->
-<!--              <span>{{ errMsg }}</span>-->
-<!--            }-->
-<!--          </div>-->
-<!--        }-->
-
-<!--        @if (heading?.invalid && heading?.touched) {-->
-<!--          <div class="error-message">-->
-<!--            @if (heading?.hasError('required')) {-->
-<!--              <span>Заголовок обязателен</span>-->
-<!--            }-->
-<!--            @if (heading?.hasError('minlength')) {-->
-<!--              <span>Минимум 25 символов (сейчас {{ heading?.value?.length || 0 }})</span>-->
-<!--            }-->
-<!--          </div>-->
-<!--        }-->
       </div>
 
       <div class="form-group">
@@ -45,7 +27,7 @@
                   formControlName="content"
                   placeholder="Содержание статьи"
                   rows="10"
-                  [class.invalid-field]="content?.invalid && content?.touched">
+                  [class.invalid-field]="isContentInvalid">
         </textarea>
 
         @if (isContentInvalid) {
@@ -55,24 +37,11 @@
             }
           </div>
         }
-<!--        @if (hasError('content')) {-->
-<!--          <div class="error-message">-->
-<!--            @for (errMsg of getControlErrors('content'); track $index) {-->
-<!--              <span>{{ errMsg }}</span>-->
-<!--            }-->
-<!--          </div>-->
-<!--        }-->
-
-<!--        @if (content?.invalid && content?.touched) {-->
-<!--          <div class="error-message">-->
-<!--            <span>Текст статьи обязателен</span>-->
-<!--          </div>-->
-<!--        }-->
       </div>
 
       <div class="form-buttons">
         <button type="submit" id="submit" [disabled]="articleForm.invalid">
-          {{ articleToEdit ? 'Сохранить' : 'Добавить' }}
+          {{ saveButtonTitle() }}
         </button>
         <button type="button" id="cancel" (click)="onCancel()">Отмена</button>
       </div>
