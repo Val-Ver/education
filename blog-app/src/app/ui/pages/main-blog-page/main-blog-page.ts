@@ -40,6 +40,9 @@ export class MainBlogPage {
   }
 
   deleteArticle(id: string): void {
+    if (this.editingArticle?.id === id) {
+      this.hideForm();
+    }
     this.articlesService.deleteArticle(id);
     this.loadArticles();
   }
@@ -51,7 +54,7 @@ export class MainBlogPage {
 
   hideForm(): void {
     this.isFormVisible = false;
-    this.loadArticles();
+    this.editingArticle = null;
     this.loadArticles();
   }
 
