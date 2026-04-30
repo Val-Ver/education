@@ -3,6 +3,10 @@ import {ArticlesService} from '../../../services/articles.service';
 import {ArticleModel} from '../../../models/article.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
+interface MinLengthValidationInfo {
+  requiredLength: number;
+  actualLength: number;
+}
 
 @Component({
   selector: 'app-form',
@@ -26,6 +30,7 @@ export class Form {
       content: ['', Validators.required],
     });
   }
+
   onSubmit(): void {
     if (this.articleForm.invalid) return;
     const { heading, content } = this.articleForm.value;
@@ -76,10 +81,41 @@ export class Form {
     this.articleForm.reset();
     this.close.emit();
   }
+
   get heading() {
     return this.articleForm.get('heading');
   }
   get content() {
     return this.articleForm.get('content');
+  }
+
+  protected hasError(controlName: string): boolean {
+    const control = this.articleForm.get(controlName);
+    return !!(control?.invalid && control?.touched);
+  }
+
+  protected getControlErrors(controlName: string): string[] {
+    const control = this.articleForm.get(controlName);
+    const errors = control?.errors ?? null;
+    if (!errors) return [];
+
+    const errorTexts: string[] = [];
+    Object.entries(errors).forEach(([errorKey, errorValue]) => {
+      errorTexts.push(this.getErrorStr(errorKey, errorValue));
+    });
+    return errorTexts;
+  }
+
+  private getErrorStr(errorCode: string, errorData: unknown): string {
+    switch (errorCode) {
+      case 'required':
+        return 'Поле обязательно для заполнения';
+      case 'minlength':
+        const { requiredLength, actualLength } = errorData as MinLengthValidationInfo;
+        const remaining = requiredLength - actualLength;
+        return `Нужно ещё ${remaining} символов (минимум ${requiredLength})`;
+      default:
+        return 'Ошибка в заполнении поля';
+    }
   }
 }

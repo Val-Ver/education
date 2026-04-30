@@ -4,26 +4,43 @@
     <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="create-heading">Заголовок <span class="required-star" >*</span></label>
+        @let isHeadingInvalid = hasError('heading');
         <input id="create-heading"
                type="text"
                placeholder="О чем ваша статья?"
                formControlName="heading"
                [class.invalid-field]="heading?.invalid && heading?.touched">
 
-        @if (heading?.invalid && heading?.touched) {
+        @if (isHeadingInvalid) {
           <div class="error-message">
-            @if (heading?.hasError('required')) {
-              <span>Заголовок обязателен</span>
-            }
-            @if (heading?.hasError('minlength')) {
-              <span>Минимум 25 символов (сейчас {{ heading?.value?.length || 0 }})</span>
+            @for (errMsg of getControlErrors('heading'); track $index) {
+              <span>{{ errMsg }}</span>
             }
           </div>
         }
+<!--        @if (hasError('heading')) {-->
+<!--          <div class="error-message">-->
+<!--            @for (errMsg of getControlErrors('heading'); track $index) {-->
+<!--              <span>{{ errMsg }}</span>-->
+<!--            }-->
+<!--          </div>-->
+<!--        }-->
+
+<!--        @if (heading?.invalid && heading?.touched) {-->
+<!--          <div class="error-message">-->
+<!--            @if (heading?.hasError('required')) {-->
+<!--              <span>Заголовок обязателен</span>-->
+<!--            }-->
+<!--            @if (heading?.hasError('minlength')) {-->
+<!--              <span>Минимум 25 символов (сейчас {{ heading?.value?.length || 0 }})</span>-->
+<!--            }-->
+<!--          </div>-->
+<!--        }-->
       </div>
 
       <div class="form-group">
         <label for="create-content">Текст статьи <span class="required-star">*</span></label>
+        @let isContentInvalid = hasError('content');
         <textarea id="create-content"
                   formControlName="content"
                   placeholder="Содержание статьи"
@@ -31,11 +48,26 @@
                   [class.invalid-field]="content?.invalid && content?.touched">
         </textarea>
 
-        @if (content?.invalid && content?.touched) {
+        @if (isContentInvalid) {
           <div class="error-message">
-            <span>Текст статьи обязателен</span>
+            @for (errMsg of getControlErrors('content'); track $index) {
+              <span>{{ errMsg }}</span>
+            }
           </div>
         }
+<!--        @if (hasError('content')) {-->
+<!--          <div class="error-message">-->
+<!--            @for (errMsg of getControlErrors('content'); track $index) {-->
+<!--              <span>{{ errMsg }}</span>-->
+<!--            }-->
+<!--          </div>-->
+<!--        }-->
+
+<!--        @if (content?.invalid && content?.touched) {-->
+<!--          <div class="error-message">-->
+<!--            <span>Текст статьи обязателен</span>-->
+<!--          </div>-->
+<!--        }-->
       </div>
 
       <div class="form-buttons">
