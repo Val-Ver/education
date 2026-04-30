@@ -8,7 +8,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ArticleModel } from '../../../models/article.model'
-// import { ArticlesService } from '../../../services/articles.service'
 
 import { ArticlesStoreService } from '../../../services/articles/articles-store.service';
 import { ARTICLES_DATA_SERVICE } from '../../../services/articles/articles-data.token';
@@ -28,7 +27,6 @@ import { Subscription } from 'rxjs';
   standalone: true,
 })
 export class MainBlogPage {
-  // private articlesService = inject(ArticlesStoreService);
   private dataService = inject(ARTICLES_DATA_SERVICE) as IArticlesDataService;
   private store = inject(ArticlesStoreService);
 
@@ -41,7 +39,6 @@ export class MainBlogPage {
 
   isFormVisible = false;
   isStatsModalVisible = false;
-  // statsArticlesCount = 0;
   editingArticle: ArticleModel | null = null;
 
   private subscription: Subscription | null = null;
@@ -51,19 +48,7 @@ export class MainBlogPage {
       this.allArticles = articles;
       this.updatePagination();
     });
-
-    // if (this.allArticles.length === 0) {
-    //   this.loadArticles();
-    // }
   }
-
-  // loadArticles(): void {
-  //   this.dataService.getArticles(1, 999).subscribe((result) => {
-  //     this.store.setArticles(result.items);
-  //     this.currentPage = 1;
-  //     this.store.currentPage$.next(1);
-  //   });
-  // }
 
   private updatePagination(): void {
     const total = this.allArticles.length;
@@ -104,7 +89,6 @@ export class MainBlogPage {
   hideForm(): void {
     this.isFormVisible = false;
     this.editingArticle = null;
-    // this.loadArticles();
   }
 
   editArticle(id: string) {
@@ -116,7 +100,6 @@ export class MainBlogPage {
   }
 
   showModal() {
-    // this.statsArticlesCount = this.articles.length;
     this.isStatsModalVisible = true;
   }
 

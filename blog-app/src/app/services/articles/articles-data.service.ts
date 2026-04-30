@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+
 import { ArticleModel } from '../../models/article.model';
+
 import { IArticlesDataService, PaginatedResult } from './articles-data.interface';
 import { INITIAL_ARTICLES } from '../../data/initial-articles';
 

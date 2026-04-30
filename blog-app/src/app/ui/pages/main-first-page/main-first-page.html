@@ -25,12 +25,6 @@
     <section id="article-preview" class="article-preview">
       <h2>Последние статьи</h2>
 
-<!--      @if(previewArticles.length === 0) {-->
-<!--        <div id="empty-page" class="empty-page">-->
-<!--          <h2>Пока нет ни одной статьи</h2>-->
-<!--        </div>-->
-<!--      }-->
-
       @for(article of previewArticles; track article.id; ) {
         <app-article-card layout="preview"
           [article]="article"

@@ -1,9 +1,11 @@
 import { Component, EventEmitter, inject, Input, Output, SimpleChanges, input, computed, effect, Signal } from '@angular/core';
-// import {ArticlesService} from '../../../services/articles.service';
+
 import { ArticlesStoreService } from '../../../services/articles/articles-store.service';
 import { ARTICLES_DATA_SERVICE } from '../../../services/articles/articles-data.token';
 import { IArticlesDataService } from '../../../services/articles/articles-data.interface';
+
 import {ArticleModel} from '../../../models/article.model';
+
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 interface MinLengthValidationInfo {
@@ -26,7 +28,6 @@ export class Form {
   articleForm: FormGroup;
   private store = inject(ArticlesStoreService);
   private dataService = inject(ARTICLES_DATA_SERVICE) as IArticlesDataService;
-  // private articlesService = inject(ArticlesService);
   private fb = inject(FormBuilder);
 
   protected formTitle = computed(() => {
@@ -78,11 +79,12 @@ export class Form {
         dateTime: currentEdit.dateTime,
         img: currentEdit.img,
       };
-      // this.articlesService.updateArticle(updatedArticle);
+
       this.dataService.updateArticle(updatedArticle).subscribe((allArticles) => {
         this.store.setArticles(allArticles);
         this.onCancel();
       });
+
     } else {
       const newArticle: ArticleModel = {
         id: Date.now().toString(),
@@ -91,7 +93,7 @@ export class Form {
         dateTime: this.formatDateTime(new Date()),
         img: 'assets/img/begin.jpeg',
       };
-      // this.articlesService.addArticle(newArticle);
+
       this.dataService.addArticle(newArticle).subscribe((allArticles) => {
         this.store.setArticles(allArticles);
         this.onCancel();
