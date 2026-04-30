@@ -1,38 +1,89 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges, input, computed, effect, Signal } from '@angular/core';
 import {ArticlesService} from '../../../services/articles.service';
 import {ArticleModel} from '../../../models/article.model';
-import {FormsModule} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
+interface MinLengthValidationInfo {
+  requiredLength: number;
+  actualLength: number;
+}
 
 @Component({
   selector: 'app-form',
-  // imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './form.html',
   styleUrl: './form.scss',
   standalone: true,
-  imports: [FormsModule],
 })
 export class Form {
-  @Input() visible = false;
+  public visible = input<boolean>(false);
+  public articleToEdit = input<ArticleModel | null>(null);
   @Output() close = new EventEmitter();
 
-  heading = '';
-  content = '';
-
+  articleForm: FormGroup;
   private articlesService = inject(ArticlesService);
+  private fb = inject(FormBuilder);
+
+  protected formTitle = computed(() => {
+    return this.articleToEdit() ? 'Изменить статью' : 'Создать статью';
+  });
+
+  protected saveButtonTitle = computed(() => {
+    return this.articleToEdit() ? 'Сохранить' : 'Добавить';
+  });
+
+  constructor() {
+    this.articleForm = this.fb.group({
+      heading: ['', [Validators.required, Validators.minLength(25)]],
+      content: ['', Validators.required],
+    });
+
+    this.editDataEffect();
+  }
+
+  private editDataEffect(): void {
+    effect(() => {
+      const isVisible = this.visible();
+      const editArticle = this.articleToEdit();
+
+      if (!isVisible) {
+        return;
+      }
+
+      if (editArticle) {
+        this.articleForm.patchValue({
+          heading: editArticle.heading,
+          content: editArticle.content,
+        });
+      } else {
+        this.articleForm.reset();
+      }
+    });
+  }
 
   onSubmit(): void {
-    if (!this.heading.trim() || !this.content.trim()) return;
-
-    const newArticle: ArticleModel = {
-      id: Date.now().toString(),
-      heading: this.heading,
-      content: this.content,
-      dateTime: this.formatDateTime(new Date()),
-      img: 'assets/img/begin.jpeg',
-    };
-
-    this.articlesService.addArticle(newArticle);
+    if (this.articleForm.invalid) return;
+    const { heading, content } = this.articleForm.value;
+    const currentEdit = this.articleToEdit();
+    if (currentEdit) {
+      const updatedArticle: ArticleModel = {
+        id: currentEdit.id,
+        heading: heading,
+        content: content,
+        dateTime: currentEdit.dateTime,
+        img: currentEdit.img,
+      };
+      this.articlesService.updateArticle(updatedArticle);
+    } else {
+      const newArticle: ArticleModel = {
+        id: Date.now().toString(),
+        heading: heading,
+        content: content,
+        dateTime: this.formatDateTime(new Date()),
+        img: 'assets/img/begin.jpeg',
+      };
+      this.articlesService.addArticle(newArticle);
+    }
     this.onCancel();
   }
 
@@ -46,6 +97,44 @@ export class Form {
   }
 
   onCancel() {
+    this.articleForm.reset();
     this.close.emit();
+  }
+
+  get heading() {
+    return this.articleForm.get('heading');
+  }
+  get content() {
+    return this.articleForm.get('content');
+  }
+
+  protected hasError(controlName: string): boolean {
+    const control = this.articleForm.get(controlName);
+    return !!(control?.invalid && control?.touched);
+  }
+
+  protected getControlErrors(controlName: string): string[] {
+    const control = this.articleForm.get(controlName);
+    const errors = control?.errors ?? null;
+    if (!errors) return [];
+
+    const errorTexts: string[] = [];
+    Object.entries(errors).forEach(([errorKey, errorValue]) => {
+      errorTexts.push(this.getErrorStr(errorKey, errorValue));
+    });
+    return errorTexts;
+  }
+
+  private getErrorStr(errorCode: string, errorData: unknown): string {
+    switch (errorCode) {
+      case 'required':
+        return 'Поле обязательно для заполнения';
+      case 'minlength':
+        const { requiredLength, actualLength } = errorData as MinLengthValidationInfo;
+        const remaining = requiredLength - actualLength;
+        return `Нужно ещё ${remaining} символов (минимум ${requiredLength})`;
+      default:
+        return 'Ошибка в заполнении поля';
+    }
   }
 }

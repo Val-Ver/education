@@ -1,19 +1,48 @@
-@if (visible) {
+@if (visible()) {
   <section id="form" class="form">
-    <h1>Создать статью</h1>
-    <form id="article-form" (ngSubmit)="onSubmit()">
+    <h1>{{ formTitle() }}</h1>
+    <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="create-heading">Заголовок <span class="required-star" >*</span></label>
-        <input id="create-heading" name="create-heading" type="text"
-               placeholder="О чем ваша статья?" [(ngModel)]="heading" required>
+        @let isHeadingInvalid = hasError('heading');
+        <input id="create-heading"
+               type="text"
+               placeholder="О чем ваша статья?"
+               formControlName="heading"
+               [class.invalid-field]="isHeadingInvalid">
+
+        @if (isHeadingInvalid) {
+          <div class="error-message">
+            @for (errMsg of getControlErrors('heading'); track $index) {
+              <span>{{ errMsg }}</span>
+            }
+          </div>
+        }
       </div>
+
       <div class="form-group">
         <label for="create-content">Текст статьи <span class="required-star">*</span></label>
-        <textarea id="create-content" name="create-content"
-                  placeholder="Содержание статьи" rows="10" required [(ngModel)]="content"></textarea>
+        @let isContentInvalid = hasError('content');
+        <textarea id="create-content"
+                  formControlName="content"
+                  placeholder="Содержание статьи"
+                  rows="10"
+                  [class.invalid-field]="isContentInvalid">
+        </textarea>
+
+        @if (isContentInvalid) {
+          <div class="error-message">
+            @for (errMsg of getControlErrors('content'); track $index) {
+              <span>{{ errMsg }}</span>
+            }
+          </div>
+        }
       </div>
+
       <div class="form-buttons">
-        <button type="submit" id="submit">Сохранить</button>
+        <button type="submit" id="submit" [disabled]="articleForm.invalid">
+          {{ saveButtonTitle() }}
+        </button>
         <button type="button" id="cancel" (click)="onCancel()">Отмена</button>
       </div>
     </form>

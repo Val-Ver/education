@@ -4,7 +4,6 @@ import {ArticleModel} from '../../../models/article.model'
 
 @Component({
   selector: 'app-article-card',
-  // imports: [],
   templateUrl: './article-card.html',
   styleUrl: './article-card.scss',
   standalone: true,
@@ -17,8 +16,13 @@ export class ArticleCard {
   @Input({ required: true }) article!: ArticleModel;
   @Input() showDelete = false;
   @Input() isFeatured = false;
-  @Output() delete = new EventEmitter<string>();
 
+  @Output() delete = new EventEmitter<string>();
+  @Output() edit = new EventEmitter<string>();  // добавить
+
+  onEdit(): void {
+    this.edit.emit(this.article.id);
+  }
   onDelete(): void {
     this.delete.emit(this.article.id);
   }
