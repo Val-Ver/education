@@ -10,10 +10,11 @@ import { Form } from '../../components/form/form';
 import { AdminPanel } from '../../components/admin-panel/admin-panel';
 import { ModalDialog } from '../../components/modal-dialog/modal-dialog';
 import { Subscription } from 'rxjs';
+import {AuthorBlog} from '../../components/author-blog/author-blog';
 
 @Component({
   selector: 'app-main-blog-page',
-  imports: [ArticleCard, Form, AdminPanel, ModalDialog],
+  imports: [ArticleCard, Form, AdminPanel, ModalDialog, AuthorBlog],
   templateUrl: './main-blog-page.html',
   styleUrls: ['../page-common.scss', './main-blog-page.scss'],
   standalone: true,

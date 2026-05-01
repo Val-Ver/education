@@ -1,0 +1,10 @@
+.about-author {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 65% 35%;
+  justify-items: start;
+  grid-row-gap: 15px;
+
+  container-type: inline-size;
+}

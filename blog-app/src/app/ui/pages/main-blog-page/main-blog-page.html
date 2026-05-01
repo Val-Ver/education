@@ -1,7 +1,6 @@
-  <section class="about-author">
-    <h1>Мой блог</h1>
-    <p>Актуальные статьи</p>
-  </section>
+  <div class="author-blog">
+    <app-author-blog></app-author-blog>
+  </div>
 
   <section id="articles-container" class="articles" >
     @for(article of displayedArticles; track article.id; let first = $first) {

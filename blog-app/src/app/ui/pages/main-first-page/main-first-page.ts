@@ -6,20 +6,19 @@ import { ArticlesStoreService } from '../../../services/articles/articles-store.
 import { Subscription } from 'rxjs';
 
 import { ArticleCard } from '../../components/article-card/article-card'
+import {AuthorInfo} from '../../components/author-info/author-info';
+import {WorkExperience} from '../../components/work-experience/work-experience';
+import {Achievements} from '../../components/achievements/achievements';
+import {Hobby} from '../../components/hobby/hobby';
 
 @Component({
   selector: 'app-main-first-page',
-  imports: [RouterLink, ArticleCard],
+  imports: [RouterLink, ArticleCard, AuthorInfo, WorkExperience, Achievements, Hobby],
   templateUrl: './main-first-page.html',
   styleUrls: ['../page-common.scss', './main-first-page.scss'],
+  standalone: true,
 })
 export class MainFirstPage {
-  profileUrl = 'assets/img/profile.jpeg';
-  magicUrl = 'assets/img/magic.jpeg';
-  awordsUrl = 'assets/img/awords.jpeg';
-  fishUrl = 'assets/img/fish.jpeg';
-  horseUrl = 'assets/img/horse.jpeg';
-
   private store = inject(ArticlesStoreService);
   private subscription: Subscription | null = null;
 
@@ -27,7 +26,7 @@ export class MainFirstPage {
 
   ngOnInit(): void {
     this.subscription = this.store.articles$.subscribe((articles) => {
-      this .previewArticles = articles.slice(-2).reverse();
+      this.previewArticles = articles.slice(-2).reverse();
     });
   }
 
