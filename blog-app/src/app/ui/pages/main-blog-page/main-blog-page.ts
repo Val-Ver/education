@@ -1,12 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { ArticleModel } from '../../../models/article.model'
 
 import { ArticlesStoreService } from '../../../services/articles/articles-store.service';
@@ -56,6 +48,8 @@ export class MainBlogPage {
 
     if (this.currentPage > this.totalPages && this.totalPages > 0) {
       this.currentPage = this.totalPages;
+    } else if (this.totalPages === 0) {
+      this.currentPage = 1;
     }
     const start = (this.currentPage - 1) * this.itemsPerPage;
     this.displayedArticles = this.allArticles.slice(start, start + this.itemsPerPage);
@@ -89,6 +83,15 @@ export class MainBlogPage {
   hideForm(): void {
     this.isFormVisible = false;
     this.editingArticle = null;
+
+    this.goToLastPage();
+  }
+
+  goToLastPage(): void {
+    if (this.totalPages > 0) {
+      this.currentPage = this.totalPages;
+      this.updatePagination();
+    }
   }
 
   editArticle(id: string) {

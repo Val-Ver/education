@@ -19,6 +19,13 @@
     }
   </section>
 
+  @if(totalPages > 1) {
+    <div class="pagination">
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">◀ Назад</button>
+      <span>Страница {{ currentPage }} из {{ totalPages }}</span>
+      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Вперёд ▶</button>
+    </div>
+  }
   <app-form [visible]="isFormVisible" [articleToEdit]="editingArticle" (close)="hideForm()"></app-form>
   <app-admin-panel (creatPost)="showForm()" (showStats)="showModal()"></app-admin-panel>
 
@@ -28,10 +35,4 @@
     </app-modal-dialog>
   }
 
-  @if(totalPages > 1) {
-    <div class="pagination">
-      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Назад</button>
-      <span>Страница {{ currentPage }} из {{ totalPages }}</span>
-      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Вперёд</button>
-    </div>
-  }
+

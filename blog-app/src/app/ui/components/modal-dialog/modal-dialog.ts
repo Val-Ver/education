@@ -13,6 +13,7 @@ import {
   imports: [],
   templateUrl: './modal-dialog.html',
   styleUrl: './modal-dialog.scss',
+  standalone: true,
 })
 export class ModalDialog {
   @Input() articlesCount = 0;
