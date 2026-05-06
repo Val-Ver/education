@@ -19,6 +19,7 @@ import { Hobby } from '../../components/hobby/hobby';
   styleUrls: ['../page-common.scss', './main-first-page.scss'],
   standalone: true,
 })
+
 export class MainFirstPage {
   private store = inject(ArticlesStoreService);
   private destroyRef = inject(DestroyRef);

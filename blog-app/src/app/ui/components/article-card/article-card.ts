@@ -1,5 +1,6 @@
 import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
-import {ArticleModel} from '../../../models/article.model'
+import { ArticleModel } from '../../../models/article.model'
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -7,6 +8,7 @@ import {ArticleModel} from '../../../models/article.model'
   templateUrl: './article-card.html',
   styleUrl: './article-card.scss',
   standalone: true,
+  imports: [RouterLink],
 })
 export class ArticleCard {
   @Input() layout: 'blog' | 'preview' = 'blog';
@@ -18,7 +20,7 @@ export class ArticleCard {
   @Input() isFeatured = false;
 
   @Output() delete = new EventEmitter<string>();
-  @Output() edit = new EventEmitter<string>();  // добавить
+  @Output() edit = new EventEmitter<string>(); // добавить
 
   onEdit(): void {
     this.edit.emit(this.article.id);

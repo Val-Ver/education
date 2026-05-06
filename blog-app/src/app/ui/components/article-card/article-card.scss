@@ -168,3 +168,9 @@
 :host(.layout-blog) article:hover .edit-article {
   display: flex;
 }
+
+.post-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}

@@ -1,0 +1,12 @@
+<div class="comment">
+  <div class="comment-header">
+    <strong>{{ comment.author }}</strong>
+    <span class="comment-date">{{ comment.dateTime }}</span>
+  </div>
+  <p class="comment-content">{{ comment.content }}</p>
+  <div class="comment-rating">
+    <button (click)="changeRating(-1)">-</button>
+    <span>{{ comment.rating }}</span>
+    <button (click)="changeRating(1)">+</button>
+  </div>
+</div>

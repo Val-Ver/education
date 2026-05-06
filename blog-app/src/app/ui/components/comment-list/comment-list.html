@@ -1,0 +1,12 @@
+<div class="comments-section">
+  <h3>Комментарии ({{ comments.length }})</h3>
+  @if (comments.length === 0) {
+    <p>Пока нет комментариев. Будьте первым!</p>
+  } @else {
+    <div class="comments-list">
+      @for (comment of comments; track comment.id) {
+        <app-comment-item [comment]="comment" (ratingChanged)="onRatingChanged($event)"></app-comment-item>
+      }
+    </div>
+  }
+</div>
