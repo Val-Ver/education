@@ -5,6 +5,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   imports: [],
   templateUrl: './admin-panel.html',
   styleUrl: './admin-panel.scss',
+  standalone: true,
 })
 export class AdminPanel {
   @Output() creatPost = new EventEmitter();

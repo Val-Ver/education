@@ -31,6 +31,18 @@ html {
   font-style: normal;
 }
 
+h2, h3,
+p, li, .text, .text-for-article,
+.article-card .text p,
+.article-card h3,
+.form input,
+.form textarea {
+  word-wrap: break-word;      /* старый стандарт */
+  overflow-wrap: break-word;  /* современный стандарт */
+  word-break: break-word;     /* для поддержки разных браузеров */
+  white-space: normal;        /* гарантия переноса (не nowrap) */
+}
+
 h2 {
   font-size: clamp(14px, 4cqw, 26px);
 }

@@ -1,0 +1,47 @@
+.achievements {
+  container-type: inline-size;
+}
+
+.achievements, .achievements h2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.achievements ul {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  justify-items: center;
+  align-items: center;
+  column-gap: 5%;
+}
+
+.achievements li {
+  width: 100%;
+  height: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  font-size: clamp(8px, 3cqw, 16px);
+}
+
+.achievements li::marker {
+  content: "* ";
+}
+
+.achievements li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--border-color-1);
+}
