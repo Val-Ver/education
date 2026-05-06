@@ -98,6 +98,7 @@
 }
 
 :host(.layout-blog) article.featured .text {
+  padding-top: 0px;
   aspect-ratio: 3/4;
   overflow: hidden;
 }

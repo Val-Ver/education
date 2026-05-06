@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { ArticleModel } from '../../models/article.model';
 import { CommentModel } from '../../models/comment.model';
 import { ArticlesDataService } from '../articles/articles-data.service';
+import { INITIAL_COMMENTS } from '../../data/initial-comments';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,20 @@ import { ArticlesDataService } from '../articles/articles-data.service';
 export class PostDataService {
   private readonly COMMENTS_STORAGE_KEY = 'blog_comments';
 
-  constructor(private articlesDataService: ArticlesDataService) {}
+  constructor(private articlesDataService: ArticlesDataService) {
+    this.initializeComments();
+  }
+
+  private initializeComments(): void {
+    const existing = localStorage.getItem(this.COMMENTS_STORAGE_KEY);
+    if (!existing) {
+      this.saveAllComments(INITIAL_COMMENTS);
+    }
+  }
+
+  private saveAllArticles(articles: ArticleModel[]): void {
+    localStorage.setItem('articles', JSON.stringify(articles));
+  }
 
   getPostById(id: string): Observable<ArticleModel | null> {
     const allArticles = this.loadAllArticles();
@@ -57,10 +71,6 @@ export class PostDataService {
     return JSON.parse(raw);
   }
 
-  private saveAllArticles(articles: ArticleModel[]): void {
-    localStorage.setItem('articles', JSON.stringify(articles));
-  }
-
   private updateArticleInStorage(updatedArticle: ArticleModel): void {
     const articles = this.loadAllArticles();
     const index = articles.findIndex((a) => a.id === updatedArticle.id);
@@ -75,7 +85,7 @@ export class PostDataService {
     if (!raw) return [];
     return JSON.parse(raw);
   }
-// переделать на хранилище
+
   private saveAllComments(comments: CommentModel[]): void {
     localStorage.setItem(this.COMMENTS_STORAGE_KEY, JSON.stringify(comments));
   }

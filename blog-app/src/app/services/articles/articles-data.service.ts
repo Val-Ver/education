@@ -8,7 +8,7 @@ import { PaginatedResult } from './types/paginated-result.interface';
 import { INITIAL_ARTICLES } from '../../data/initial-articles';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ArticlesDataService implements IArticlesDataService {
   private readonly STORAGE_KEY = 'articles';
@@ -17,21 +17,21 @@ export class ArticlesDataService implements IArticlesDataService {
     this.initializeData();
   }
 
-  private loadArticles(): ArticleModel[] {
-    const raw = localStorage.getItem(this.STORAGE_KEY);
-    if (!raw) return [];
-    return JSON.parse(raw);
+  private initializeData(): void {
+    const existing = localStorage.getItem(this.STORAGE_KEY);
+    if (!existing) {
+      this.saveArticles(INITIAL_ARTICLES);
+    }
   }
 
   private saveArticles(articles: ArticleModel[]): void {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(articles));
   }
 
-  private initializeData(): void {
-    const existing = localStorage.getItem(this.STORAGE_KEY);
-    if (!existing) {
-      this.saveArticles(INITIAL_ARTICLES);
-    }
+  private loadArticles(): ArticleModel[] {
+    const raw = localStorage.getItem(this.STORAGE_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw);
   }
 
   getArticles(page: number, perPage: number): Observable<PaginatedResult> {
