@@ -1,10 +1,6 @@
 import { Observable } from 'rxjs';
 import { ArticleModel } from '../../models/article.model';
-
-export interface PaginatedResult {
-  items: ArticleModel[];
-  totalCount: number;
-}
+import { PaginatedResult } from './types/paginated-result.interface';
 
 export interface IArticlesDataService {
   getArticles(page: number, perPage: number): Observable<PaginatedResult>;

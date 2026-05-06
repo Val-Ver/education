@@ -1,19 +1,18 @@
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { ArticleModel } from '../../models/article.model';
-import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ArticlesStoreService {
-  public articles$ = new BehaviorSubject<ArticleModel[]>([]);
-  public currentPage$ = new BehaviorSubject<number>(1);
+  public articles: WritableSignal<ArticleModel[]> = signal<ArticleModel[]>([]);
+  public currentPage: WritableSignal<number> = signal<number>(1);
+
   public readonly itemsPerPage = 7;
 
   setArticles(articles: ArticleModel[]): void {
-    this.articles$.next(articles);
+    this.articles.set(articles);
   }
 
   setCurrentPage(page: number): void {
-    this.currentPage$.next(page);
+    this.currentPage.set(page);
   }
-
 }

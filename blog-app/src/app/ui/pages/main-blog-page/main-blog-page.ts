@@ -1,4 +1,6 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+
 import { ArticleModel } from '../../../models/article.model'
 
 import { ArticlesStoreService } from '../../../services/articles/articles-store.service';
@@ -9,8 +11,7 @@ import { ArticleCard } from '../../components/article-card/article-card'
 import { Form } from '../../components/form/form';
 import { AdminPanel } from '../../components/admin-panel/admin-panel';
 import { ModalDialog } from '../../components/modal-dialog/modal-dialog';
-import { Subscription } from 'rxjs';
-import {AuthorBlog} from '../../components/author-blog/author-blog';
+import { AuthorBlog } from '../../components/author-blog/author-blog';
 
 @Component({
   selector: 'app-main-blog-page',
@@ -20,11 +21,13 @@ import {AuthorBlog} from '../../components/author-blog/author-blog';
   standalone: true,
 })
 export class MainBlogPage {
-  private dataService = inject(ARTICLES_DATA_SERVICE) as IArticlesDataService;
   private store = inject(ArticlesStoreService);
+  private destroyRef = inject(DestroyRef); // ← для автоматической отписки
 
-  displayedArticles: ArticleModel[] = [];
   allArticles: ArticleModel[] = [];
+  displayedArticles: ArticleModel[] = [];
+
+  private dataService = inject(ARTICLES_DATA_SERVICE) as IArticlesDataService;
 
   currentPage = 1;
   itemsPerPage = this.store.itemsPerPage; // 7
@@ -34,13 +37,15 @@ export class MainBlogPage {
   isStatsModalVisible = false;
   editingArticle: ArticleModel | null = null;
 
-  private subscription: Subscription | null = null;
+  private articles$ = toObservable(this.store.articles);
 
   ngOnInit(): void {
-    this.subscription = this.store.articles$.subscribe((articles) => {
-      this.allArticles = articles;
-      this.updatePagination();
-    });
+    this.articles$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((articles) => {
+        this.allArticles = articles;
+        this.updatePagination();
+      });
   }
 
   private updatePagination(): void {
@@ -60,10 +65,6 @@ export class MainBlogPage {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     this.updatePagination();
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 
   deleteArticle(id: string): void {

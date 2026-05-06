@@ -3,7 +3,8 @@ import { Observable, of } from 'rxjs';
 
 import { ArticleModel } from '../../models/article.model';
 
-import { IArticlesDataService, PaginatedResult } from './articles-data.interface';
+import { IArticlesDataService } from './articles-data.interface';
+import { PaginatedResult } from './types/paginated-result.interface';
 import { INITIAL_ARTICLES } from '../../data/initial-articles';
 
 @Injectable()

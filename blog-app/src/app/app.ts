@@ -22,7 +22,7 @@ export class App {
   private dataService = inject(ARTICLES_DATA_SERVICE) as IArticlesDataService;
 
   ngOnInit(): void {
-    if (this.store.articles$.getValue().length === 0) {
+    if (this.store.articles().length === 0) {
       this.dataService.getArticles(1, 999).subscribe((result) => {
         this.store.setArticles(result.items);
       });
