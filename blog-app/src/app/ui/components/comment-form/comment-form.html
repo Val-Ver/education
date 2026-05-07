@@ -2,7 +2,7 @@
   <h3>Добавить комментарий</h3>
   <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline"  class="form-group">
-      <mat-label >Имя / Ник *</mat-label>
+      <mat-label >Имя / Ник</mat-label>
       <input matInput id="author" type="text" formControlName="author" placeholder="Ваше имя">
       @if (author?.invalid && author?.touched) {
         <mat-error class="error-message">Имя обязательно</mat-error>
@@ -10,7 +10,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-group">
-      <mat-label>Комментарий *</mat-label>
+      <mat-label>Комментарий</mat-label>
       <textarea matInput id="content" formControlName="content" rows="4" placeholder="Ваш комментарий"></textarea>
       @if (content?.invalid && content?.touched) {
         <mat-error class="error-message">Текст комментария обязателен</mat-error>

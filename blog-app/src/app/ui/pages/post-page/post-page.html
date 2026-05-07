@@ -9,7 +9,7 @@
         <button (click)="changeRating(1)" [disabled]="isRatingUpdating">+</button>
       </div>
       <p class="post-date">{{ post()!.dateTime }}</p>
-      <div class="post-content">{{ post()!.content }}</div>
+      <p class="post-content">{{ post()!.content }}</p>
     </article>
 
     <app-comment-form (commentAdded)="onCommentAdded($event)"></app-comment-form>
