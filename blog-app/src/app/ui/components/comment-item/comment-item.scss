@@ -1,5 +1,30 @@
+.comment {
+  background-color: var(--block-color-dark);
+}
+
 .comment-header {
   display: flex;
   flex-direction: column;
 }
 
+mat-card-title,
+mat-card-subtitle {
+  font-family: 'Chronicles', serif !important;
+  color: var(--text-color) !important;
+}
+mat-card-title {
+  font-weight: bold;
+  //font-size: clamp(14px, 4cqw, 26px);
+  font-size: clamp(10px, 3cqw, 20px);
+}
+mat-card-subtitle {
+  font-size: clamp(8px, 3cqw, 16px);
+}
+mat-icon {
+  color: var(--border-color-1);
+}
+.post-rating {
+  font-size: clamp(10px, 2cqw, 16px);
+  font-weight: bold;
+  color: var(--border-color-1);
+}

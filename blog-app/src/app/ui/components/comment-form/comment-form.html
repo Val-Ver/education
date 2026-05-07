@@ -1,22 +1,24 @@
 <div class="comment-form">
   <h3>Добавить комментарий</h3>
   <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="author">Имя / Ник *</label>
-      <input id="author" type="text" formControlName="author" placeholder="Ваше имя">
+    <mat-form-field appearance="outline"  class="form-group">
+      <mat-label >Имя / Ник *</mat-label>
+      <input matInput id="author" type="text" formControlName="author" placeholder="Ваше имя">
       @if (author?.invalid && author?.touched) {
-        <div class="error-message">Имя обязательно</div>
+        <mat-error class="error-message">Имя обязательно</mat-error>
       }
-    </div>
-    <div class="form-group">
-      <label for="content">Комментарий *</label>
-      <textarea id="content" formControlName="content" rows="4" placeholder="Ваш комментарий"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>Комментарий *</mat-label>
+      <textarea matInput id="content" formControlName="content" rows="4" placeholder="Ваш комментарий"></textarea>
       @if (content?.invalid && content?.touched) {
-        <div class="error-message">Текст комментария обязателен</div>
+        <mat-error class="error-message">Текст комментария обязателен</mat-error>
       }
-    </div>
+    </mat-form-field>
+
     <div class="form-buttons">
-      <button type="submit" [disabled]="commentForm.invalid">Отправить</button>
+      <button mat-raised-button type="submit" [disabled]="commentForm.invalid">Отправить</button>
     </div>
   </form>
 </div>

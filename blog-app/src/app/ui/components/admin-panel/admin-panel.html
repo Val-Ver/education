@@ -1,9 +1,15 @@
 
 <aside class="admin-panel">
-  <button class="admin-btn" id="create-post-btn" title="Создать новую статью"
+  <button mat-icon-button class="admin-btn"
+          id="create-post-btn"
+          title="Создать новую статью"
           (click)="showForm()">
+    <mat-icon>post_add</mat-icon>
   </button>
-  <button class="admin-btn" id="show-stats-btn" title="Посмотреть статистику блога"
+  <button mat-icon-button class="admin-btn"
+          id="show-stats-btn"
+          title="Посмотреть статистику блога"
           (click)="showModal()">
+    <mat-icon>bar_chart</mat-icon>
   </button>
 </aside>

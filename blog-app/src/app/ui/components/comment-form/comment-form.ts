@@ -3,9 +3,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommentModel } from '../../../models/comment.model';
 import { ActivatedRoute } from '@angular/router';
 
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 @Component({
   selector: 'app-comment-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
   templateUrl: './comment-form.html',
   styleUrl: './comment-form.scss',
 })

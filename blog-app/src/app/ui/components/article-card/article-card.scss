@@ -137,7 +137,7 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  background-color: black;
+  //background-color: black;
 
   gap: 2px;
   display: flex;
@@ -145,7 +145,7 @@
 
 .delete-article,
 .edit-article {
-  width: 30px;
+  width: 40px;
   aspect-ratio: 1;
 
   display: none;
@@ -161,7 +161,7 @@
 }
 
 .edit-article {
-  background: url(../../../../assets/icon/edit.png) center no-repeat;
+  //background: url(../../../../assets/icon/edit.png) center no-repeat;
   cursor: pointer;
 }
 

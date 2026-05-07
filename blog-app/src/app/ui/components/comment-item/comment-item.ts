@@ -1,9 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommentModel } from '../../../models/comment.model';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-comment-item',
-  imports: [],
+  imports: [MatCardModule, MatIconModule, MatIconButton],
   templateUrl: './comment-item.html',
   styleUrl: './comment-item.scss',
 })

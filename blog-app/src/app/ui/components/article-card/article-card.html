@@ -11,16 +11,20 @@
 
   <div class="btn-article">
     @if(showDelete) {
-      <button
+      <button mat-icon-button
         type="button"
         class="edit-article"
         (click)="onEdit()"
-      ></button>
-      <button
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button
         type="button"
         class="delete-article"
         (click)="onDelete()"
-      >x</button>
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
     }
   </div>
 </article>
