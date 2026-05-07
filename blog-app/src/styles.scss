@@ -46,6 +46,10 @@ body {
   --error-color: #fb0000;
 }
 
+.mat-mdc-form-field *{
+  font-family: 'Chronicles', serif;
+}
+
 .mat-mdc-form-field {
   --mat-sys-outline: var(--border-color-1);
   --mat-sys-on-surface: var(--text-color);
@@ -57,14 +61,6 @@ body {
   --mat-sys-error: var(--error-color);
   --mat-sys-error-container: var(--error-color);
   --mat-sys-on-error-container: var(--error-color);
-}
-
-//mat-label,
-//.mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-floating-label,
-//.mat-mdc-form-field:not(.mat-form-field-disabled) .mat-mdc-floating-label.mdc-floating-label,
-//.mat-mdc-form-field-flex {
-.mat-mdc-form-field *{
-  font-family: 'Chronicles', serif;
 }
 
 * {
@@ -94,10 +90,11 @@ html {
 //}
 
 @font-face {
-  src: url('assets/fonts/Chronicles_font.ttf') format('truetype');
+  src: url('/assets/fonts/Chronicles_font.ttf') format('truetype');
   font-family: 'Chronicles';
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 h1,

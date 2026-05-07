@@ -8,7 +8,8 @@ import { CommentList } from '../../components/comment-list/comment-list';
 import { PostStoreService } from '../../../services/post/post-store.service';
 import { PostDataService } from '../../../services/post/post-data.service';
 import { CommentModel } from '../../../models/comment.model';
-// import { ArticleModel } from '../../../models/article.model';
+
+import { PageTitleService } from '../../../services/page-title.service';
 
 @Component({
   selector: 'app-post-page',
@@ -22,6 +23,7 @@ export class PostPage implements OnInit {
   private postStore = inject(PostStoreService);
   private postData = inject(PostDataService);
   private destroyRef = inject(DestroyRef);
+  private pageTitleService = inject(PageTitleService);
 
   post = this.postStore.post;
   comments = this.postStore.comments;
@@ -41,6 +43,7 @@ export class PostPage implements OnInit {
       .subscribe((post) => {
         if (post) {
           this.postStore.setPost(post);
+          this.pageTitleService.setCustomTitle(post.heading);
         } else {
           this.router.navigate(['/blog']);
         }
