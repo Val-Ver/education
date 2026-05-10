@@ -1,8 +1,8 @@
-export interface ArticleModel {
+export interface CommentModel {
   id: string;
-  heading: string;
+  postId: string;
+  author: string;
   content: string;
   dateTime: string;
-  img: string;
   rating: number;
 }

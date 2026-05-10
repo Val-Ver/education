@@ -1,12 +1,15 @@
 import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
-import {ArticleModel} from '../../../models/article.model'
-
+import { ArticleModel } from '../../../models/article.model'
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-article-card',
   templateUrl: './article-card.html',
   styleUrl: './article-card.scss',
   standalone: true,
+  imports: [RouterLink, MatIconModule, MatButtonModule],
 })
 export class ArticleCard {
   @Input() layout: 'blog' | 'preview' = 'blog';
@@ -18,7 +21,7 @@ export class ArticleCard {
   @Input() isFeatured = false;
 
   @Output() delete = new EventEmitter<string>();
-  @Output() edit = new EventEmitter<string>();  // добавить
+  @Output() edit = new EventEmitter<string>(); // добавить
 
   onEdit(): void {
     this.edit.emit(this.article.id);

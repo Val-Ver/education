@@ -98,6 +98,7 @@
 }
 
 :host(.layout-blog) article.featured .text {
+  padding-top: 0px;
   aspect-ratio: 3/4;
   overflow: hidden;
 }
@@ -136,7 +137,7 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  background-color: black;
+  //background-color: black;
 
   gap: 2px;
   display: flex;
@@ -144,7 +145,7 @@
 
 .delete-article,
 .edit-article {
-  width: 30px;
+  width: 40px;
   aspect-ratio: 1;
 
   display: none;
@@ -160,11 +161,17 @@
 }
 
 .edit-article {
-  background: url(../../../../assets/icon/edit.png) center no-repeat;
+  //background: url(../../../../assets/icon/edit.png) center no-repeat;
   cursor: pointer;
 }
 
 :host(.layout-blog) article:hover .delete-article,
 :host(.layout-blog) article:hover .edit-article {
   display: flex;
+}
+
+.post-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }

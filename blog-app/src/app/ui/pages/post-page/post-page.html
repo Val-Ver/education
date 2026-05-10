@@ -1,0 +1,22 @@
+<div class="post-container">
+  @let data = post();
+  @if (data) {
+    <article class="post">
+      <div class="post-img img" [style.background-image]="'url(' + post()!.img + ')'"></div>
+      <h1>{{ data.heading }}</h1>
+      <div class="post-rating">
+        <button (click)="changeRating(-1)" [disabled]="isRatingUpdating">-</button>
+        <span>{{ data.rating }}</span>
+        <button (click)="changeRating(1)" [disabled]="isRatingUpdating">+</button>
+      </div>
+      <p class="post-date">{{ data.dateTime }}</p>
+      <p class="post-content">{{ data.content }}</p>
+    </article>
+
+    <app-comment-form (commentAdded)="onCommentAdded($event)"></app-comment-form>
+
+    <app-comment-list [comments]="comments()"></app-comment-list>
+  } @else {
+    <p>Загрузка статьи...</p>
+  }
+</div>

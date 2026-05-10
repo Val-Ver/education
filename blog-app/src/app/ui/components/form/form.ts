@@ -78,6 +78,7 @@ export class Form {
         content: content,
         dateTime: currentEdit.dateTime,
         img: currentEdit.img,
+        rating: currentEdit.rating,
       };
 
       this.dataService.updateArticle(updatedArticle).subscribe((allArticles) => {
@@ -92,6 +93,7 @@ export class Form {
         content: content,
         dateTime: this.formatDateTime(new Date()),
         img: 'assets/img/begin.jpeg',
+        rating: 0,
       };
 
       this.dataService.addArticle(newArticle).subscribe((allArticles) => {
