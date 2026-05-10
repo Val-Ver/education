@@ -1,5 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, inject, DestroyRef, input } from '@angular/core';
 import { CommentModel } from '../../../models/comment.model';
+
+import { PostDataService } from '../../../services/post/post-data.service';
+import { PostStoreService } from '../../../services/post/post-store.service';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
@@ -9,14 +13,22 @@ import { MatIconButton } from '@angular/material/button';
   imports: [MatCardModule, MatIconModule, MatIconButton],
   templateUrl: './comment-item.html',
   styleUrl: './comment-item.scss',
+  standalone: true,
 })
 export class CommentItem {
-  @Input({ required: true }) comment!: CommentModel;
-  @Output() ratingChanged = new EventEmitter<{ commentId: string; newRating: number }>();
+  comment = input.required<CommentModel>();
+
+  private postData = inject(PostDataService);
+  private postStore = inject(PostStoreService);
+  private destroyRef = inject(DestroyRef);
 
   changeRating(delta: number): void {
-    const newRating = this.comment.rating + delta;
+    const currentComment = this.comment();
+    const newRating = currentComment.rating + delta;
     if (newRating < 0) return;
-    this.ratingChanged.emit({ commentId: this.comment.id, newRating });
+
+    this.postData.updateCommentRating(currentComment.id, newRating).subscribe(() => {
+      this.postStore.updateCommentRating(currentComment.id, newRating);
+    });
   }
 }

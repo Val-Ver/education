@@ -1,20 +1,21 @@
 <div class="post-container">
-  @if (post()) {
+  @let data = post();
+  @if (data) {
     <article class="post">
       <div class="post-img img" [style.background-image]="'url(' + post()!.img + ')'"></div>
-      <h1>{{ post()!.heading }}</h1>
+      <h1>{{ data.heading }}</h1>
       <div class="post-rating">
         <button (click)="changeRating(-1)" [disabled]="isRatingUpdating">-</button>
-        <span>{{ post()!.rating }}</span>
+        <span>{{ data.rating }}</span>
         <button (click)="changeRating(1)" [disabled]="isRatingUpdating">+</button>
       </div>
-      <p class="post-date">{{ post()!.dateTime }}</p>
-      <p class="post-content">{{ post()!.content }}</p>
+      <p class="post-date">{{ data.dateTime }}</p>
+      <p class="post-content">{{ data.content }}</p>
     </article>
 
     <app-comment-form (commentAdded)="onCommentAdded($event)"></app-comment-form>
 
-    <app-comment-list [comments]="comments()" (ratingChanged)="onCommentRatingChanged($event)"></app-comment-list>
+    <app-comment-list [comments]="comments()"></app-comment-list>
   } @else {
     <p>Загрузка статьи...</p>
   }

@@ -7,9 +7,7 @@ import { IArticlesDataService } from './articles-data.interface';
 import { PaginatedResult } from './types/paginated-result.interface';
 import { INITIAL_ARTICLES } from '../../data/initial-articles';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ArticlesDataService implements IArticlesDataService {
   private readonly STORAGE_KEY = 'articles';
 

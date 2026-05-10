@@ -5,7 +5,7 @@
   } @else {
     <div class="comments-list">
       @for (comment of comments; track comment.id) {
-        <app-comment-item [comment]="comment" (ratingChanged)="onRatingChanged($event)"></app-comment-item>
+        <app-comment-item [comment]="comment"></app-comment-item>
       }
     </div>
   }

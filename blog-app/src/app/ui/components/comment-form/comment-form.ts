@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
   imports: [ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
   templateUrl: './comment-form.html',
   styleUrl: './comment-form.scss',
+  standalone: true,
 })
 export class CommentForm {
   @Output() commentAdded = new EventEmitter<CommentModel>();

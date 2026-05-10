@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ArticleModel } from '../../models/article.model';
 import { CommentModel } from '../../models/comment.model';
-import { ArticlesDataService } from '../articles/articles-data.service';
 import { INITIAL_COMMENTS } from '../../data/initial-comments';
 
 @Injectable({
@@ -11,7 +10,7 @@ import { INITIAL_COMMENTS } from '../../data/initial-comments';
 export class PostDataService {
   private readonly COMMENTS_STORAGE_KEY = 'blog_comments';
 
-  constructor(private articlesDataService: ArticlesDataService) {
+  constructor() {
     this.initializeComments();
   }
 

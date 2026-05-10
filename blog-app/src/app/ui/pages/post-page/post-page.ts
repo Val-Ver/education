@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, DestroyRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { CommentForm } from '../../components/comment-form/comment-form';
 import { CommentList } from '../../components/comment-list/comment-list';
@@ -9,13 +9,15 @@ import { PostStoreService } from '../../../services/post/post-store.service';
 import { PostDataService } from '../../../services/post/post-data.service';
 import { CommentModel } from '../../../models/comment.model';
 
-import { PageTitleService } from '../../../services/page-title.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-post-page',
   imports: [CommentForm, CommentList],
   templateUrl: './post-page.html',
   styleUrl: './post-page.scss',
+  standalone: true,
+  providers: [PostStoreService],
 })
 export class PostPage implements OnInit {
   private route = inject(ActivatedRoute);
@@ -23,7 +25,7 @@ export class PostPage implements OnInit {
   private postStore = inject(PostStoreService);
   private postData = inject(PostDataService);
   private destroyRef = inject(DestroyRef);
-  private pageTitleService = inject(PageTitleService);
+  private titleService = inject(Title);
 
   post = this.postStore.post;
   comments = this.postStore.comments;
@@ -43,7 +45,7 @@ export class PostPage implements OnInit {
       .subscribe((post) => {
         if (post) {
           this.postStore.setPost(post);
-          this.pageTitleService.setCustomTitle(post.heading);
+          this.titleService.setTitle(post.heading);
         } else {
           this.router.navigate(['/blog']);
         }
@@ -85,15 +87,6 @@ export class PostPage implements OnInit {
         this.postData.getCommentsByPostId(postId).subscribe((comments) => {
           this.postStore.setComments(comments);
         });
-      });
-  }
-
-  onCommentRatingChanged(event: { commentId: string; newRating: number }): void {
-    this.postData
-      .updateCommentRating(event.commentId, event.newRating)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.postStore.updateCommentRating(event.commentId, event.newRating);
       });
   }
 }

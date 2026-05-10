@@ -2,10 +2,7 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 import { ArticleModel } from '../../models/article.model';
 import { CommentModel } from '../../models/comment.model';
 
-@Injectable({
-  providedIn: 'root',
-})
-
+@Injectable()
 export class PostStoreService {
   public post: WritableSignal<ArticleModel | null> = signal<ArticleModel | null>(null);
   public comments: WritableSignal<CommentModel[]> = signal<CommentModel[]>([]);
