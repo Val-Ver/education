@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef } from '@angular/core';
+import { Component, ChangeDetectorRef, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { ArticleModel } from '../../../models/article.model'
@@ -38,14 +38,22 @@ export class MainBlogPage {
   editingArticle: ArticleModel | null = null;
 
   private articles$ = toObservable(this.store.articles);
+  private cdr = inject(ChangeDetectorRef);
+
+  someAsyncMethod() {
+    this.dataService.getArticles(1, 999).subscribe(result => {
+      this.store.setArticles(result.items);
+      this.cdr.detectChanges();
+    });
+  }
 
   ngOnInit(): void {
-    this.articles$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((articles) => {
-        this.allArticles = articles;
-        this.updatePagination();
-      });
+    this.articles$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((articles) => {
+      this.allArticles = articles;
+      this.updatePagination();
+      this.cdr.detectChanges();
+    });
+
   }
 
   private updatePagination(): void {

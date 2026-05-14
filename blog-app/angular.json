@@ -57,13 +57,24 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "buildTarget": "blog-app:build",
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "src": "src/environments/environment.ts",
+                  "replace": "src/environments/environment.prod.ts"
+                }
+              ],
               "buildTarget": "blog-app:build:production"
             },
             "development": {
               "buildTarget": "blog-app:build:development"
             }
+
           },
           "defaultConfiguration": "development"
         },
