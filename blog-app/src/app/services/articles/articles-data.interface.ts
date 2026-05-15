@@ -4,7 +4,7 @@ import { PaginatedResult } from './types/paginated-result.interface';
 
 export interface IArticlesDataService {
   getArticles(page: number, perPage: number): Observable<PaginatedResult>;
-  addArticle(article: Omit<ArticleModel, 'id'> & { id?: string }): Observable<ArticleModel[]>;
-  updateArticle(article: ArticleModel): Observable<ArticleModel[]>;
+  addArticle(article: Omit<ArticleModel, 'id'> & { id?: string }, file?: File): Observable<ArticleModel[]>;
+  updateArticle(article: ArticleModel, file?: File): Observable<ArticleModel[]>;
   deleteArticle(id: string): Observable<ArticleModel[]>;
 }

@@ -23,11 +23,17 @@ export class HttpArticlesDataService implements IArticlesDataService {
       .pipe(map((res) => ArticleMapper.paginatedFromBackend(res)));
   }
 
-  addArticle(article: Omit<ArticleModel, 'id'> & { id?: string }): Observable<ArticleModel[]> {
+  addArticle(
+    article: Omit<ArticleModel, 'id'> & { id?: string },
+    file?: File,
+  ): Observable<ArticleModel[]> {
     const formData = new FormData();
     formData.append('title', article.heading);
     formData.append('content', article.content);
     if (article.id) formData.append('id', article.id);
+    if (file) {
+      formData.append('image', file);
+    }
 
     return this.http.post<any>(this.baseUrl, formData).pipe(
       switchMap(() => this.getArticles(1, 9999)),
@@ -35,10 +41,13 @@ export class HttpArticlesDataService implements IArticlesDataService {
     );
   }
 
-  updateArticle(article: ArticleModel): Observable<ArticleModel[]> {
+  updateArticle(article: ArticleModel, file?: File): Observable<ArticleModel[]> {
     const formData = new FormData();
     formData.append('title', article.heading);
     formData.append('content', article.content);
+    if (file) {
+      formData.append('image', file);
+    }
 
     return this.http.patch<any>(`${this.baseUrl}/${article.id}`, formData).pipe(
       switchMap(() => this.getArticles(1, 9999)),

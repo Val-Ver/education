@@ -38,7 +38,13 @@
           </div>
         }
       </div>
-
+      <div class="form-group">
+        <label for="article-image">Изображение</label>
+        <input type="file" id="article-image" (change)="onFileSelected($event)" accept="image/*">
+        @if (selectedFileName()) {
+          <p>Выбран файл: {{ selectedFileName() }}</p>
+        }
+      </div>
       <div class="form-buttons">
         <button type="submit" id="submit" [disabled]="articleForm.invalid">
           {{ saveButtonTitle() }}

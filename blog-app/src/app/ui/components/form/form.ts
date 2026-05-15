@@ -1,4 +1,16 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges, input, computed, effect, Signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  SimpleChanges,
+  input,
+  computed,
+  effect,
+  Signal,
+  signal,
+} from '@angular/core';
 
 import { ArticlesStoreService } from '../../../services/articles/articles-store.service';
 import { ARTICLES_DATA_SERVICE } from '../../../services/articles/articles-data.token';
@@ -37,6 +49,9 @@ export class Form {
   protected saveButtonTitle = computed(() => {
     return this.articleToEdit() ? 'Сохранить' : 'Добавить';
   });
+
+  protected selectedFile = signal<File | null>(null);
+  protected selectedFileName = computed(() => this.selectedFile()?.name || '');
 
   constructor() {
     this.articleForm = this.fb.group({
@@ -81,10 +96,12 @@ export class Form {
         rating: currentEdit.rating,
       };
 
-      this.dataService.updateArticle(updatedArticle).subscribe((allArticles) => {
-        this.store.setArticles(allArticles);
-        this.onCancel();
-      });
+      this.dataService
+        .updateArticle(updatedArticle, this.selectedFile() ?? undefined)
+        .subscribe((allArticles) => {
+          this.store.setArticles(allArticles);
+          this.onCancel();
+        });
 
     } else {
       const newArticle: ArticleModel = {
@@ -96,10 +113,12 @@ export class Form {
         rating: 0,
       };
 
-      this.dataService.addArticle(newArticle).subscribe((allArticles) => {
-        this.store.setArticles(allArticles);
-        this.onCancel();
-      });
+      this.dataService
+        .addArticle(newArticle, this.selectedFile() ?? undefined)
+        .subscribe((allArticles) => {
+          this.store.setArticles(allArticles);
+          this.onCancel();
+        });
     }
     this.onCancel();
   }
@@ -115,6 +134,7 @@ export class Form {
 
   onCancel() {
     this.articleForm.reset();
+    this.selectedFile.set(null);
     this.close.emit();
   }
 
@@ -152,6 +172,14 @@ export class Form {
         return `Нужно ещё ${remaining} символов (минимум ${requiredLength})`;
       default:
         return 'Ошибка в заполнении поля';
+    }
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length) {
+      this.selectedFile.set(input.files[0]);
+    } else {
+      this.selectedFile.set(null);
     }
   }
 }
