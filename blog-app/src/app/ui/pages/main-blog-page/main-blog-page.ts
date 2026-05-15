@@ -22,7 +22,7 @@ import { AuthorBlog } from '../../components/author-blog/author-blog';
 })
 export class MainBlogPage {
   private store = inject(ArticlesStoreService);
-  private destroyRef = inject(DestroyRef); // ← для автоматической отписки
+  private destroyRef = inject(DestroyRef);
 
   allArticles: ArticleModel[] = [];
   displayedArticles: ArticleModel[] = [];

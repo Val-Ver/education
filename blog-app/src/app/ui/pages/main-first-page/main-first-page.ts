@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef } from '@angular/core';
+import { Component, inject, DestroyRef, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
@@ -19,19 +19,13 @@ import { Hobby } from '../../components/hobby/hobby';
   styleUrls: ['../page-common.scss', './main-first-page.scss'],
   standalone: true,
 })
-
 export class MainFirstPage {
   private store = inject(ArticlesStoreService);
   private destroyRef = inject(DestroyRef);
 
-  previewArticles: ArticleModel[] = [];
+  previewArticles = computed(() => {
+    return this.store.articles().slice(-2).reverse();
+  });
   private articles$ = toObservable(this.store.articles);
 
-  ngOnInit(): void {
-    this.articles$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((articles) => {
-        this.previewArticles = articles.slice(-2).reverse();
-    });
-  }
 }
