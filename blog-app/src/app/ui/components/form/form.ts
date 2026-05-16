@@ -17,8 +17,16 @@ import { ARTICLES_DATA_SERVICE } from '../../../services/articles/articles-data.
 import { IArticlesDataService } from '../../../services/articles/articles-data.interface';
 
 import {ArticleModel} from '../../../models/article.model';
-
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { CategoriesService } from '../../../services/categories/categories.service';
+import { CategoryModel } from '../../../models/category.model';
+
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {environment} from '../../../../environments/environment';
+
 
 interface MinLengthValidationInfo {
   requiredLength: number;
@@ -27,7 +35,7 @@ interface MinLengthValidationInfo {
 
 @Component({
   selector: 'app-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatAutocompleteModule, MatInputModule, MatFormFieldModule],
   templateUrl: './form.html',
   styleUrl: './form.scss',
   standalone: true,
@@ -53,10 +61,16 @@ export class Form {
   protected selectedFile = signal<File | null>(null);
   protected selectedFileName = computed(() => this.selectedFile()?.name || '');
 
+  private categoriesService = inject(CategoriesService);
+  protected allCategories = signal<CategoryModel[]>([]);
+  protected filteredCategories = signal<CategoryModel[]>([]);
+  protected useBackend = environment.useBackend;
+
   constructor() {
     this.articleForm = this.fb.group({
       heading: ['', [Validators.required, Validators.minLength(25)]],
       content: ['', Validators.required],
+      category: [''],
     });
 
     this.editDataEffect();
@@ -75,52 +89,85 @@ export class Form {
         this.articleForm.patchValue({
           heading: editArticle.heading,
           content: editArticle.content,
+          category: editArticle.categoryName || '',
         });
       } else {
         this.articleForm.reset();
+        this.articleForm.get('category')?.setValue('');
       }
     });
   }
 
   onSubmit(): void {
     if (this.articleForm.invalid) return;
-    const { heading, content } = this.articleForm.value;
+    const { heading, content, category } = this.articleForm.value;
     const currentEdit = this.articleToEdit();
-    if (currentEdit) {
-      const updatedArticle: ArticleModel = {
-        id: currentEdit.id,
-        heading: heading,
-        content: content,
-        dateTime: currentEdit.dateTime,
-        img: currentEdit.img,
-        rating: currentEdit.rating,
-      };
+    const saveArticle = (categoryId?: string) => {
+      if (currentEdit) {
+        const updatedArticle: ArticleModel = {
+          id: currentEdit.id,
+          heading: heading,
+          content: content,
+          dateTime: currentEdit.dateTime,
+          img: currentEdit.img,
+          rating: currentEdit.rating,
+          categoryId: categoryId,
+          categoryName: category,
+        };
 
-      this.dataService
-        .updateArticle(updatedArticle, this.selectedFile() ?? undefined)
-        .subscribe((allArticles) => {
-          this.store.setArticles(allArticles);
-          this.onCancel();
+        this.dataService
+          .updateArticle(updatedArticle, this.selectedFile() ?? undefined, categoryId)
+          .subscribe({
+            next: (allArticles) => {
+              this.store.setArticles(allArticles);
+              this.onCancel();
+            },
+              error: (err) => console.error('Ошибка обновления', err)
+          });
+      } else {
+        const newArticle: ArticleModel = {
+          id: Date.now().toString(),
+          heading: heading,
+          content: content,
+          dateTime: this.formatDateTime(new Date()),
+          img: 'assets/img/begin.jpeg',
+          rating: 0,
+          categoryId: categoryId,
+          categoryName: category,
+        };
+
+        this.dataService
+          .addArticle(newArticle, this.selectedFile() ?? undefined, categoryId)
+          .subscribe({
+            next: (allArticles) => {
+              this.store.setArticles(allArticles);
+              this.onCancel();
+            },
+            error: (err) => console.error('Ошибка создания', err),
+          });
+      }
+      //this.onCancel();
+    };
+    if (category && category.trim()) {
+      const trimmedName = category.trim();
+      const existingCategory = this.allCategories().find(
+        (oneCategory) => oneCategory.name.toLowerCase() === trimmedName.toLowerCase(),
+      );
+      if (existingCategory) {
+        saveArticle(existingCategory.id);
+      } else {
+        this.categoriesService.create(trimmedName).subscribe({
+          next: (newCat) => {
+            this.allCategories.update((list) => [...list, newCat]);
+            this.filteredCategories.update((list) => [...list, newCat]);
+            saveArticle(newCat.id);
+          },
+          error: (err) => console.error('Ошибка создания категории', err),
         });
-
+      }
     } else {
-      const newArticle: ArticleModel = {
-        id: Date.now().toString(),
-        heading: heading,
-        content: content,
-        dateTime: this.formatDateTime(new Date()),
-        img: 'assets/img/begin.jpeg',
-        rating: 0,
-      };
-
-      this.dataService
-        .addArticle(newArticle, this.selectedFile() ?? undefined)
-        .subscribe((allArticles) => {
-          this.store.setArticles(allArticles);
-          this.onCancel();
-        });
+      saveArticle(undefined);
     }
-    this.onCancel();
   }
 
   private formatDateTime(date: Date): string {
@@ -181,5 +228,35 @@ export class Form {
     } else {
       this.selectedFile.set(null);
     }
+  }
+
+  ngOnInit(): void {
+    this.loadCategories();
+    this.articleForm.get('category')?.valueChanges.subscribe((value) => {
+      this.filterCategories(value || '');
+    });
+  }
+
+  private loadCategories(): void {
+    if (!this.useBackend) return;
+    this.categoriesService.getAll().subscribe({
+      next: (categories) => {
+        this.allCategories.set(categories);
+        this.filteredCategories.set(categories);
+      },
+      error: (err) => console.error('Ошибка загрузки категорий', err),
+    });
+  }
+  protected filterCategories(searchTerm: string): void {
+    const term = searchTerm.toLowerCase().trim();
+    if (!term) {
+      this.filteredCategories.set(this.allCategories());
+      return;
+    }
+    const filtered = this.allCategories().filter((cat) => cat.name.toLowerCase().includes(term));
+    this.filteredCategories.set(filtered);
+  }
+  protected displayCategoryName(name: string): string {
+    return name || '';
   }
 }

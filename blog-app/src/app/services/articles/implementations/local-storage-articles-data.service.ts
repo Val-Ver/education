@@ -39,7 +39,10 @@ export class LocalStorageArticlesDataService {
   }
 
   addArticle(
-    article: Omit<ArticleModel, 'id'> & { id?: string }, file?: File): Observable<ArticleModel[]> {
+    article: Omit<ArticleModel, 'id'> & { id?: string },
+    file?: File,
+    categoryId?: string,
+  ): Observable<ArticleModel[]> {
     const allArticles = this.loadArticles();
     const newId = article.id || Date.now().toString();
     const newArticle: ArticleModel = {
@@ -55,7 +58,11 @@ export class LocalStorageArticlesDataService {
     return of(updatedArticles);
   }
 
-  updateArticle(article: ArticleModel, file?: File): Observable<ArticleModel[]> {
+  updateArticle(
+    article: ArticleModel,
+    file?: File,
+    categoryId?: string,
+  ): Observable<ArticleModel[]> {
     const allArticles = this.loadArticles();
     const index = allArticles.findIndex((a) => a.id === article.id);
     if (index !== -1) {

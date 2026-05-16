@@ -45,6 +45,31 @@
           <p>Выбран файл: {{ selectedFileName() }}</p>
         }
       </div>
+      @if (useBackend) {
+        <div class="form-group">
+          <label for="category">Категория</label>
+          <mat-form-field appearance="outline" class="full-width">
+            <input matInput
+                   type="text"
+                   id="category"
+                   placeholder="Начните вводить категорию"
+                   formControlName="category"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCategoryName">
+              @for (cat of filteredCategories(); track cat.id) {
+                <mat-option [value]="cat.name">
+                  {{ cat.name }}
+                </mat-option>
+              }
+              @if (filteredCategories().length === 0 && articleForm.get('category')?.value?.trim()) {
+                <mat-option [value]="articleForm.get('category')?.value">
+                  Создать "{{ articleForm.get('category')?.value }}"
+                </mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      }
       <div class="form-buttons">
         <button type="submit" id="submit" [disabled]="articleForm.invalid">
           {{ saveButtonTitle() }}

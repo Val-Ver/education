@@ -12,8 +12,10 @@ export class ArticleMapper {
       heading: backend.title,
       content: backend.content,
       dateTime: backend.createdAt,
-      img: imgUrl,
+      img: backend.imgSrc || 'assets/img/begin.jpeg',
       rating: backend.rating ?? 0,
+      categoryId: backend.categoryId,
+      categoryName: backend.category?.name,
     };
   }
 

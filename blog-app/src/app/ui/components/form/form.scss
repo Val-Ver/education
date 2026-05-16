@@ -105,3 +105,12 @@ input[type="file"] {
   color: var(--text-color);
   font-family: inherit;
 }
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}

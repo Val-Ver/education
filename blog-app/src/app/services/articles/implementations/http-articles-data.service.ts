@@ -24,9 +24,7 @@ export class HttpArticlesDataService implements IArticlesDataService {
   }
 
   addArticle(
-    article: Omit<ArticleModel, 'id'> & { id?: string },
-    file?: File,
-  ): Observable<ArticleModel[]> {
+    article: Omit<ArticleModel, 'id'> & { id?: string }, file?: File, categoryId?: string): Observable<ArticleModel[]> {
     const formData = new FormData();
     formData.append('title', article.heading);
     formData.append('content', article.content);
@@ -34,21 +32,25 @@ export class HttpArticlesDataService implements IArticlesDataService {
     if (file) {
       formData.append('image', file);
     }
-
+    if (categoryId) {
+      formData.append('categoryId', categoryId);
+    }
     return this.http.post<any>(this.baseUrl, formData).pipe(
       switchMap(() => this.getArticles(1, 9999)),
       map((res) => res.items),
     );
   }
 
-  updateArticle(article: ArticleModel, file?: File): Observable<ArticleModel[]> {
+  updateArticle(article: ArticleModel, file?: File, categoryId?: string): Observable<ArticleModel[]> {
     const formData = new FormData();
     formData.append('title', article.heading);
     formData.append('content', article.content);
     if (file) {
       formData.append('image', file);
     }
-
+    if (categoryId) {
+      formData.append('categoryId', categoryId);
+    }
     return this.http.patch<any>(`${this.baseUrl}/${article.id}`, formData).pipe(
       switchMap(() => this.getArticles(1, 9999)),
       map((res) => res.items),
