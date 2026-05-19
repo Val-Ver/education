@@ -94,7 +94,7 @@ export class MainBlogPage {
     this.isFormVisible = false;
     this.editingArticle = null;
 
-    this.goToLastPage();
+    //this.goToLastPage();
   }
 
   goToLastPage(): void {

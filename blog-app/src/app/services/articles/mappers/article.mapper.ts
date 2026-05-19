@@ -1,8 +1,11 @@
 import { ArticleModel } from '../../../models/article.model';
 import { environment } from '../../../../environments/environment.prod';
 
+import { BackendArticle } from '../types/backend-article.interface';
+import {BackendPaginatedResult} from '../types/backend-paginated.interface';
+
 export class ArticleMapper {
-  static fromBackend(backend: any): ArticleModel {
+  static fromBackend(backend: BackendArticle): ArticleModel {
     let imgUrl = backend.imgSrc || 'assets/img/begin.jpeg';
     if (environment.useBackend && imgUrl.startsWith('/uploads')) {
       imgUrl = environment.apiBaseUrl + imgUrl;
@@ -26,8 +29,11 @@ export class ArticleMapper {
     };
   }
 
-  static paginatedFromBackend(data: any): { items: ArticleModel[]; totalCount: number } {
-    const items = (data.items || []).map((item: any) => this.fromBackend(item));
-    return { items, totalCount: data.total ?? items.length };
+  static paginatedFromBackend(data: BackendPaginatedResult): {
+    items: ArticleModel[];
+    totalCount: number;
+  } {
+    const items = data.items.map((item) => this.fromBackend(item));
+    return { items, totalCount: data.total };
   }
 }

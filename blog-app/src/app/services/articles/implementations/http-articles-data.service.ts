@@ -6,6 +6,9 @@ import { IArticlesDataService } from '../articles-data.interface';
 import { PaginatedResult } from '../types/paginated-result.interface';
 import { ArticleMapper } from '../mappers/article.mapper';
 import { environment } from '../../../../environments/environment';
+import { BackendPaginatedResult } from '../types/backend-paginated.interface';
+import { BackendArticle } from '../types/backend-article.interface';
+
 
 @Injectable()
 export class HttpArticlesDataService implements IArticlesDataService {
@@ -19,7 +22,7 @@ export class HttpArticlesDataService implements IArticlesDataService {
       .set('cumulative', 'false');
 
     return this.http
-      .get<any>(this.baseUrl, { params })
+      .get<BackendPaginatedResult>(this.baseUrl, { params })
       .pipe(map((res) => ArticleMapper.paginatedFromBackend(res)));
   }
 
@@ -35,7 +38,7 @@ export class HttpArticlesDataService implements IArticlesDataService {
     if (categoryId) {
       formData.append('categoryId', categoryId);
     }
-    return this.http.post<any>(this.baseUrl, formData).pipe(
+    return this.http.post<BackendArticle>(this.baseUrl, formData).pipe(
       switchMap(() => this.getArticles(1, 9999)),
       map((res) => res.items),
     );
