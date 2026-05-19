@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+
 import { Observable, of } from 'rxjs';
 
 import { ArticleModel } from '../../models/article.model';
@@ -9,20 +12,22 @@ import { INITIAL_ARTICLES } from '../../data/initial-articles';
 
 @Injectable()
 export class ArticlesDataService implements IArticlesDataService {
+  private http = inject(HttpClient);
   private readonly STORAGE_KEY = 'articles';
 
   constructor() {
-    this.initializeData();
+    if (!environment.useBackend) {
+      this.initializeData();
+    }
   }
 
   private initializeData(): void {
     const existing = localStorage.getItem(this.STORAGE_KEY);
     if (!existing) {
-      this.saveArticles(INITIAL_ARTICLES);
+      this.saveLocalArticles(INITIAL_ARTICLES);
     }
   }
-
-  private saveArticles(articles: ArticleModel[]): void {
+  private saveLocalArticles(articles: ArticleModel[]): void {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(articles));
   }
 
@@ -33,47 +38,60 @@ export class ArticlesDataService implements IArticlesDataService {
   }
 
   getArticles(page: number, perPage: number): Observable<PaginatedResult> {
-    const allArticles = this.loadArticles();
-    const totalCount = allArticles.length;
-    const startIndex = (page - 1) * perPage;
-    const items = allArticles.slice(startIndex, startIndex + perPage);
-
-    return of({ items, totalCount });
+    if (environment.useBackend) {
+      const url = `${environment.apiUrl}/articles?page=${page}&perPage=${perPage}`;
+      return this.http.get<PaginatedResult>(url);
+    } else {
+      const allArticles = this.loadArticles();
+      const totalCount = allArticles.length;
+      const startIndex = (page - 1) * perPage;
+      const items = allArticles.slice(startIndex, startIndex + perPage);
+      return of({ items, totalCount });
+    }
   }
 
   addArticle(article: Omit<ArticleModel, 'id'> & { id?: string }): Observable<ArticleModel[]> {
-    const allArticles = this.loadArticles();
-    const newId = article.id || Date.now().toString();
-
-    const newArticle: ArticleModel = {
-      id: newId,
-      heading: article.heading,
-      content: article.content,
-      dateTime: article.dateTime,
-      img: article.img,
-      rating: article.rating,
-    };
-    const updatedArticles = [...allArticles, newArticle];
-    this.saveArticles(updatedArticles);
-    return of(updatedArticles);
+    if (environment.useBackend) {
+      return this.http.post<ArticleModel[]>(`${environment.apiUrl}/articles`, article);
+    } else {
+      const allArticles = this.loadArticles();
+      const newId = article.id || Date.now().toString();
+      const newArticle: ArticleModel = {
+        id: newId,
+        heading: article.heading,
+        content: article.content,
+        dateTime: article.dateTime,
+        img: article.img,
+        rating: article.rating,
+      };
+      const updatedArticles = [...allArticles, newArticle];
+      this.saveLocalArticles(updatedArticles);
+      return of(updatedArticles);
+    }
   }
 
   updateArticle(article: ArticleModel): Observable<ArticleModel[]> {
-    const allArticles = this.loadArticles();
-    const index = allArticles.findIndex((a) => a.id === article.id);
-
-    if (index !== -1) {
-      allArticles[index] = article;
-      this.saveArticles(allArticles);
+    if (environment.useBackend) {
+      return this.http.put<ArticleModel[]>(`${environment.apiUrl}/articles/${article.id}`, article);
+    } else {
+      const allArticles = this.loadArticles();
+      const index = allArticles.findIndex((a) => a.id === article.id);
+      if (index !== -1) {
+        allArticles[index] = article;
+        this.saveLocalArticles(allArticles);
+      }
+      return of(allArticles);
     }
-    return of(allArticles);
   }
 
   deleteArticle(id: string): Observable<ArticleModel[]> {
-    const allArticles = this.loadArticles();
-    const filteredArticles = allArticles.filter((a) => a.id !== id);
-    this.saveArticles(filteredArticles);
-
-    return of(filteredArticles);
+    if (environment.useBackend) {
+      return this.http.delete<ArticleModel[]>(`${environment.apiUrl}/articles/${id}`);
+    } else {
+      const allArticles = this.loadArticles();
+      const filteredArticles = allArticles.filter((a) => a.id !== id);
+      this.saveLocalArticles(filteredArticles);
+      return of(filteredArticles);
+    }
   }
 }

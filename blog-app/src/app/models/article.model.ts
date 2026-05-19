@@ -5,4 +5,6 @@ export interface ArticleModel {
   dateTime: string;
   img: string;
   rating: number;
+  categoryId?: string;
+  categoryName?: string;
 }

@@ -1,12 +1,34 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges, input, computed, effect, Signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  SimpleChanges,
+  input,
+  computed,
+  effect,
+  Signal,
+  signal,
+} from '@angular/core';
 
 import { ArticlesStoreService } from '../../../services/articles/articles-store.service';
 import { ARTICLES_DATA_SERVICE } from '../../../services/articles/articles-data.token';
 import { IArticlesDataService } from '../../../services/articles/articles-data.interface';
 
 import {ArticleModel} from '../../../models/article.model';
-
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { HttpCategoriesService } from '../../../services/categories/http-categories.service';
+import { CategoryModel } from '../../../models/category.model';
+
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {environment} from '../../../../environments/environment';
+
+import { CATEGORIES_SERVICE } from '../../../services/categories/categories.token';
+import { ICategoriesService } from '../../../services/categories/categories-service.interface';
 
 interface MinLengthValidationInfo {
   requiredLength: number;
@@ -15,7 +37,7 @@ interface MinLengthValidationInfo {
 
 @Component({
   selector: 'app-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatAutocompleteModule, MatInputModule, MatFormFieldModule],
   templateUrl: './form.html',
   styleUrl: './form.scss',
   standalone: true,
@@ -38,13 +60,29 @@ export class Form {
     return this.articleToEdit() ? 'Сохранить' : 'Добавить';
   });
 
+  protected selectedFile = signal<File | null>(null);
+  protected selectedFileName = computed(() => this.selectedFile()?.name || '');
+
+  private categoriesService = inject(CATEGORIES_SERVICE);
+  protected allCategories = signal<CategoryModel[]>([]);
+  protected filteredCategories = signal<CategoryModel[]>([]);
+  protected useBackend = environment.useBackend;
+
   constructor() {
     this.articleForm = this.fb.group({
       heading: ['', [Validators.required, Validators.minLength(25)]],
       content: ['', Validators.required],
+      category: [''],
     });
 
     this.editDataEffect();
+  }
+
+  ngOnInit(): void {
+    this.loadCategories();
+    this.articleForm.get('category')?.valueChanges.subscribe((value) => {
+      this.filterCategories(value || '');
+    });
   }
 
   private editDataEffect(): void {
@@ -60,48 +98,85 @@ export class Form {
         this.articleForm.patchValue({
           heading: editArticle.heading,
           content: editArticle.content,
+          category: this.getCategoryNameById(editArticle.categoryId) || '',
         });
       } else {
         this.articleForm.reset();
+        this.articleForm.get('category')?.setValue('');
       }
     });
   }
 
   onSubmit(): void {
     if (this.articleForm.invalid) return;
-    const { heading, content } = this.articleForm.value;
+    const { heading, content, category } = this.articleForm.value;
     const currentEdit = this.articleToEdit();
-    if (currentEdit) {
-      const updatedArticle: ArticleModel = {
-        id: currentEdit.id,
-        heading: heading,
-        content: content,
-        dateTime: currentEdit.dateTime,
-        img: currentEdit.img,
-        rating: currentEdit.rating,
-      };
+    const saveArticle = (categoryId?: string) => {
+      if (currentEdit) {
+        const updatedArticle: ArticleModel = {
+          id: currentEdit.id,
+          heading: heading,
+          content: content,
+          dateTime: currentEdit.dateTime,
+          img: currentEdit.img,
+          rating: currentEdit.rating,
+          categoryId: categoryId,
+          categoryName: category,
+        };
 
-      this.dataService.updateArticle(updatedArticle).subscribe((allArticles) => {
-        this.store.setArticles(allArticles);
-        this.onCancel();
-      });
+        this.dataService
+          .updateArticle(updatedArticle, this.selectedFile() ?? undefined, categoryId)
+          .subscribe({
+            next: (allArticles) => {
+              this.store.setArticles(allArticles);
+              this.onCancel();
+            },
+              error: (err) => console.error('Ошибка обновления', err)
+          });
+      } else {
+        const newArticle: ArticleModel = {
+          id: Date.now().toString(),
+          heading: heading,
+          content: content,
+          dateTime: this.formatDateTime(new Date()),
+          img: 'assets/img/begin.jpeg',
+          rating: 0,
+          categoryId: categoryId,
+          categoryName: category,
+        };
 
+        this.dataService
+          .addArticle(newArticle, this.selectedFile() ?? undefined, categoryId)
+          .subscribe({
+            next: (allArticles) => {
+              this.store.setArticles(allArticles);
+              this.onCancel();
+            },
+            error: (err) => console.error('Ошибка создания', err),
+          });
+      }
+      //this.onCancel();
+    };
+    if (category && category.trim()) {
+      const trimmedName = category.trim();
+      const existingCategory = this.allCategories().find(
+        (oneCategory) => oneCategory.name.toLowerCase() === trimmedName.toLowerCase(),
+      );
+      if (existingCategory) {
+        saveArticle(existingCategory.id);
+      } else {
+        this.categoriesService.create(trimmedName).subscribe({
+          next: (newCat) => {
+            this.allCategories.update((list) => [...list, newCat]);
+            this.filteredCategories.update((list) => [...list, newCat]);
+            saveArticle(newCat.id);
+          },
+          error: (err) => console.error('Ошибка создания категории', err),
+        });
+      }
     } else {
-      const newArticle: ArticleModel = {
-        id: Date.now().toString(),
-        heading: heading,
-        content: content,
-        dateTime: this.formatDateTime(new Date()),
-        img: 'assets/img/begin.jpeg',
-        rating: 0,
-      };
-
-      this.dataService.addArticle(newArticle).subscribe((allArticles) => {
-        this.store.setArticles(allArticles);
-        this.onCancel();
-      });
+      saveArticle(undefined);
     }
-    this.onCancel();
   }
 
   private formatDateTime(date: Date): string {
@@ -115,6 +190,7 @@ export class Form {
 
   onCancel() {
     this.articleForm.reset();
+    this.selectedFile.set(null);
     this.close.emit();
   }
 
@@ -153,5 +229,51 @@ export class Form {
       default:
         return 'Ошибка в заполнении поля';
     }
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length) {
+      this.selectedFile.set(input.files[0]);
+    } else {
+      this.selectedFile.set(null);
+    }
+  }
+
+  private loadCategories(): void {
+    ///if (!this.useBackend) return;
+    this.categoriesService.getAll().subscribe({
+      next: (categories) => {
+        this.allCategories.set(categories);
+        this.filteredCategories.set(categories);
+
+        const editArticle = this.articleToEdit();
+        if (editArticle && editArticle.categoryId) {
+          const catName = this.getCategoryNameById(editArticle.categoryId);
+          if (catName) {
+            this.articleForm.patchValue({ category: catName });
+          }
+        }
+      },
+      error: (err) => console.error('Ошибка загрузки категорий', err),
+    });
+  }
+
+  protected filterCategories(searchTerm: string): void {
+    const term = searchTerm.toLowerCase().trim();
+    if (!term) {
+      this.filteredCategories.set(this.allCategories());
+      return;
+    }
+    const filtered = this.allCategories().filter((cat) => cat.name.toLowerCase().includes(term));
+    this.filteredCategories.set(filtered);
+  }
+
+  protected displayCategoryName(name: string): string {
+    return name || '';
+  }
+
+  private getCategoryNameById(id?: string): string | undefined {
+    if (!id) return undefined;
+    return this.allCategories().find(cat => cat.id === id)?.name;
   }
 }

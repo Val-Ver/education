@@ -2,11 +2,11 @@
     <app-author-info></app-author-info>
   </div>
 
-  @if(previewArticles.length > 0) {
+  @if(previewArticles().length > 0) {
     <section id="article-preview" class="article-preview">
       <h2>Последние статьи</h2>
 
-      @for(article of previewArticles; track article.id; ) {
+      @for(article of previewArticles(); track article.id; ) {
         <app-article-card layout="preview"
           [article]="article"
           [isFeatured]="false"

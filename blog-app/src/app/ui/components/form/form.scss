@@ -95,3 +95,22 @@ textarea:focus {
   margin-top: 4px;
   font-family: inherit;
 }
+
+/***************************/
+
+input[type="file"] {
+  padding: 8px;
+  border: 1px solid var(--border-color-1);
+  background-color: black;
+  color: var(--text-color);
+  font-family: inherit;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
