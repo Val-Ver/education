@@ -11,6 +11,12 @@ import { CommentModel } from '../../../models/comment.model';
 
 import { Title } from '@angular/platform-browser';
 
+import { POST_SERVICE } from '../../../services/post/post-service.token';
+import { IPostService } from '../../../services/post/post-service.interface';
+import { WebSocketService } from '../../../services/websocket/websocket.service';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { ChangeDetectorRef } from '@angular/core';
+
 @Component({
   selector: 'app-post-page',
   imports: [CommentForm, CommentList],
@@ -26,6 +32,9 @@ export class PostPage implements OnInit {
   private postData = inject(PostDataService);
   private destroyRef = inject(DestroyRef);
   private titleService = inject(Title);
+  private postService = inject(POST_SERVICE);
+  private webSocketService = inject(WebSocketService);
+  private cdr = inject(ChangeDetectorRef);
 
   post = this.postStore.post;
   comments = this.postStore.comments;
@@ -39,23 +48,59 @@ export class PostPage implements OnInit {
       return;
     }
 
-    this.postData
+    this.postService
       .getPostById(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((post) => {
         if (post) {
           this.postStore.setPost(post);
           this.titleService.setTitle(post.heading);
+          this.cdr.detectChanges();
         } else {
           this.router.navigate(['/blog']);
         }
       });
 
-    this.postData
+    this.postService
       .getCommentsByPostId(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((comments) => {
         this.postStore.setComments(comments);
+      });
+
+    this.webSocketService.connect();
+    this.webSocketService.subscribeToArticle(id);
+
+    this.webSocketService.articleRating$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((update) => {
+        if (update && update.articleId === id) {
+          this.postStore.updatePostRating(update.rating);
+        }
+      });
+
+    this.webSocketService.commentRating$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((update) => {
+        if (update && update.articleId === id) {
+          this.postStore.updateCommentRating(update.commentId, update.rating);
+        }
+      });
+
+    this.webSocketService.newComment$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((payload) => {
+        if (payload && payload.articleId === id) {
+          const newComment: CommentModel = {
+            id: payload.commentId,
+            postId: payload.articleId,
+            author: payload.username,
+            content: payload.content,
+            dateTime: payload.createdAt,
+            rating: 0,
+          };
+          this.postStore.addComment(newComment);
+        }
       });
   }
 
@@ -65,28 +110,33 @@ export class PostPage implements OnInit {
     const newRating = currentPost.rating + delta;
     if (newRating < 0) return;
     this.isRatingUpdating = true;
-    this.postData
+    this.postService
       .updatePostRating(currentPost.id, newRating)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((updatedArticles) => {
-        const updatedPost = updatedArticles.find((a) => a.id === currentPost.id);
-        if (updatedPost) {
+      .subscribe({
+        next: () => {
           this.postStore.updatePostRating(newRating);
-          this.postStore.post.set(updatedPost);
-        }
-        this.isRatingUpdating = false;
+          this.isRatingUpdating = false;
+        },
+        error: () => (this.isRatingUpdating = false),
       });
   }
 
-  onCommentAdded(comment: CommentModel): void {
-    this.postData
+  onCommentAdded(comment: Omit<CommentModel, 'id' | 'dateTime' | 'rating'>): void {
+    this.postService
       .addComment(comment)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        const postId = this.post()!.id;
-        this.postData.getCommentsByPostId(postId).subscribe((comments) => {
-          this.postStore.setComments(comments);
-        });
+      .subscribe({
+        next: (createdComment) => {
+          this.postStore.addComment(createdComment);
+        },
+        error: (err) => console.error('Ошибка добавления комментария', err),
+
       });
+  }
+  ngOnDestroy(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) this.webSocketService.unsubscribeFromArticle(id);
+    this.webSocketService.disconnect();
   }
 }
