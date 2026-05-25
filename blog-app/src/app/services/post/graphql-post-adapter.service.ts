@@ -76,7 +76,8 @@ export class GraphQLPostAdapterService implements IPostService {
   }
 
   private getAllArticles(): Observable<ArticleModel[]> {
-    console.warn('getAllArticles not implemented in GraphQLPostAdapterService');
-    return of([]);
+    return this.graphQLService
+      .getAllArticles(9999)
+      .pipe(map((articles) => articles.map((a) => this.mapToArticleModel(a))));
   }
 }

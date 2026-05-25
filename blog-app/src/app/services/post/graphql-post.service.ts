@@ -11,6 +11,25 @@ import { ARTICLE_RATING_DOWN } from './graphql/mutations/article-rating-down.mut
 import { COMMENT_RATING_UP } from './graphql/mutations/comment-rating-up.mutation';
 import { COMMENT_RATING_DOWN } from './graphql/mutations/comment-rating-down.mutation';
 
+export const GET_ALL_ARTICLES = gql`
+  query GetAllArticles($limit: Int) {
+    articles(query: { limit: $limit, page: 1, cumulative: true }) {
+      items {
+        id
+        title
+        content
+        createdAt
+        imgSrc
+        rating
+        categoryId
+        category {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
 
 @Injectable({
   providedIn: 'root',
@@ -80,6 +99,19 @@ export class GraphQLPostService {
             throw new Error('No data returned from mutation');
           }
           return result.data.commentRatingUp;
+        }),
+      );
+  }
+  getAllArticles(limit: number = 9999): Observable<GraphQLArticle[]> {
+    return this.apollo
+      .query<{ articles: { items: GraphQLArticle[] } }>({
+        query: GET_ALL_ARTICLES,
+        variables: { limit },
+      })
+      .pipe(
+        map((result) => {
+          if (!result.data) throw new Error('No data returned');
+          return result.data.articles.items;
         }),
       );
   }
