@@ -1,0 +1,9 @@
+import { gql } from '@apollo/client/core';
+
+export const RATING_UP = gql`
+  mutation Up($id: ID!) {
+    articleRatingUp(id: $id) {
+      rating
+    }
+  }
+`;

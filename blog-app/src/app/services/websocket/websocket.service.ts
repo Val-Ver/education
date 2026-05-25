@@ -2,8 +2,13 @@ import { Injectable, inject, signal, DestroyRef } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { environment } from '../../../environments/environment';
 import { Subject } from 'rxjs';
+import {
+  ArticleRatingPayload,
+  CommentRatingPayload,
+  CommentCreatedPayload,
+} from './websocket.types';
 
-export interface ArticleRatingEvent {
+/*export interface ArticleRatingEvent {
   type: 'ARTICLE_RATING_CHANGED';
   payload: { articleId: string; rating: number; prevRating: number };
 }
@@ -20,7 +25,7 @@ export interface CommentCreatedEvent {
     username: string;
     createdAt: string;
   };
-}
+}*/
 
 @Injectable({
   providedIn: 'root',
@@ -28,11 +33,16 @@ export interface CommentCreatedEvent {
 export class WebSocketService {
   private socket: Socket | null = null;
   private isConnected = false;
+  private connectPromise: Promise<void> | null = null;
 
-  public articleRating$ = new Subject<{
+  public articleRating$ = new Subject<ArticleRatingPayload>();
+  public commentRating$ = new Subject<CommentRatingPayload>();
+  public newComment$ = new Subject<CommentCreatedPayload>();
+
+  /*public articleRating$ = new Subject<{
     articleId: string;
     rating: number;
-    prevRating: number
+    prevRating: number;
   }>();
   public commentRating$ = new Subject<{
     commentId: string;
@@ -46,22 +56,55 @@ export class WebSocketService {
     content: string;
     username: string;
     createdAt: string;
-  }>();
+  }>();*/
+
   connect() {
-    if (!environment.useBackend) return;
-    this.socket = io('http://localhost:3000/events', { transports: ['websocket'] });
-    this.socket.on('article-rating-changed', (data) => this.articleRating$.next(data));
-    this.socket.on('comment-rating-changed', (data) => this.commentRating$.next(data));
-    this.socket.on('comment-created', (data) => this.newComment$.next(data));
+    if (this.socket && this.isConnected) {
+      return Promise.resolve();
+    }
+    if (this.connectPromise) {
+      return this.connectPromise;
+    }
+
+    this.connectPromise = new Promise((resolve) => {
+      if (!environment.useBackend) {
+        resolve();
+        return;
+      }
+      this.socket = io('http://localhost:3000/events', { transports: ['websocket'] });
+
+      this.socket.on('connect', () => {
+        this.isConnected = true;
+        resolve();
+      });
+
+      this.socket.on('article-rating-changed', (data) => {
+        this.articleRating$.next(data.payload);
+      });
+      this.socket.on('comment-rating-changed', (data) => {
+        this.commentRating$.next(data.payload);
+      });
+      this.socket.on('comment-created', (data) => {
+        this.newComment$.next(data.payload);
+      });
+
+      this.socket.on('disconnect', () => {
+        this.isConnected = false;
+      });
+    });
+    return this.connectPromise;
   }
 
   disconnect() {
     if (this.socket) {
       this.socket.disconnect();
       this.socket = null;
+      this.isConnected = false;
+      this.connectPromise = null;
     }
   }
-  subscribeToArticle(articleId: string) {
+  async subscribeToArticle(articleId: string) {
+    await this.connect();
     if (!this.isConnected) return;
     this.socket?.emit('subscribe-article', articleId);
   }

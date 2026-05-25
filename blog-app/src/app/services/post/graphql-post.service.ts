@@ -4,6 +4,14 @@ import { Observable, map } from 'rxjs';
 import { gql } from '@apollo/client/core';
 import { GraphQLArticle, GraphQLComment } from '../../models/graphql-types';
 
+import { GET_POST } from './graphql/queries/get-post.query';
+import { GET_COMMENTS } from './graphql/queries/get-comments.query';
+import { ARTICLE_RATING_UP } from './graphql/mutations/article-rating-up.mutation';
+import { ARTICLE_RATING_DOWN } from './graphql/mutations/article-rating-down.mutation';
+import { COMMENT_RATING_UP } from './graphql/mutations/comment-rating-up.mutation';
+import { COMMENT_RATING_DOWN } from './graphql/mutations/comment-rating-down.mutation';
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -11,23 +19,6 @@ export class GraphQLPostService {
   private apollo = inject(Apollo);
 
   getPostById(id: string): Observable<GraphQLArticle | null> {
-    const GET_POST = gql`
-      query GetPost($id: ID!) {
-        article(id: $id) {
-          id
-          title
-          content
-          createdAt
-          imgSrc
-          rating
-          categoryId
-          category {
-            id
-            name
-          }
-        }
-      }
-    `;
     return this.apollo
       .query<{ article: GraphQLArticle }>({
         query: GET_POST,
@@ -44,18 +35,6 @@ export class GraphQLPostService {
   }
 
   getCommentsByPostId(postId: string): Observable<GraphQLComment[]> {
-    const GET_COMMENTS = gql`
-      query GetComments($articleId: ID!) {
-        commentsByArticle(articleId: $articleId) {
-          id
-          articleId
-          username
-          content
-          createdAt
-          rating
-        }
-      }
-    `;
     return this.apollo
       .query<{ commentsByArticle: GraphQLComment[] }>({
         query: GET_COMMENTS,
@@ -72,9 +51,7 @@ export class GraphQLPostService {
   }
 
   updatePostRating(id: string, delta: number): Observable<{ rating: number }> {
-    const mutation = delta > 0
-      ? gql`mutation Up($id: ID!) { articleRatingUp(id: $id) { rating } }`
-      : gql`mutation Down($id: ID!) { articleRatingDown(id: $id) { rating } }`;
+    const mutation = delta > 0 ? ARTICLE_RATING_UP : ARTICLE_RATING_DOWN;
     return this.apollo
       .mutate<{ articleRatingUp: { rating: number } }>({
         mutation,
@@ -91,13 +68,11 @@ export class GraphQLPostService {
   }
 
   updateCommentRating(commentId: string, delta: number): Observable<{ rating: number }> {
-    const mutation = delta > 0
-      ? gql`mutation Up($id: ID!) { commentRatingUp(id: $id) { rating }}`
-      : gql` mutation Down($id: ID!) { commentRatingDown(id: $id) { rating }}`;
+    const mutation = delta > 0 ? COMMENT_RATING_UP : COMMENT_RATING_DOWN;
     return this.apollo
       .mutate<{ commentRatingUp: { rating: number } }>({
         mutation,
-        variables: { commentId },
+        variables: { id: commentId },
       })
       .pipe(
         map((result) => {
