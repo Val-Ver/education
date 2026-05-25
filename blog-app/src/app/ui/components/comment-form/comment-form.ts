@@ -15,7 +15,7 @@ import { MatInputModule } from '@angular/material/input';
   standalone: true,
 })
 export class CommentForm {
-  @Output() commentAdded = new EventEmitter<Omit<CommentModel, 'id' | 'dateTime' | 'rating'>>();
+  @Output() commentAdded = new EventEmitter<CommentModel>();
 
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
@@ -35,13 +35,13 @@ export class CommentForm {
     const postId = this.route.snapshot.paramMap.get('id');
     if (!postId) return;
 
-    const newComment = { //: CommentModel = {
-     // id: Date.now().toString(),
+    const newComment: CommentModel = {
+      id: Date.now().toString(),
       postId: postId,
       author: this.commentForm.value.author,
       content: this.commentForm.value.content,
-      //dateTime: this.formatDateTime(new Date()),
-     // rating: 0,
+      dateTime: this.formatDateTime(new Date()),
+      rating: 0,
     };
     this.commentAdded.emit(newComment);
     this.commentForm.reset();
