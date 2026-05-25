@@ -6,7 +6,7 @@ import {
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { ARTICLES_DATA_SERVICE } from './services/articles/articles-data.token';
-import { provideHttpClient } from '@angular/common/http';
+//import { provideHttpClient } from '@angular/common/http';
 
 import { LocalStorageArticlesDataService } from './services/articles/implementations/local-storage-articles-data.service';
 import { HttpArticlesDataService } from './services/articles/implementations/http-articles-data.service';
@@ -23,11 +23,18 @@ import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client';
 
+import { AUTH_SERVICE } from './services/auth/auth.token';
+import { HttpAuthService } from './services/auth/http-auth.service';
+import { LocalAuthService } from './services/auth/local-auth.service';
+
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './interceptors/auth.interceptor';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideApollo(() => {
       const httpLink = inject(HttpLink);
       return {
@@ -35,7 +42,7 @@ export const appConfig: ApplicationConfig = {
         cache: new InMemoryCache(),
         defaultOptions: { query: { fetchPolicy: 'network-only' } },
       };
-      }),
+    }),
     {
       provide: ARTICLES_DATA_SERVICE,
       useClass: environment.useBackend ? HttpArticlesDataService : LocalStorageArticlesDataService,
@@ -47,6 +54,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: POST_SERVICE,
       useClass: environment.useBackend ? GraphQLPostAdapterService : LocalStoragePostService,
+    },
+    {
+      provide: AUTH_SERVICE,
+      useClass: environment.useBackend ? HttpAuthService : LocalAuthService,
     },
   ],
 };

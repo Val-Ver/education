@@ -12,10 +12,11 @@ import { Form } from '../../components/form/form';
 import { AdminPanel } from '../../components/admin-panel/admin-panel';
 import { ModalDialog } from '../../components/modal-dialog/modal-dialog';
 import { AuthorBlog } from '../../components/author-blog/author-blog';
+import { HasRoleDirective } from '../../../directives/has-role.directive';
 
 @Component({
   selector: 'app-main-blog-page',
-  imports: [ArticleCard, Form, AdminPanel, ModalDialog, AuthorBlog],
+  imports: [ArticleCard, Form, AdminPanel, ModalDialog, AuthorBlog, HasRoleDirective],
   templateUrl: './main-blog-page.html',
   styleUrls: ['../page-common.scss', './main-blog-page.scss'],
   standalone: true,

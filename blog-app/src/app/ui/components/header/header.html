@@ -4,6 +4,14 @@
       <li><a routerLink="/">Главная</a></li>
       <li><a routerLink="/blog">Блог</a></li>
       <li><a (click)="scrollToContact()">Контакты</a></li>
+      <li class="auth-item">
+        @if (authStore.user(); as user) {
+          <span>{{ user.username }}</span>
+          <button (click)="logout()">Выйти</button>
+        } @else {
+          <button (click)="openLoginDialog()">Войти</button>
+        }
+      </li>
     </ul>
   </nav>
 </header>

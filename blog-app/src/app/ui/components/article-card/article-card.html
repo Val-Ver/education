@@ -9,22 +9,25 @@
     <p>{{ article.content }}</p>
   </div>
 
-  <div class="btn-article">
-    @if(showDelete) {
-      <button mat-icon-button
-        type="button"
-        class="edit-article"
-        (click)="onEdit()"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button
-        type="button"
-        class="delete-article"
-        (click)="onDelete()"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-    }
-  </div>
+  @if(showDelete && (authStore.isAdmin())) {
+    <div class="btn-article">
+      @if(showDelete) {
+        <button mat-icon-button
+          type="button"
+          class="edit-article"
+          (click)="onEdit()"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button
+          type="button"
+          class="delete-article"
+          (click)="onDelete()"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      }
+    </div>
+  }
+
 </article>

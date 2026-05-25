@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject, DestroyRef } from '@angular/core';
+import { Component, EventEmitter, Output, inject, DestroyRef, computed } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommentModel } from '../../../models/comment.model';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AuthStore } from '../../../services/auth/auth.store';
 
 @Component({
   selector: 'app-comment-form',
@@ -19,15 +20,22 @@ export class CommentForm {
 
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
-  private destroyRef = inject(DestroyRef);
+  //private destroyRef = inject(DestroyRef);
+  private authStore = inject(AuthStore);
 
   commentForm: FormGroup;
+  isLoggedIn = computed(() => this.authStore.user() !== null);
+  currentUsername = computed(() => this.authStore.user()?.username || '');
 
   constructor() {
     this.commentForm = this.fb.group({
       author: ['', Validators.required],
       content: ['', Validators.required],
     });
+    if (this.isLoggedIn()) {
+      this.commentForm.patchValue({ author: this.currentUsername() });
+      this.commentForm.get('author')?.disable();
+    }
   }
 
   onSubmit(): void {
@@ -35,16 +43,22 @@ export class CommentForm {
     const postId = this.route.snapshot.paramMap.get('id');
     if (!postId) return;
 
-    const newComment = { //: CommentModel = {
-     // id: Date.now().toString(),
+    let author = this.commentForm.value.author;
+    if (this.isLoggedIn()) {
+      author = this.currentUsername();
+    }
+
+    const newComment = {
       postId: postId,
       author: this.commentForm.value.author,
       content: this.commentForm.value.content,
-      //dateTime: this.formatDateTime(new Date()),
-     // rating: 0,
     };
     this.commentAdded.emit(newComment);
     this.commentForm.reset();
+    if (this.isLoggedIn()) {
+      this.commentForm.patchValue({ author: this.currentUsername() });
+      this.commentForm.get('author')?.disable();
+    }
   }
 
   private formatDateTime(date: Date): string {
